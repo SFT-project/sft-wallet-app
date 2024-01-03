@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SFT Wallet</title>
+  <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+  <div class="bodyMask" onclick="hidePop()"></div>
+  <div class="moreMenuMask" onclick="toggleMoreMenu()"></div>
+  <div class="header">
+    <img src="../../assets/addAssets/arrow.svg" onclick="back()" alt="arrow">
+    <p class="lang" key="LAB_SETTINGDETAILS_TITLE">语言</p>
+    <div></div>
+  </div>
+  <div class="container">
+    <a href="../language/index.html">
+      <div class="setting">
+        <p class="lang" key="LAB_SETTINGDETAILS_TITLE">
+          语言
+        </p>
+        <div class="laguageBox">
+          <p class="lang" key="LAB_LANGUAGE_CHINESE">简体中文</p>
+          <img src="../../assets//addAssets/rightArrow.svg" alt="rightArrow">
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+</body>
+<script src="./js/index.js"></script>
+
+<script type="text/javascript" src="../../cordova.js"></script>
+<script src="../../core/babel-browser.min.js"></script>
+<script src="../../core/bitcore-mnemonic.js"></script>
+<script src="../../core/lang/ch.js"></script>
+<script src="../../core/lang/en.js"></script>
+<script src="../../core/core.js"></script>
+<script src="../../core/Base58.js"></script>
+
+<script type="text/javascript">
+	window.onload = function() {
+		changeLang();
+	}
+</script>
+
+</html>

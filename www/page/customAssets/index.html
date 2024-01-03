@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SFT Wallet</title>
+  <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="../../assets/js/init.js"></script>
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+  <div class="bodyMask" onclick="hidePop()"></div>
+  <div class="moreMenuMask" onclick="toggleMoreMenu()"></div>
+  <div class="header">
+      <img src="../../assets/addAssets/arrow.svg" onclick="back()" alt="arrow">
+    <p class="lang" key="LAB_CUSTOMASSETS_TITLE">自定义资产</p>
+    <a href="../addAssets/index.html">
+      <img src="../../assets/addAssets/scan.svg" alt="arrow">
+    </a>
+  </div>
+  <div class="container">
+    <div class="contractAddressBox">
+      <p class="lang" key="LAB_CUSTOMASSETS_CONTRACT_ADDR">合约地址</p>
+      <textarea placeholder="输入合约地址" class="addressInput lang_text" key="LAB_CUSTOMASSETS_INPUT_CONTRACT_ADDR" name="" id="input_contract_addr" cols="30" rows="10" oninput="javascript:window.changeContract();"></textarea>
+    </div>
+    <div class="tokenName">
+      <p class="lang" key="LAB_CUSTOMASSETS_TOKEN_NAME">代币名称</p>
+      <input type="text" class="lang_text" key="LAB_CUSTOMASSETS_INPUT_TOKEN_NAME" id="input_symbol" placeholder="输入代币名称">
+    </div>
+    <div class="tokenDecimal ">
+      <p class="lang" key="LAB_CUSTOMASSETS_TOKEN_DECIMAL">代币精度</p>
+      <input type="text" class="lang_text" key="LAB_CUSTOMASSETS_INPUT_TOKEN_DECIMAL" id="input_decimals" placeholder="输入代币精度">
+    </div>
+      <button class="addBtn lang" key="LAB_CUSTOMASSETS_BTN_ADD" onclick="javascript:window.clickAddToken();">添加</button>
+  </div>
+
+
+</body>
+<script src="./js/index.js"></script>
+<script type="text/javascript" src="../../cordova.js"></script>
+<script src="../../core/babel-browser.min.js"></script>
+<script src="../../core/bitcore-mnemonic.js"></script>
+<script src="../../core/lang/ch.js"></script>
+<script src="../../core/lang/en.js"></script>
+<script src="../../core/core.js"></script>
+<script src="../../core/Base58.js"></script>
+<script src="../../core/axios.min.js"></script>
+
+<script type="text/javascript">
+	var lan = getLanguage();
+
+	window.onload = function() {
+		changeLang();
+
+		var chain = getActiveChain();
+    	if(chain == null) {
+    		chain = "SFT"
+    	}
+    	System.chain = chain;
+	}
+
+	window.clickAddToken = function() {
+		var contrAddr = document.getElementById("input_contract_addr").value;
+		var symbol = document.getElementById("input_symbol").value;
+		var decimal = document.getElementById("input_decimals").value;
+		contrAddr = contrAddr.trim();
+
+		if(is_eth_addr(contrAddr)) {
+			if(isTokenInTokenList(System.chain, contrAddr)) {
+				showToast("failure", lan.ALERT_TOKEN_IN_LIST);
+			} else {
+				if(symbol == "" || decimal == "") {
+					showToast("failure", lan.LAB_MESCORLL_TIP_3);
+					return;
+				}
+
+				newTokenToCache(System.chain, contrAddr, symbol, decimal);
+				showToast("failure", lan.ALERT_TOKEN_ADD_SUCC);
+
+				document.getElementById("input_contract_addr").value = "";
+				document.getElementById("input_symbol").value = "";
+				document.getElementById("input_decimals").value = "";
+			}
+		} else {
+			showToast("failure", lan.ALERT_INVALID_TOKEN);
+		}
+	}
+
+	window.changeContract = function() {
+		var contrAddr = document.getElementById("input_contract_addr").value;
+		contrAddr = contrAddr.trim();
+		if(is_eth_addr(contrAddr)) {
+			setTimeout(function() {
+				rpc_ethCall(contrAddr, "0x95d89b41", function(data_symbol) {
+					document.getElementById("input_symbol").value = showTokenSymbol(data_symbol)
+				}, function(err_symbol) {
+					
+				});
+			}, 50);
+
+			setTimeout(function() {
+				rpc_ethCall(contrAddr, "0x313ce567", function(data_decimals) {
+					document.getElementById("input_decimals").value = Number("0x" + data_decimals.substr(60))
+				}, function(err_symbol) {
+					
+				});
+			}, 150);
+
+		}
+	}
+</script>
+
+</html>

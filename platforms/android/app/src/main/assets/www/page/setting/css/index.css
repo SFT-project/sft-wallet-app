@@ -1,0 +1,223 @@
+html {
+  background: #F5F5F5;
+}
+html .header {
+  width: 10rem;
+  height: 1.6rem;
+  flex-shrink: 0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4267rem;
+  box-sizing: border-box;
+}
+html .header img {
+  width: 0.74667rem;
+  height: 0.74667rem;
+  flex-shrink: 0;
+}
+html .header p {
+  color: #181719;
+  text-align: center;
+  font-size: 0.45333rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0.45333rem;
+}
+html .container .setting,
+html .container .help,
+html .container .about {
+  width: 10rem;
+  height: 1.33333rem;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0.43rem;
+  box-sizing: border-box;
+  align-items: center;
+  margin-top: 0.43rem;
+  background-color: #fff;
+}
+html .container .setting p,
+html .container .help p,
+html .container .about p {
+  color: #181719;
+  font-size: 0.42667rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0.42667rem;
+}
+html .container .setting img,
+html .container .help img,
+html .container .about img {
+  width: 0.64rem;
+  height: 0.64rem;
+  flex-shrink: 0;
+}
+html .container .help,
+html .container .about {
+  margin-top: 0.21rem;
+}
+html .footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 2.24rem;
+  background-color: #fff;
+  padding: 0 0.59rem;
+  box-sizing: border-box;
+}
+html .helpPop {
+  width: 10rem;
+  height: 18.88rem;
+  flex-shrink: 0;
+  position: fixed;
+  bottom: -32rem;
+  transition: bottom 1s ease;
+  background-color: #FFF;
+  border-top-left-radius: 0.8rem;
+  border-top-right-radius: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.4rem;
+  box-sizing: border-box;
+  z-index: 10;
+}
+html .helpPop .topCell {
+  width: 2.26667rem;
+  height: 0.21333rem;
+  flex-shrink: 0;
+  border-radius: 0.26667rem;
+  background: #E1E1E1;
+}
+html .helpPop .btnBox {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1.07rem;
+  width: 100%;
+}
+html .helpPop .btnBox .media {
+  flex-shrink: 0;
+  border-radius: 0.37333rem;
+  padding: 0.43rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+html .helpPop .btnBox .media img {
+  width: 1.38667rem;
+  height: 1.38667rem;
+  flex-shrink: 0;
+}
+html .helpPop .btnBox .media span {
+  color: rgba(24, 23, 25, 0.6);
+  text-align: center;
+  font-size: 0.37333rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0.58667rem;
+  display: block;
+  margin-top: 0.43rem;
+}
+html .helpPop .btnBox .media > p {
+  color: #181719;
+  font-size: 0.37333rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0.58667rem;
+}
+html .helpPop .btnBox .media:nth-child(2) {
+  margin-top: 3.73rem;
+}
+html .aboutPop {
+  width: 10rem;
+  height: 18.88rem;
+  flex-shrink: 0;
+  position: fixed;
+  bottom: -32rem;
+  transition: bottom 1s ease;
+  background-color: #FFF;
+  border-top-left-radius: 0.8rem;
+  border-top-right-radius: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.4rem;
+  box-sizing: border-box;
+  z-index: 10;
+}
+html .aboutPop .topCell {
+  width: 2.26667rem;
+  height: 0.21333rem;
+  flex-shrink: 0;
+  border-radius: 0.26667rem;
+  background: #E1E1E1;
+}
+html .aboutPop .btnBox {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1.07rem;
+  width: 100%;
+}
+html .aboutPop .btnBox .iconBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+html .aboutPop .btnBox .iconBox img {
+  width: 1.65333rem;
+  height: 1.65333rem;
+  flex-shrink: 0;
+}
+html .aboutPop .btnBox .iconBox p {
+  color: #181719;
+  font-size: 0.42667rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0.42667rem;
+  margin-top: 0.43rem;
+}
+html .aboutPop .btnBox .btnBoxBot {
+  width: 10rem;
+  margin-top: 4.8rem;
+}
+html .aboutPop .btnBox .btnBoxBot .linkCell {
+  width: 100%;
+  height: 1.33333rem;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #F5F5F5;
+  padding: 0.43rem;
+  box-sizing: border-box;
+}
+html .aboutPop .btnBox .btnBoxBot .linkCell p {
+  color: #181719;
+  font-size: 0.42667rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0.42667rem;
+}
+html .aboutPop .btnBox .btnBoxBot .linkCell:nth-child(2) {
+  margin-top: 0.21rem;
+}
+html .bodyMask {
+  width: 10rem;
+  height: 21.65333rem;
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  z-index: 9;
+  bottom: -32rem;
+}

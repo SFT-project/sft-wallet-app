@@ -1,0 +1,140 @@
+body {
+	font-family: PingFangSC-Regular, PingFang SC;
+	background-color: #ffffff;
+}
+
+.display_flex {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+}
+
+.flex_1 {
+	width: 0;
+	-webkit-box-flex: 1;
+	-ms-flex: 1;
+	-webkit-flex: 1;
+	flex: 1;
+}
+
+.align-items_center {
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+}
+
+.justify-content_flex-center {
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+}
+
+.justify-content_flex-justify {
+	-webkit-box-pack: justify;
+	-ms-flex-pack: justify;
+	-webkit-justify-content: space-between;
+	justify-content: space-between;
+}
+
+.justify-content_flex-end {
+	-webkit-box-pack: end;
+	-ms-flex-pack: end;
+	-webkit-justify-content: flex-end;
+	justify-content: flex-end;
+}
+
+.n_hidden {
+	width: 100%;
+	overflow: hidden
+}
+
+.n_footer {
+	border: 0;
+	position: fixed;
+	z-index: 599;
+	width: 100%;
+	height: 2.09rem;
+	border-top: 1px solid #F1F1F1;
+	left: 0;
+	bottom: 0;
+	background-color: #FFFFFF;
+}
+
+.n_boxx .n_foter_img {
+	width: 1.11rem;
+	height: 1.11rem;
+	margin: 0 auto;
+}
+
+.n_boxx .n_foter_img img {
+	width: 100%;
+	display: block;
+	height: 100%;
+}
+
+.n_boxx {
+	padding-top: 0.13rem;
+}
+
+.n_boxx .n_title {
+	margin-top: 0.06rem;
+	text-align: center;
+	font-size: 0.43rem;
+	color: rgba(153, 153, 153, 1);
+}
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+
+}
+
+.clearfix {
+	zoom: 1
+}
+
+.flex-direction_column {
+	-webkit-box-orient: vertical;
+	-ms-flex-direction: column;
+	-webkit-flex-direction: column;
+	flex-direction: column;
+}
+/* 暂无数据 */
+.no_deda .n_nide_img{
+	width: 2.56rem;
+	height: 2.56rem;
+	margin: 0 auto;
+}
+.no_deda .n_nide_img img{
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+.no_deda .n_bno_title{
+	font-size:0.6rem;
+	color:rgba(170,170,170,1);
+	margin: 0.55rem;
+	text-align: center;
+}
+.no_deda{
+	width: 4.56rem;
+	position: fixed;
+	z-index: 99999;
+	left: 50%;
+	margin-left: -2.28rem;
+	top: 50%;
+	margin-top: -2.28rem;
+}
+input{
+    -webkit-appearance: none;
+}
+input{
+	outline-style: none ; 
+	border-style: none;  
+}

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SFT Wallet</title>
+  <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="../../assets/js/init.js"></script>
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<style type="text/css">
+.qrcode_img {
+    margin: 0 auto;
+    border:3px solid #f6f6f6;
+}
+#myqrcode {
+    width: 100%;
+    margin-top:15px;
+    text-align: center;
+    justify-content: center;
+    display: flex !important;
+}	
+</style>
+
+<body>
+  <div class="bodyMask" onclick="hidePop()"></div>
+  <div class="moreMenuMask" onclick="toggleMoreMenu()"></div>
+  <div class="header">
+    <a href="../index/index.html">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M20 11.8181H5.0002" stroke="white" stroke-width="2.5" stroke-miterlimit="10" />
+        <path d="M12.9634 18.6362C12.9634 18.6362 5.20461 11.985 5.00043 11.8181C5.20461 11.6512 12.9634 5 12.9634 5"
+          stroke="white" stroke-width="2.5" stroke-miterlimit="10" />
+      </svg>
+    </a>
+    <p id="id_token_name"> </p>
+    <div></div>
+  </div>
+  <div class="container">
+    <div class="containerTop">
+      <img class="mask" src="../../assets/index/mask.png" alt="mask">
+      <p class="totalAssetsNum" id="lab_balance">0</p>
+      <div class="btnBox">
+        <button class="ReceiptBtn lang" key="LAB_INDEX_BTN_RECEIVE" onclick="showPop()">收款</button>
+        <button class="transferBtn lang" key="LAB_TOKENDETAILS_SEND" onclick="window.clickSend()">发送</button>
+      </div>
+    </div>
+    <div class="containerBot">
+      <div class="containerBotTitle">
+        <span class="currChoose lang" key="LAB_TOKENDETAILS_ALL" onclick="javascript:window.clickRecord(1);">全部</span>
+        <span class="lang" key="LAB_TOKENDETAILS_TRANSFER_IN" onclick="javascript:window.clickRecord(3);">转入</span>
+        <span class="lang" key="LAB_TOKENDETAILS_TRANSFER_OUT" onclick="javascript:window.clickRecord(2);">转出</span>
+      </div>
+      <div id="list_txs">
+	      <!-- <a href="../transactionDetails/index.html">
+	        <div class="assetsCell">
+	          <div class="cellLeft">
+	            <img src="../../assets/tokenDetais/transIn.svg" alt="transIn">
+	            <div class="transitionDetais">
+	              <div class="cellAddressBox">
+	                <p>oxce134fac...8374f4cef</p>
+	                <img src="../../assets/tokenDetais/copy.svg" alt="copy">
+	              </div>
+	              <p>2023-09-23</p>
+	            </div>
+	          </div>
+	          <p class="cellNum">6,821.12</p>
+	        </div>
+	      </a>
+	      <a href="../transactionDetails/index.html">
+	        <div class="assetsCell">
+	          <div class="cellLeft">
+	            <img src="../../assets/tokenDetais/tarnsOut.svg" alt="rspdIcon">
+	            <div class="transitionDetais">
+	              <div class="cellAddressBox">
+	                <p>oxce134fac...8374f4cef</p>
+	                <img src="../../assets/tokenDetais/copy.svg" alt="copy">
+	              </div>
+	              <p>2023-09-23</p>
+	            </div>
+	          </div>
+	          <p class="cellNum">6,821.12</p>
+	        </div>
+	      </a> -->
+	  </div>
+    </div>
+  </div>
+
+  <div class="collectionPopUp">
+    <div class="topCell"></div>
+    <p class="walletTitle lang" key="LAB_INDEX_WALLET_ADDR">钱包地址</p>
+    <p class="walletAddress" id="lab_recv_addr">...</p>
+    <button class="copyBtn lang" key="LAB_INDEX_BTN_COPY" onclick="javascript:window.copyAddr();">复制 </button>
+    <div class="QRBox">
+    	<div id="myqrcode">
+      		<!-- <img src="../../assets/index/QRCode.png" alt="QRCode"> -->
+      	</div>
+      <p class="lang" key="LAB_INDEX_WALLET_QRCODE">钱包地址二维码</p>
+    </div>
+  </div>
+  <div class="sendPop">
+    <div class="topCell"></div>
+    <div class="btnBox">
+      <a href="../directTransfer/index.html">
+        <div class="directTransfer">
+          <div class="directTransferTop">
+            <p class="lang" key="LAB_INDEX_DIRECT_TRANSFER">直接转账</p>
+            <img src="../../assets/tokenDetais/transfer.svg" alt="">
+          </div>
+          <p class="lang" key="LAB_INDEX_TRANSFER_BY_ADDR">通过地址转账</p>
+        </div>
+      </a>
+      <a href="javascript:window.clickScan();">
+        <div class="directTransfer scancode">
+          <div class="directTransferTop">
+            <p class="lang" key="LAB_INDEX_SCAN_QRCODE">扫描二维码</p>
+            <img src="../../assets/index/scan.svg" alt="">
+          </div>
+          <p class="lang" key="LAB_INDEX_TRANSFER_BY_SCAN_QRCODE">扫描二维码转账</p>
+        </div>
+      </a>
+
+    </div>
+
+
+
+  </div>
+
+</body>
+<script src="./js/index.js"></script>
+<script type="text/javascript" src="../../cordova.js"></script>
+<script src="../../core/axios.min.js"></script>
+<script src="../../core/babel-browser.min.js"></script>
+<script src="../../core/bitcore-mnemonic.js"></script>
+<script src="../../core/qrcode.min.js"></script>
+<script src="../../core/bignumber.js"></script>
+<script src="../../core/lang/ch.js"></script>
+<script src="../../core/lang/en.js"></script>
+<script src="../../core/core.js"></script>
+<script src="../../core/Base58.js"></script>
+<script type="text/javascript">
+	var lan = getLanguage();
+	window.onload = function() {
+    	changeLang();
+
+    	var chain = getActiveChain();
+    	if(chain == null) {
+    		chain = "SFT"
+    	}
+    	System.chain = chain;
+
+    	var curr = getCurrent();
+    	System.addr = curr.addr;
+
+    	var other = getAnotherName(System.addr);
+
+    	var mycode = new QRCode(document.getElementById("myqrcode"), {
+			width: 150,
+			height: 150
+		});
+		mycode.makeCode(curr.addr);
+		$("#myqrcode img").addClass("qrcode_img");
+
+		document.getElementById("lab_recv_addr").innerHTML = lessAddr(curr.addr, 20);
+
+		window.refresh();
+    	setInterval(function() {
+    		window.refresh();
+    	}, 13000);
+    }
+
+    window.copyAddr = function() {
+    	var curr = getCurrent();
+    	cordova.plugins.clipboard.copy(curr.addr, function(data_copy) {
+			showToast("success", lan.ALERT_COPY_OK);
+		}, function(err_copy) {
+			showToast("failure", err_copy);
+		});
+    }
+
+    window.clickScan = function() {
+		olinkScan("page-1");
+	}
+
+
+	var tokenType = {};
+	var recordType = 1;
+
+	var data_list = {};
+
+	var copy_clicked = false;
+
+	window.copyText = function(text) {
+		copy_clicked = true;
+		cordova.plugins.clipboard.copy(text, function(data_copy) {
+			toast(lan.ALERT_COPY_OK);
+		}, function(err_copy) {
+			toast(err_copy);
+		});
+	}
+
+	window.clickRecord = function(typ) {
+		recordType = typ;
+		// render
+		for(var i = 1; i <= 3; i++) {
+			if(typ == i) {
+				if(!$('#id_record_' + i).hasClass('active')) {
+					$('#id_record_' + i).addClass('active');
+				}
+			} else {
+				if($('#id_record_' + i).hasClass('active')) {
+					$('#id_record_' + i).removeClass('active');
+				}
+			}
+		}
+		// loading
+		renderList();
+	}
+
+	window.clickTx = function(router) {
+		if(copy_clicked == false) {
+			//window.clickPageNext(router);
+			window.location.href = router;
+		} else{
+			copy_clicked = false;
+		}
+	}
+
+	function mergeList(addr) {
+		var sents = getSents(System.chain, tokenType.tokenAddr, addr);
+		var tmpList = [];
+		if(System.chain == "SFT") {
+			tmpList = data_list.list;
+			data_list.list = [];
+		} else {
+			tmpList = data_list.result;
+			data_list.result = [];
+		}
+		data_list.list = [];
+		for(var i = 0; i < sents.length; i++) {
+			var flag = true;
+			for(var j = 0; j < tmpList.length; j++) {
+				if(sents[i].hash == tmpList[j].hash) {
+					flag = false;
+					break;
+				}
+			}
+			if(flag) {
+				if(System.chain == "SFT") {
+					data_list.list.push(sents[i]);
+				} else {
+					data_list.result.push(sents[i]);
+				}
+			}
+		}
+		for(var k = 0; k < tmpList.length; k++) {
+			if(System.chain == "SFT") {
+				data_list.list.push(tmpList[k]);
+			} else {
+				data_list.result.push(tmpList[k]);
+			}
+		}
+	}
+
+	var renderList = function(cb_succ) {
+		var curr = getCurrent();
+
+		mergeList(curr.addr);
+
+		if(System.chain == "SFT") {
+			if(tokenType.tokenAddr == "0") {
+				var html = "";
+				for(var i = 0; i < data_list.list.length; i++) {
+					if((recordType == 2 && data_list.list[i].from != curr.addr) || (recordType == 3 && data_list.list[i].from == curr.addr)) {
+						continue;
+					}
+
+					var transTypeClass = ((data_list.list[i].from == curr.addr) ? "tran_geujieout" : "tran_geujie");
+					var transImg = ((data_list.list[i].from == curr.addr) ? "../../assets/tokenDetais/transOut.svg" : "../../assets/tokenDetais/transIn.svg");
+
+
+					html += `<a href="javascript:clickTx('../transactionDetails/index.html#{5}#{6}#{7}#{8}#{9}#{10}#{4}')">
+			        <div class="assetsCell">
+			          <div class="cellLeft">
+			            <img src="{13}" alt="transIn">
+			            <div class="transitionDetais">
+			              <div class="cellAddressBox">
+			                <p>{0}</p>
+			                <img src="../../assets/tokenDetais/copy.svg" alt="copy" onclick="javascript:window.copyTxAddr('{14}')">
+			              </div>
+			              <p>{1}</p>
+			            </div>
+			          </div>
+			          <p class="cellNum">{2}{3}</p>
+			        </div>
+			      </a>`.format(lessAddr((data_list.list[i].from == curr.addr) ? data_list.list[i].to : data_list.list[i].from, 10), getLocalTime(data_list.list[i].time), 
+					(data_list.list[i].from == curr.addr) ? "-" : "+", showAmount(data_list.list[i].value), "SFT", data_list.list[i].hash,
+					data_list.list[i].from, data_list.list[i].to, data_list.list[i].value, data_list.list[i].time, data_list.list[i].blockNumber, (data_list.list[i].from == curr.addr) ? data_list.list[i].to : data_list.list[i].from, transTypeClass, transImg, (data_list.list[i].from == curr.addr) ? data_list.list[i].to : data_list.list[i].from)
+				}
+				document.getElementById("list_txs").innerHTML = html;
+			} else {
+				var html = "";
+				for(var i = 0; i < data_list.list.length; i++) {
+					data_list.list[i].from = data_list.list[i].from.replace("0x000000000000000000000000", "0x");
+					data_list.list[i].to = data_list.list[i].to.replace("0x000000000000000000000000", "0x");
+
+					if((recordType == 2 && data_list.list[i].from != curr.addr) || (recordType == 3 && data_list.list[i].from == curr.addr)) {
+						continue;
+					}
+
+					var transTypeClass = ((data_list.list[i].from == curr.addr) ? "tran_geujieout" : "tran_geujie");
+					var transImg = ((data_list.list[i].from == curr.addr) ? "../../assets/tokenDetais/transOut.svg" : "../../assets/tokenDetais/transIn.svg");
+
+					html += `<a href="javascript:clickTx('../transactionDetails/index.html#{5}#{6}#{7}#{8}#{9}#{10}#{4}')">
+			        <div class="assetsCell">
+			          <div class="cellLeft">
+			            <img src="{13}" alt="transIn">
+			            <div class="transitionDetais">
+			              <div class="cellAddressBox">
+			                <p>{0}</p>
+			                <img src="../../assets/tokenDetais/copy.svg" alt="copy" onclick="javascript:window.copyTxAddr('{14}')">
+			              </div>
+			              <p>{1}</p>
+			            </div>
+			          </div>
+			          <p class="cellNum">{2}{3}</p>
+			        </div>
+			      </a>`.format(lessAddr((data_list.list[i].from == curr.addr) ? data_list.list[i].to : data_list.list[i].from, 10), getLocalTime(data_list.list[i].time), 
+					(data_list.list[i].from == curr.addr) ? "-" : "+", showAmount(data_list.list[i].value, tokenType.tokenDecimal), tokenType.tokenName, data_list.list[i].hash,
+					data_list.list[i].from, data_list.list[i].to, data_list.list[i].value, data_list.list[i].time, data_list.list[i].blockNumber, (data_list.list[i].from == curr.addr) ? data_list.list[i].to : data_list.list[i].from, transTypeClass, transImg, (data_list.list[i].from == curr.addr) ? data_list.list[i].to : data_list.list[i].from)
+				}
+				document.getElementById("list_txs").innerHTML = html;
+			}
+		} else {
+			if(tokenType.tokenAddr == "0") {
+				var html = "";
+				for(var i = 0; i < data_list.result.length; i++) {
+					if((recordType == 2 && data_list.result[i].from != curr.addr) || (recordType == 3 && data_list.result[i].from == curr.addr)) {
+						continue;
+					}
+
+					var transTypeClass = ((data_list.result[i].from == curr.addr) ? "tran_geujieout" : "tran_geujie");
+					var transImg = ((data_list.result[i].from == curr.addr) ? "../../assets/tokenDetais/transOut.svg" : "../../assets/tokenDetais/transIn.svg");
+
+
+					html += `<a href="javascript:clickTx('../transactionDetails/index.html#{5}#{6}#{7}#{8}#{9}#{10}#{4}')">
+			        <div class="assetsCell">
+			          <div class="cellLeft">
+			            <img src="{13}" alt="transIn">
+			            <div class="transitionDetais">
+			              <div class="cellAddressBox">
+			                <p>{0}</p>
+			                <img src="../../assets/tokenDetais/copy.svg" alt="copy" onclick="javascript:window.copyTxAddr('{14}')">
+			              </div>
+			              <p>{1}</p>
+			            </div>
+			          </div>
+			          <p class="cellNum">{2}{3}</p>
+			        </div>
+			      </a>`.format(lessAddr((data_list.result[i].from == curr.addr) ? data_list.result[i].to : data_list.result[i].from, 10), getLocalTime(data_list.result[i].timeStamp), 
+					(data_list.result[i].from == curr.addr) ? "-" : "+", showAmount(data_list.result[i].value), get_chainSymbol(), data_list.result[i].hash,
+					data_list.result[i].from, data_list.result[i].to, data_list.result[i].value, data_list.result[i].timeStamp, data_list.result[i].blockNumber, (data_list.result[i].from == curr.addr) ? data_list.result[i].to : data_list.result[i].from, transTypeClass, transImg, (data_list.list[i].from == curr.addr) ? data_list.list[i].to : data_list.list[i].from)
+				}
+				document.getElementById("list_txs").innerHTML = html;
+			} else {
+				var html = "";
+				for(var i = 0; i < data_list.result.length; i++) {
+
+					if((recordType == 2 && data_list.result[i].from != curr.addr) || (recordType == 3 && data_list.result[i].from == curr.addr)) {
+						continue;
+					}
+
+					var transTypeClass = ((data_list.result[i].from == curr.addr) ? "tran_geujieout" : "tran_geujie");
+					var transImg = ((data_list.result[i].from == curr.addr) ? "../../assets/tokenDetais/transOut.svg" : "../../assets/tokenDetais/transIn.svg");
+
+					html += `<a href="javascript:clickTx('../transactionDetails/index.html#{5}#{6}#{7}#{8}#{9}#{10}#{4}')">
+			        <div class="assetsCell">
+			          <div class="cellLeft">
+			            <img src="{13}" alt="transIn">
+			            <div class="transitionDetais">
+			              <div class="cellAddressBox">
+			                <p>{0}</p>
+			                <img src="../../assets/tokenDetais/copy.svg" alt="copy" onclick="javascript:window.copyTxAddr('{14}')">
+			              </div>
+			              <p>{1}</p>
+			            </div>
+			          </div>
+			          <p class="cellNum">{2}{3}</p>
+			        </div>
+			      </a>`.format(lessAddr((data_list.result[i].from == curr.addr) ? data_list.result[i].to : data_list.result[i].from, 10), getLocalTime(data_list.result[i].timeStamp), 
+					(data_list.result[i].from == curr.addr) ? "-" : "+", showAmount(data_list.result[i].value, tokenType.tokenDecimal), tokenType.tokenName, data_list.result[i].hash,
+					data_list.result[i].from, data_list.result[i].to, data_list.result[i].value, data_list.result[i].timeStamp, data_list.result[i].blockNumber, (data_list.result[i].from == curr.addr) ? data_list.result[i].to : data_list.result[i].from, transTypeClass, transImg, (data_list.list[i].from == curr.addr) ? data_list.list[i].to : data_list.list[i].from)
+				}
+				document.getElementById("list_txs").innerHTML = html;
+			}
+		}
+
+		if(cb_succ) {
+			cb_succ();
+		}
+	}
+
+
+
+	window.refresh = function(cb_succ) {
+		var curr = getCurrent();
+		var chain = System.chain;
+
+		tokenType = getCurrentTokenType();
+
+		if(chain == "SFT") {
+			if(tokenType.tokenAddr == "0") {
+				//document.getElementById("id_token_show_contract").style = "display:none;"
+
+				document.getElementById("id_token_name").innerHTML = get_chainSymbol();
+				//document.getElementById("id_token_img").src = "image/e_10.png";
+
+				rpc_getBalance(curr.addr, function(data_bal) {
+		    		document.getElementById("lab_balance").innerHTML = showAmount(data_bal);
+
+		    	}, function(err_bal) {
+
+		    	});
+
+				proxyTxs(curr.addr, 1, 100, function(data_list_x) {
+					data_list = data_list_x;
+					renderList(cb_succ);
+				}, function(err_txs) {
+
+				});
+			} else {
+				document.getElementById("id_token_name").innerHTML = tokenType.tokenName;
+				//document.getElementById("id_token_addr").innerHTML = lessAddr(tokenType.tokenAddr, 25);
+				//document.getElementById("id_token_img").src = "https://www.etherumgold.me/autoplay/token/" + System.chain + "/" + tokenType.tokenAddr + ".png";
+				// document.getElementById("id_token_img").addEventListener('error', function(e) {
+				// 	e.target.src = "image/e_70.png";
+				// })
+
+				rpc_ethCall(tokenType.tokenAddr, get_erc20_balance(curr.addr), function(data_bal) {
+					document.getElementById("lab_balance").innerHTML = showAmount(data_bal, tokenType.tokenDecimal);
+
+				}, function(err_symbol) {
+					
+				});
+
+				proxyErcTxs(curr.addr, tokenType.tokenAddr, function(data_list_x) {
+					data_list = data_list_x;
+					renderList(cb_succ);
+				}, function(err_txs) {
+
+				});
+			}
+		} else {
+			if(tokenType.tokenAddr == "0") {
+				//document.getElementById("id_token_show_contract").style = "display:none;"
+
+				document.getElementById("id_token_name").innerHTML = get_chainSymbol();
+				//document.getElementById("id_token_img").src = "image/e_14.png";
+				//document.getElementById("id_token_img").src = get_chainImg();
+
+				rpc_getBalance(curr.addr, function(data_bal) {
+		    		document.getElementById("lab_balance").innerHTML = showAmount(data_bal);
+
+		    	}, function(err_bal) {
+
+		    	});
+
+				outerProxyTxs(curr.addr, function(data_list_x) {
+					data_list = data_list_x;
+					renderList(cb_succ);
+				}, function(err_list) {
+
+				});
+			} else {
+				var tokenImg = ((tokenType.tokenAddr == getUsdtAddr()) ? "image/usdt.png" : "image/e_70.png");
+				document.getElementById("id_token_name").innerHTML = tokenType.tokenName;
+				//document.getElementById("id_token_addr").innerHTML = lessAddr(tokenType.tokenAddr, 25);
+				//document.getElementById("id_token_img").src = "https://www.etherumgold.me/autoplay/token/" + System.chain + "/" + tokenType.tokenAddr + ".png";
+				// document.getElementById("id_token_img").addEventListener('error', function(e) {
+				// 	e.target.src = "image/e_70.png";
+				// })
+
+				rpc_ethCall(tokenType.tokenAddr, get_erc20_balance(curr.addr), function(data_bal) {
+					document.getElementById("lab_balance").innerHTML = showAmount(data_bal, tokenType.tokenDecimal);
+
+				}, function(err_symbol) {
+					
+				});
+
+				outerProxyTokenTxs(curr.addr, tokenType.tokenAddr, function(data_list_x) {
+					data_list = data_list_x;
+					renderList(cb_succ);
+				}, function(err_txs) {
+
+				});
+			}
+		}
+	}
+
+	window.copyTxAddr = function(addr) {
+		cordova.plugins.clipboard.copy(tokenType.tokenAddr, function(data_copy) {
+			showToast("success", lan.ALERT_COPY_OK, 5000);
+		}, function(err_copy) {
+			showToast("failure", err_copy);
+		});
+	}
+
+	window.clickSend = function() {
+		setCurrentTokenType(tokenType.tokenName, tokenType.tokenAddr, '', tokenType.tokenDecimal);
+		//clickPageNext('transferAccounts.html',true);
+		window.location.href = "../directTransfer/index.html";
+	}
+
+	window.clickCopyContract = function() {
+		cordova.plugins.clipboard.copy(tokenType.tokenAddr, function(data_copy) {
+			toast(lan.LAB_DEX_QUICKPRESS_COPY_TIP, 5000);
+		}, function(err_copy) {
+			toast(err_copy);
+		});
+	}
+
+	window.clickSeeDetail = function() {
+		clickPageNext('tokenDetail.html#' + tokenType.tokenAddr);
+	}
+</script>
+
+</html>

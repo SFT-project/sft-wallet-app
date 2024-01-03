@@ -1,0 +1,232 @@
+html {
+  background: #090B0E;
+
+  .LanguageBox {
+    color: #FFF;
+    text-align: right;
+    font-size: 0.42667rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 0.42667rem;
+    margin-top: 1.07rem;
+    margin-right: 0.53rem;
+    text-align: right;
+  }
+
+  .content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 3.4rem;
+
+    .logoBox {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      img {
+        width: 1.97333rem;
+        height: 1.97333rem;
+        flex-shrink: 0;
+      }
+
+      p {
+        color: #FFF;
+        font-size: 0.42667rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 0.42667rem;
+        margin-top: 0.32rem;
+      }
+    }
+
+    .slogan {
+      width: 6.8rem;
+      margin-top: 3.73rem;
+
+      p {
+        color: #FFD12C;
+        text-align: center;
+        font-family: PingFang SC;
+        font-size: 0.69333rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 0.85333rem;
+      }
+    }
+
+    .enterBtn {
+      width: 2.56rem;
+      height: 1.17333rem;
+      flex-shrink: 0;
+      border-radius: 0.37333rem;
+      background: #FFD12C;
+      border: none;
+      margin-top: 1.07rem;
+      color: #090B0E;
+      font-size: 0.42667rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 0.42667rem;
+    }
+  }
+
+
+  .addWalletPop,
+  .languagePop {
+    width: 10rem;
+    height: 9.17333rem;
+    flex-shrink: 0;
+    position: fixed;
+    bottom: -32rem;
+    transition: bottom 1s ease;
+    background-color: #FFF;
+    border-top-left-radius: .8rem;
+    border-top-right-radius: .8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: .4rem;
+    box-sizing: border-box;
+    z-index: 10;
+
+
+    .topCell {
+      width: 2.26667rem;
+      height: 0.21333rem;
+      flex-shrink: 0;
+      border-radius: 0.26667rem;
+      background: #E1E1E1;
+    }
+
+    .btnBox {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.07rem;
+      width: 100%;
+
+      .directTransfer {
+        width: 4.48rem;
+        height: 2.88rem;
+        flex-shrink: 0;
+        border-radius: 0.37333rem;
+        background: #E4F6FD;
+        padding: 0.43rem;
+        box-sizing: border-box;
+
+
+
+        .directTransferTop {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          p {
+            color: #181719;
+            font-size: 0.37333rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 0.37333rem;
+          }
+
+          img {
+            width: 0.69333rem;
+            height: 0.69333rem;
+            flex-shrink: 0;
+          }
+        }
+
+        &>p {
+          color: rgba(24, 23, 25, 0.4);
+          font-size: 0.37333rem;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 0.37333rem;
+          margin-top: 0.99rem;
+        }
+      }
+
+      .scancode {
+        background: #E8DDF7;
+      }
+    }
+
+
+
+  }
+
+  .languagePop {
+
+    .titleBox {
+      display: flex;
+      align-items: center;
+      margin-top: 1.87rem;
+      width: 100%;
+
+      img {
+        width: 0.53333rem;
+        height: 0.53333rem;
+        flex-shrink: 0;
+      }
+
+      p {
+        color: #181719;
+        font-size: 0.53333rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 0.53333rem;
+        margin-left: 0.21rem;
+      }
+    }
+
+    .laguageBtnBox {
+      margin-top: 0.85rem;
+
+      .laguageCell {
+        width: 9.14667rem;
+        height: 1.33333rem;
+        flex-shrink: 0;
+        border-radius: 0.37333rem;
+        background: #F1F1F1;
+        display: flex;
+        align-items: center;
+        padding: 0.43rem;
+        box-sizing: border-box;
+        justify-content: space-between;
+
+        input {
+          width: 0.58667rem;
+          height: 0.58667rem;
+          flex-shrink: 0;
+        }
+
+        p {
+          color: #181719;
+          font-size: 0.42667rem;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 0.42667rem;
+        }
+
+        &:nth-child(2) {
+          margin-top: 0.43rem;
+        }
+      }
+
+    }
+  }
+
+  .bodyMask {
+    width: 10rem;
+    height: 21.65333rem;
+    flex-shrink: 0;
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    z-index: 9;
+    bottom: -32rem;
+
+  }
+
+
+}

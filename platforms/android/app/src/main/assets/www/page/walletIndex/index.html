@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SFT Wallet</title>
+  <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+  <div class="bodyMask" onclick="hidePop()"></div>
+  <div class="LanguageBox" onclick="showLanguage()">
+    <p>Language ></p>
+  </div>
+  <div class="content">
+    <div class="logoBox">
+      <img src="../../assets/walletIndex/logo.svg" alt="" srcset="">
+      <p>SFT Wallet</p>
+    </div>
+    <div class="slogan">
+      <p>Digital Assets
+        Under Your Control</p>
+    </div>
+    <button class="enterBtn" onclick="showAddWallet()">
+      Enter
+    </button>
+  </div>
+
+
+  <div class="addWalletPop">
+    <div class="topCell"></div>
+    <div class="btnBox">
+      <a href="../creatWallet/index.html">
+        <div class="directTransfer">
+          <div class="directTransferTop">
+            <p class="lang" key="LAB_INDEX_CREATE_WALLET">创建钱包</p>
+            <img src="../../assets/chain/addBlack.svg" alt="">
+          </div>
+          <p class="lang" key="LAB_INDEX_CREATE_NEW_WALLET">创建新的钱包</p>
+        </div>
+      </a>
+      <a href="../importWallet/index.html">
+        <div class="directTransfer scancode">
+          <div class="directTransferTop">
+            <p class="lang" key="LAB_INDEX_IMPORT_WALLET">导入钱包</p>
+            <img src="../../assets/chain/drop.svg" alt="">
+          </div>
+          <p class="lang" key="LAB_INDEX_IMPORT_OLD_WALLET">导入现有钱包</p>
+        </div>
+      </a>
+
+    </div>
+
+
+
+  </div>
+  <div class="languagePop">
+    <div class="topCell"></div>
+    <div class="titleBox">
+      <img src="../../assets/walletIndex/language.svg" alt="">
+      <p>Language</p>
+    </div>
+    <div class="laguageBtnBox">
+      <div class="laguageCell" onclick="javascript:window.clickLang('en');">
+        <p>
+          <label for="English" class="radio-label lang" key="LAB_LANGUAGE_ENGLISH">English</label>
+        </p>
+        <input id="English" checked name="radio" type="radio">
+      </div>
+      <div class="laguageCell" onclick="javascript:window.clickLang('ch');">
+        <p>
+          <label for="chinese" class="radio-label lang" key="LAB_LANGUAGE_CHINESE">简体中文</label>
+        </p>
+        <input id="Chinese" name="radio" type="radio">
+      </div>
+    </div>
+
+  </div>
+
+
+</body>
+<script src="./js/index.js"></script>
+<script type="text/javascript" src="../../cordova.js"></script>
+<script src="../../core/babel-browser.min.js"></script>
+<script src="../../core/bitcore-mnemonic.js"></script>
+<script src="../../core/lang/ch.js"></script>
+<script src="../../core/lang/en.js"></script>
+<script src="../../core/core.js"></script>
+<script src="../../core/Base58.js"></script>
+
+<script type="text/javascript">
+
+	window.onload = function() {
+		var lan = getLanguage();
+		if(lan == lang_en) {
+			document.getElementById("English").checked = true;
+			document.getElementById("Chinese").checked = false;
+		} else if(lan == lang_ch) {
+			document.getElementById("English").checked = false;
+			document.getElementById("Chinese").checked = true;
+		}
+
+		changeLang();
+
+		var curr = getCurrent();
+		var ps = window.location.href.split('#');
+		if (ps.length <= 1 && !isNew()) {
+			//clearPageStack();
+			window.location.href = "../index/index.html"
+		}
+	}
+
+	window.clickLang = function(strl) {
+		if(strl == "en") {
+			setLanguage("en");
+		} else if(strl == "ch") {
+			setLanguage("ch");
+		}
+		window.location.reload();
+	}
+
+</script>
+
+</html>

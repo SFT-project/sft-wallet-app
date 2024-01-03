@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>lock</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<link rel="shortcut icon" href="/favicon.ico">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="./css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="./css/nav.css" />
+		<link rel="stylesheet" type="text/css" href="./css/public.css" />
+		<link rel="stylesheet" type="text/css" href="./css/lockcabin.css" />
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="core/Base58.js"></script>
+		<script src="core/core.js"></script>
+		
+	</head>
+	<body>
+		<header class="display_flex">
+			<a href="javascript:history.back(-1)">
+				<img src="image/back_arrow.png" >
+			</a>
+			<h1 class="flex_1">锁仓</h1>
+		</header>
+		<div class="n_cent">
+			<div class="n_top">
+				<ul>
+					<li class="display_flex">
+						<div class="n_name">锁仓地址</div>
+						<div class="flex_1" id="lab_addr">
+							<!-- <input type="text" id="lab_addr" value=""  placeholder="0x"/> -->
+						</div>
+					</li>
+					<li class="display_flex">
+						<div class="n_name">锁仓总额</div>
+						<div class="flex_1" id="lab_total">0<a style="color: blue; margin-left: 30px">可领取</a>
+							<!-- <input type="text" id="lab_total" value="" disabled="disabled" placeholder="0"/> -->
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="n_bottom">
+				<div class="n_annular">
+					<div class="n_circle">
+					    <div class="n_pie_left"><div class="n_left"></div></div>
+					    <div class="n_pie_right"><div class="n_right"></div></div>
+					   <div class="n_mask" id="prog_free"><span id="prog_free">0</span>%</div>
+					</div>
+				</div>
+				<div class="display_flex n_total">
+					<div class="n_ble">释放次数</div>
+					<div class="flex_1" id="lab_free_times">0</div>
+				</div>
+				<ul class="n_li_item">
+					<li class="display_flex align-items_center">
+						<div class="n_spot n_blue"></div>
+						<div class="n_name" >锁仓中</div>
+						<div class="flex_1" id="lab_unlock">0
+							<!-- <input type="text" id="lab_unlock" value="" disabled="disabled" placeholder="0"/> -->
+						</div>
+					</li>
+					<li class="display_flex align-items_center">
+						<div class="n_spot n_gray"></div>
+						<div class="n_name ">已释放</div>
+						<div class="flex_1" id="lab_free">0
+							<!-- <input type="text" id="lab_free" value="" disabled="disabled"  placeholder="0"/> -->
+						</div>
+					</li>
+				</ul>
+				<ul class="display_flex align-items_center" style="display:" onclick="javascript:window.clickRegister()">
+					<div class="n_name">新用户</div>
+				</ul>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		(function() {
+			// 获取.mask中span值即可
+			window.changeCircle = function(val) {
+				//alert("a")
+			    $('.n_circle').each(function(index, el) {
+
+			        //var num = $(this).find('span').text() * 3.6;
+			        var num = val * 3.6;
+			        //alert(num);
+			        if (num<=180) {
+			            $(this).find('.n_right').css('transform', "rotate(" + num + "deg)");
+			        } else {
+			            $(this).find('.n_right').css('transform', "rotate(180deg)");
+			            $(this).find('.n_left').css('transform', "rotate(" + (num - 180) + "deg)");
+			        };
+			    });
+			}
+
+		    window.onload = function() {
+
+		    	var current = getCurrent();
+		        System.accName = current.name;
+		        System.addr = current.addr;
+		        //var pass = getPass(System.addr);
+		        //var priv = getPriv(System.addr);
+		        document.getElementById("lab_addr").innerHTML = lessAddr(System.addr, 28);
+
+		        // 锁仓显示
+		        // 
+		    }
+
+		    window.clickRegister = function() {
+		    	window.location.href = "reg_lock.html"
+		    }
+		
+		})()
+	</script>
+</html>

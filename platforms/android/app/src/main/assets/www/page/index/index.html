@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SFT Wallet</title>
+  <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="../../assets/js/init.js"></script>
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<style type="text/css">
+.qrcode_img {
+    margin: 0 auto;
+    border:3px solid #f6f6f6;
+}
+#myqrcode {
+    width: 100%;
+    margin-top:15px;
+    text-align: center;
+    justify-content: center;
+    display: flex !important;
+}	
+</style>
+
+<body>
+  <div class="bodyMask" onclick="hidePop()"></div>
+  <div class="moreMenuMask" onclick="toggleMoreMenu()"></div>
+  <div class="header">
+    <img src="../../assets/index/menu.svg" onclick="showSwitchChain()" alt="menu">
+    <p id="id_chain_1"></p>
+    <div class="moreMenuBox">
+      <img onclick="toggleMoreMenu()" src="../../assets/index/moreMenu.svg" alt="moreMenu">
+      <div class="moreMenuBoxContent">
+        <a href="javascript:window.clickScan();">
+          <div class="moreMenuCell">
+            <p class="lang" key="LAB_INDEX_SCAN">扫码</p>
+            <img src="../../assets/index/scan.svg" alt="scan">
+          </div>
+        </a>
+        <a href="../addAssets/index.html">
+          <div class="moreMenuCell">
+            <p class="lang" key="LAB_INDEX_ADD_ASSET">添加资产</p>
+            <img src="../../assets/index/addAssets.svg" alt="scan">
+          </div>
+        </a>
+        <a href="../WalletManagement/index.html">
+	        <div class="moreMenuCell">
+	          <p class="lang" key="LAB_INDEX_WALLET_MANAGE">钱包管理</p>
+	          <img src="../../assets/index/walletSetting.svg" alt="scan">
+	        </div>
+	    </a>
+      </div>
+    </div>
+
+  </div>
+  <div class="container">
+    <div class="containerTop">
+      <img class="mask" src="../../assets/index/mask.png" alt="mask">
+      <div class="totalBox">
+        <p class="totalAssets lang" key="LAB_INDEX_TOTAL_ASSETS">总资产（≈$)</p>
+        <!-- <a href="../ ">
+          <p class="details lang" key="LAB_INDEX_DETAILS">详情 ></p> 
+        </a> -->
+      </div>
+      <p class="totalAssetsNum" id="lab_token_balance">0</p> 
+      <div class="btnBox">
+        <button class="transferBtn lang" key="LAB_INDEX_BTN_TRANSFER" onclick="showSend()">转账</button>
+        <button class="ReceiptBtn lang" key="LAB_INDEX_BTN_RECEIVE" onclick="showPop()">收款</button>
+      </div>
+    </div>
+    <div class="containerBot">
+      <div class="containerBotTitle">
+        <p class="lang" key="LAB_INDEX_WALLET_ACCOUNT">钱包账户</p>
+        <span class="lang" key="LAB_INDEX_BALANCE">余额</span>
+      </div>
+      <a href="javascript:setCurrentTokenType('0','0','',18);window.location.href='../tokenDetails/index.html';"> 
+        <div class="assetsCell">
+          <div class="cellLeft">
+            <img src="../../assets/index/rspdIcon.svg" alt="rspdIcon">
+            <p>SFT</p>
+          </div>
+          <p class="cellNum" id="lab_balance">0</p>
+        </div>
+      </a>
+      <div id="id_list_tokens">
+	      <!-- <div class="assetsCell">
+	        <div class="cellLeft">
+	          <img src="../../assets/index/rspdIcon.svg" alt="rspdIcon">
+	          <p>rSPD</p>
+	        </div>
+	        <p class="cellNum">6,821.12</p>
+	      </div> -->
+	  </div>
+    </div>
+  </div>
+  <div class="footer">
+    <div><img src="../../assets/index/wallet.svg" alt="wallet"></div>
+    <div><img src="../../assets/index/more.svg" alt="more"></div>
+    <a href="../setting/index.html">
+      <div><img src="../../assets/index/setting.svg" alt="setting"></div>
+    </a>
+  </div>
+  <div class="collectionPopUp">
+    <div class="topCell"></div>
+    <p class="walletTitle lang" key="LAB_INDEX_WALLET_ADDR">钱包地址</p>
+    <p class="walletAddress" id="lab_recv_addr">...</p>
+    <button class="copyBtn lang" key="LAB_INDEX_BTN_COPY" onclick="javascript:window.copyAddr();">复制 </button>
+    <div class="QRBox">
+    	<div id="myqrcode">
+	      <!-- <img src="../../assets/index/QRCode.png" alt="QRCode"> -->
+	  </div>
+      <p class="lang" key="LAB_INDEX_WALLET_QRCODE">钱包地址二维码</p>
+    </div>
+  </div>
+  <div class="sendPop">
+    <div class="topCell"></div>
+    <div class="btnBox">
+      <a href="javascript:window.clickSend();">
+        <div class="directTransfer">
+          <div class="directTransferTop">
+            <p class="lang" key="LAB_INDEX_DIRECT_TRANSFER">直接转账</p>
+            <img src="../../assets/tokenDetais/transfer.svg" alt="">
+          </div>
+          <p class="lang" key="LAB_INDEX_TRANSFER_BY_ADDR">通过地址转账</p>
+        </div>
+      </a>
+      <a href="javascript:window.clickScan();">
+        <div class="directTransfer scancode">
+          <div class="directTransferTop">
+            <p class="lang" key="LAB_INDEX_SCAN_QRCODE">扫描二维码</p>
+            <img src="../../assets/index/scan.svg" alt="">
+          </div>
+          <p class="lang" key="LAB_INDEX_TRANSFER_BY_SCAN_QRCODE">扫描二维码转账</p>
+        </div>
+      </a>
+
+    </div>
+
+
+
+  </div>
+  <div class="addWalletPop">
+    <div class="topCell"></div>
+    <div class="btnBox">
+      <a onclick="javascript:window.createWallet();">
+        <div class="directTransfer">
+          <div class="directTransferTop">
+            <p class="lang" key="LAB_INDEX_CREATE_WALLET">创建钱包</p>
+            <img src="../../assets/chain/addBlack.svg" alt="">
+          </div>
+          <p class="lang" key="LAB_INDEX_CREATE_NEW_WALLET">创建新的钱包</p>
+        </div>
+      </a>
+      <a onclick="javascript:window.importWallet();">
+        <div class="directTransfer scancode">
+          <div class="directTransferTop">
+            <p class="lang" key="LAB_INDEX_IMPORT_WALLET">导入钱包</p>
+            <img src="../../assets/chain/drop.svg" alt="">
+          </div>
+          <p class="lang" key="LAB_INDEX_IMPORT_OLD_WALLET">导入现有钱包</p>
+        </div>
+      </a>
+
+    </div>
+
+
+
+  </div>
+  <div class="switchChain">
+    <div class="switchChainLeft">
+      <div class="chainIcon">
+        <img src="../../assets/chain/sft.svg" alt="sft">
+      </div>
+      <div class="chainIcon">
+        <img src="../../assets/chain/eth.svg" alt="eth">
+      </div>
+      <div class="chainIcon">
+        <img src="../../assets/chain/bsc.svg" alt="bsc">
+      </div>
+<!--       <div class="chainIcon">
+        <img src="../../assets/chain/fil.svg" alt="fil">
+      </div> -->
+    </div>
+    <div class="switchChainRight">
+      <div class="switchTitle">
+        <p class="lang" key="LAB_INDEX_CHANGE_WALLET">切换钱包</p>
+        <img src="../../assets/chain/close.svg" onclick="hideSwitchChain()" alt="close">
+      </div>
+      <p class="chainName" id="id_chain">SFT Protocol</p>
+
+      <div id="id_list_addr">
+	     <!--  <div class="walletBox">
+	        <div>
+	          <p>SFT XXXXX</p>
+	          <span>0x0d03b29......94ea2321ebd53a7d7</span>
+	        </div>
+	        <img src="../../assets/addAssets/choose.svg" alt="">
+	      </div>
+	      <div class="walletBox">
+	        <div>
+	          <p>SFT XXXXX</p>
+	          <span>0x0d03b29......94ea2321ebd53a7d7</span>
+	        </div>
+	        <img src="../../assets/addAssets/choose.svg" alt="">
+	      </div> -->
+	  </div>
+      <div class="addWalet" onclick="showAddWallet()">
+        <img src="../../assets/chain/add.svg" alt="add">
+        <p class="lang" key="LAB_INDEX_ADD_WALLET">添加钱包</p>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="./js/index.js"></script>
+<script type="text/javascript" src="../../cordova.js"></script>
+<script src="../../core/axios.min.js"></script>
+<script src="../../core/babel-browser.min.js"></script>
+<script src="../../core/bitcore-mnemonic.js"></script>
+<script src="../../core/qrcode.min.js"></script>
+<script src="../../core/bignumber.js"></script>
+<script src="../../core/lang/ch.js"></script>
+<script src="../../core/lang/en.js"></script>
+<script src="../../core/core.js"></script>
+<script src="../../core/Base58.js"></script>
+
+<script type="text/javascript">
+	var lan = getLanguage();
+	var clickedChain = "SFT";
+
+	var eye = 0;
+	    var balance_table = {};
+	    var balance_usdt = "";
+
+	    function showEye() {
+	    	// if(eye == 0) {
+	    	// 	document.getElementById('id_img_eye').src = "image/e_19.png";
+	    	// } else {
+	    	// 	document.getElementById('id_img_eye').src = "image/e_71.png";
+	    	// }
+	    	if(eye == 0) {
+		    	for(var key in balance_table) {
+		    		document.getElementById(key).innerHTML = balance_table[key];
+		    	}
+
+		    	if(balance_usdt != "" && balance_table["lab_balance"] != null) {
+		    		document.getElementById("lab_balance_usdt").innerHTML = "$ " + (balance_usdt * balance_table["lab_balance"]).toFixed(4);
+		    	}
+		    } else {
+		    	for(var key in balance_table) {
+		    		document.getElementById(key).innerHTML = "***";
+		    	}
+
+		    	document.getElementById("lab_balance_usdt").innerHTML = "***";
+		    }
+	    }
+
+	    window.hideBalance = function() {
+	    	setEye();
+	    	eye = getEye();
+	    	showEye();
+	    }
+
+	    window.onload = function() {
+	    	changeLang();
+
+	    	eye = getEye();
+
+	    	var chain = getActiveChain();
+	    	if(chain == null) {
+	    		chain = "SFT"
+	    	}
+	    	System.chain = chain;
+
+	    	var curr = getCurrent();
+	    	System.addr = curr.addr;
+
+	    	var other = getAnotherName(System.addr);
+	    	//document.getElementById("lab_name").innerHTML = (other == "") ? curr.name : other;
+	    	rpc_getBalance(curr.addr, function(data_bal) {
+	    		// document.getElementById("lab_balance").innerHTML = showAmount(data_bal);
+	    		// document.getElementById("lab_token_balance").innerHTML = showAmount(data_bal);
+
+	    		balance_table["lab_balance"] = showAmount(data_bal);
+	    		balance_table["lab_token_balance"] = showAmount(data_bal);
+
+	    		showEye();
+
+	    	}, function(err_bal) {
+
+	    	});
+
+	    	// setTimeout(function() {
+		    // 	proxyGetPrice(System.chain, function(data_price) {
+		    // 		balance_usdt = data_price.price;
+
+		    // 		showEye();
+		    // 	}, function(err_price) {
+
+		    // 	});
+		    // }, 150);
+
+    		if(chain == "SFT") {
+	    		$('.switchChain .chainIcon img')[0].click();
+	    	} else if(chain == "ETH") {
+	    		$('.switchChain .chainIcon img')[1].click();
+	    	} else if(chain == "BNB") {
+	    		$('.switchChain .chainIcon img')[2].click();
+	    	}
+
+	    	window.renderTokens();
+
+	    	var mycode = new QRCode(document.getElementById("myqrcode"), {
+				width: 150,
+				height: 150
+			});
+			mycode.makeCode(curr.addr);
+			$("#myqrcode img").addClass("qrcode_img");
+
+			document.getElementById("lab_recv_addr").innerHTML = lessAddr(curr.addr, 20);
+	    }
+
+	    window.copyAddr = function() {
+	    	var curr = getCurrent();
+	    	cordova.plugins.clipboard.copy(curr.addr, function(data_copy) {
+				showToast("success", lan.ALERT_COPY_OK);
+			}, function(err_copy) {
+				showToast("failure", err_copy);
+			});
+	    }
+
+	    var renderChainMenu = function(chain) {
+	    	document.getElementById("id_chain").innerHTML = chain;
+	    	document.getElementById("id_chain_1").innerHTML = chain;
+	    }
+
+	    var renderAddrsByChain = function(chain) {
+	    	var accs = getAccs();
+	    	var curr = getCurrent();
+
+	    	var sortedAccs = {};
+			var sss = localStorage.getItem('sortedAccs');
+			if(sss != null) {
+				sortedAccs = JSON.parse(sss);
+			}
+
+	    	if(accs != null) {
+
+	    		accs = merge_sorted_accs(accs, sortedAccs);
+
+	    		var html = ""
+	    		var j = 0;
+	    		for(var i = 0; i < accs.users.length; i++) {
+	    			if(accs.users[i].chain == chain) {
+	    				var showFlag = "none;";
+	    				if(accs.users[i].addr == curr.addr && accs.users[i].chain == System.chain) {
+	    					showFlag = "block;"
+	    				}
+
+	    				var other = getAnotherName(accs.users[i].addr);
+
+						html += `<div class="walletBox" onclick="javascript:window.changeUser('{2}','{0}','{3}')">
+					        <div>
+					          <p>{0}</p>
+					          <span>{1}</span>
+					        </div>
+					        <img src="../../assets/addAssets/choose.svg" alt="" style="display:{4}">
+					      </div>`.format((other == "") ? accs.users[i].name : other, lessAddr(accs.users[i].addr, 20), chain.toUpperCase(), accs.users[i].addr, showFlag);
+					}
+	    		}
+	    		document.getElementById("id_list_addr").innerHTML = html;
+
+	    	} else {
+	    		document.getElementById("id_list_addr").innerHTML = "";
+	    	}
+	    }
+
+	    var copy_clicked = false;
+
+	    window.changeUser = function(chain, name, addr) {
+	    	if(copy_clicked == false) {
+		    	setCurrent(name, addr);
+		    	setActiveChain(chain);
+		    	window.location.reload();
+		    } else {
+		    	copy_clicked = false;
+		    }
+	    }
+
+	    window.clickSFT = function() {
+	    	var chain = "SFT";
+	    	clickedChain = "SFT";  	
+	    	renderChainMenu(chain);
+	    	renderAddrsByChain(chain);
+	    }
+
+	    window.clickETH = function() {
+	    	var chain = "ETH";
+	    	clickedChain = "ETH";  	
+	    	renderChainMenu(chain);
+	    	renderAddrsByChain(chain);
+	    }
+
+	    window.clickBNB = function() {
+	    	var chain = "BNB";
+	    	clickedChain = "BNB";  	
+	    	renderChainMenu(chain);
+	    	renderAddrsByChain(chain);
+	    }
+
+	    window.clickScan = function() {
+			olinkScan("page-1");
+		}
+
+		window.clickCopyAddr = function(addr) {
+			copy_clicked = true;
+			cordova.plugins.clipboard.copy(addr, function(data_copy) {
+				toast(lan.ALERT_COPY_OK);
+			}, function(err_copy) {
+				toast(err_copy);
+			});
+		}
+
+		window.clickToken = function(symbol, token, decimal) {
+			setCurrentTokenType(symbol, token, "", decimal);
+			window.location.href = '../tokenDetails/index.html';
+		}
+
+		window.loadTokenBalance = function(token, decimal) {
+			rpc_ethCall(token, get_erc20_balance(System.addr), function(data_bal) {
+				balance_table["lab_token_balance_" + token] = showAmount(data_bal, decimal);
+				showEye();
+
+			}, function(err_symbol) {
+				
+			});
+		}
+
+		window.loadTokenImg = function(token) {
+			setTimeout(function() {
+				document.getElementById("id_img_token_" + token).src = "https://www.etherumgold.me/autoplay/token/" + System.chain + "/" + token + ".png";
+				// document.getElementById("id_img_token_" + token).addEventListener('error', function(e) {
+				// 	e.target.src = "image/e_70.png";
+				// })
+			}, 40);
+		}
+
+		window.renderTokens = function() {
+			var tokens = getTokenToCache();
+			if(tokens != null) {
+				var html = "";
+
+				for(var i = 0; i < tokens.tokenList.length; i++) {
+					if(tokens.tokenList[i].chain == System.chain) {
+						var tokenImg = ((tokens.tokenList[i].contrAddr == getUsdtAddr()) ? "image/usdt.png" : "image/e_70.png");
+
+						html += `<div class="assetsCell" onclick="javascript:window.clickToken('{0}','{1}',{3})">
+					        <div class="cellLeft">
+					          <img src="../../assets/index/rspdIcon.svg" alt="rspdIcon" id="id_img_token_{1}">
+					          <p>{0}</p>
+					        </div>
+					        <p class="cellNum" id="lab_token_balance_{1}">0</p>
+					      </div>`.format(tokens.tokenList[i].symbol, tokens.tokenList[i].contrAddr.toLowerCase(), tokenImg, tokens.tokenList[i].decimal);
+
+						var token = tokens.tokenList[i].contrAddr.toLowerCase();
+						var decimal = tokens.tokenList[i].decimal;
+						var inter = 1000 + 47 * (i + 1);
+						setTimeout(function(c, d) {
+							window.loadTokenBalance(c, d);
+							window.loadTokenImg(c);
+							
+						}(token, decimal), inter);
+					}
+				}
+
+				document.getElementById("id_list_tokens").innerHTML = html;
+			}
+		}
+
+		window.clickLink = function(router, callType) {
+			if(router == "") {
+				toast(lan.ALERT_UNOPENED);
+			} else {
+				if(callType == 0) {
+					setOpenLink(router);
+					window.location.href = "search.html";
+				} else if(callType == 1) { // OPEN OTHER APP
+					
+				}
+			}
+		}
+
+		window.createWallet = function() {
+			setCreatedChain(clickedChain);
+			window.location.href = "../creatWallet/index.html"
+		}
+
+		window.importWallet = function() {
+			setCreatedChain(clickedChain);
+			window.location.href = "../importWallet/index.html"
+		}
+
+		window.clickScan = function() {
+			olinkScan("page-1");
+		}
+
+		window.clickSend = function() {
+			setCurrentTokenType('0','0','',18);
+			window.location.href = "../directTransfer/index.html";
+		}
+</script>
+
+</html>

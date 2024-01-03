@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>send</title>
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+	<link rel="shortcut icon" href="/favicon.ico">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" type="text/css" href="./css/reset.css" />
+	<link rel="stylesheet" type="text/css" href="./css/nav.css" />
+	<link rel="stylesheet" type="text/css" href="./css/public.css" />
+	<link rel="stylesheet" type="text/css" href="./css/carryover.css" />
+	<link rel="stylesheet" type="text/css" href="css/jquery.range.css" />
+	<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/layui.all.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="cordova.js"></script>
+	<script src="core/babel-browser.min.js"></script>
+	<script src="core/bignumber.js"></script>
+	<script src="core/bitcore-mnemonic.js"></script>
+<!-- 	<script src="core/web3.min.js"></script> -->
+	<script src="core/Base58.js"></script>
+	<script src="core/lang/ch.js"></script>
+	<script src="core/lang/en.js"></script>
+	<script src="core/core.js"></script>
+	<style type="text/css">
+		.slider-container {
+			width: 100% !important;
+		}
+	</style>
+
+</head>
+
+<body>
+	<div class="eaaa" style="display: flex;flex-direction: column;height: 100vh;">
+		<header class="display_flex">
+			<a href="javascript:window.goBack();">
+				<img src="image/back_arrow.png">
+			</a>
+			<h1 class="flex_1 lang" key="LAB_SEND_TX">发起转账</h1>
+		</header>
+
+		<!-- <div class="carr_top">
+			<div class="n_smone">金额</div>
+			<div class="n_quota" id="input_value">100</div>
+			<div class="n_rec_input">
+				<input type="text" id="input_value" value="" placeholder=""/>
+			</div>
+		</div> -->
+		<div style="flex:1; overflow: auto;">
+			<div class="n_carry carry_bg">
+				<div class="n_recipient lang" style="margin: 0;" key="LAB_SEND_AMOUNT">数量</div>
+				<div class="n_rec_input n_rec_inputa">
+					<input type="text" id="input_value" value="" 
+						style="background-color: rgba(0,0,0,0); padding-left: 0.35rem;" placeholder="1.0" />
+					<div class="cleader">
+						<img src="image/delete.png">
+					</div>
+				</div>
+			</div>
+			<div class="n_carry">
+				<div class="n_recipient lang" key="LAB_SEND_RECEIVER">接受者地址</div>
+				<div class="n_rec_input n_rec_inputa">
+					<input type="text" id="input_to" value=""  placeholder="11111..." />
+					<div class="cleader">
+						<img src="image/delete.png">
+					</div>
+				</div>
+			</div>
+			<div class="n_carrt_border"></div>
+			<div class="n_carry_botom">
+				<div class="n_Initiator display_flex align-items_center">
+					<div class="n_Ini_name lang" key="LAB_SENDER">发起者</div>
+					<div class="flex_1" id="lab_addr">
+
+					</div>
+				</div>
+				<div class="n_charge display_flex align-items_center">
+					<div class="n_duie_name lang" key="LAB_SEND_FEE">手续费</div>
+					<div class="flex_1" id="fee">0.000387</div>
+				</div>
+
+				<div>
+
+					<input type="hidden" class="single-slider" value="0" />
+
+				</div>
+			</div>
+		</div>
+		<div class="n_arrty_btn ">
+			<button type="button" onclick="javascript:window.sendTx();" class="lang" key="BUT_SEND">发送</button>
+		</div>
+	</div>
+</body>
+<script src="js/jquery.range.js" type="text/javascript" charset="utf-8"></script>
+
+
+<script type="text/javascript">
+	// layer.open({
+	// 	title: '解锁密码',
+	// 	content: '<input type="password" placeholder="请输入密码"/>'
+	// });
+	$(".n_rec_inputa").on("input propertychange", function () { //获取input值
+		var inpa = $("#input_value").val();
+		var inpb = $("#input_to").val();
+		var inple1 = inpa.length;
+		var inple2 = is_eth_addr(Base58.toAddr(inpb));
+		if (inple1 == '0' || !inple2) {
+			$(".n_arrty_btn").find("button").removeClass("coloractive").attr('disabled', true);
+		} else {
+			$(".n_arrty_btn").find("button").addClass("coloractive").attr('disabled', false);
+		}
+	})
+</script>
+<script type="text/javascript">
+	(function () {
+		$('.eaaa').css({
+			height: $(window).height()
+		})
+		window.subDirEntry = null;
+
+		var gasPrice = 18;
+		var gasLimit = 21000;
+		var from = '';
+		var unlockPass = ""
+
+		var unitPrice = 0.000387;
+		var tokenType = "ays";
+		var ts = window.location.href.split('?');
+		if(ts.length > 1) {
+			var tss = ts[1].split('#');
+			if(tss.length > 0) {
+				tokenType = tss[0];
+			}
+		}
+
+		var data_count = {
+			height: -1,
+			count: 0
+		};
+
+		var orderPay = false;
+
+
+
+		$('.single-slider').jRange({
+			from: 0,
+			to: 1000,
+			step: 1,
+			scale: [0, 200, 400, 600, 800, 1000],
+			format: '%s',
+			width: 300,
+			showLabels: true,
+			showScale: true,
+			onstatechange: function () {
+				var prog = $('.single-slider').val();
+				gasPrice = 18 + parseInt(prog / 100);
+				document.getElementById('fee').innerHTML = (unitPrice * gasPrice / 18).toFixed(6);
+			}
+
+		});
+		$("#recipie").bind('input propertychange', function () {
+			if ($(this).val()) {
+				$('.n_arrty_btn>button').css("background-color", "#26AADE")
+				$(".cleader").show()
+			} else {
+
+				$(".cleader").hide()
+				$('.n_arrty_btn>button').css("background-color", "#D7E5EA")
+
+			}
+		})
+		$(".cleader").on("click", function () {
+			$(this).hide()
+			$(this).siblings().children().val('')
+			$('.n_arrty_btn>button').css("background-color", "#D7E5EA")
+		})
+
+		window.goBack = function() {
+			var ps = window.location.href.split('#')
+			//alert(JSON.stringify(ps))
+			if(ps.length > 2) {
+				window.location.href = "power.html";
+			} else {
+				window.location.href = "wallet.html#" + tokenType;
+			}
+		}
+
+		window.load = function () {
+			window.subDirEntry.getFile("priv_" + System.accName, {
+				create: false,
+				exclusive: false
+			}, function (fileEntry) {
+				fileEntry.name == "priv_" + System.accName;
+				fileEntry.fullPath = "dnp/assets/priv_" + System.accName;
+
+				fileEntry.file(function (fileReader) {
+					readCore(fileReader, function (res) {
+						var cont = JSON.parse(res);
+						var priv = cont.priv;
+						unlockPass = cont.pass;
+
+						var wallet = Yoethwallet.wallet;
+						wallet.fromPrivateKey(priv, function (err, keystore) {
+							if (err) {
+								alert(err.message);
+								return
+							}
+							System.priv = keystore.getPrivateKey();
+						})
+					})
+					//alert(fileReader);
+				}, function (err) {
+					alert(err);
+				})
+			}, function (err) {
+				alert(err.toString());
+			})
+		}
+
+		var lan = getLanguage();
+
+		window.onload = function () {
+			changeLang();
+			var current = getCurrent();
+			System.accName = current.name;
+			System.addr = current.addr;
+			//var pass = getPass(System.addr);
+			//var priv = getPriv(System.addr);
+			document.getElementById("lab_addr").innerHTML = lessAddr(System.addr, 40);
+
+			// 加载外部参数
+			var ps = window.location.href.split('#')
+			if (ps.length > 1) {
+				var pss = ps[1].split(',');
+				if(pss.length == 2) {
+					var to = pss[0]
+					var v = pss[1]
+					document.getElementById('input_to').value = to;
+					document.getElementById("input_value").value = v;
+
+					document.getElementById('input_value').disabled = "disabled";
+					document.getElementById('input_to').disabled = "disabled";
+
+					orderPay = true;
+
+					$(".n_arrty_btn").find("button").addClass("coloractive").attr('disabled', false);
+
+				} else if(pss.length == 1) {
+					var to = pss[0];
+					document.getElementById('input_to').value = to;
+				}
+			}
+		}
+
+		var inputPass = "";
+		window.changeInputPass = function() {
+			inputPass = document.getElementById("layer_unlock_pass").value;
+		}
+
+		window.sendTx = function () {
+
+			var from = System.addr;
+			var to = document.getElementById('input_to').value;
+			var amount = document.getElementById('input_value').value;
+			// var gasPrice = document.getElementById('input_gasPrice').value;
+			// var gasLimit = document.getElementById('input_gas').value;
+			//gasPrice = 70
+
+			if (!is_eth_addr(from)) {
+				alert(lan.ALERT_INVALID_SENDER);
+				return;
+			}
+			if (!is_eth_addr(Base58.toAddr(to))) {
+				alert(lan.ALERT_INVALID_RECEIVER);
+				return;
+			}
+			if (!is_number(amount)) {
+				alert(lan.ALERT_INVALID_AMOUNT);
+				return;
+			}
+			if (!is_int(gasPrice)) {
+				alert(lan.ALERT_INVALID_GASPRICE);
+				return;
+			}
+			if (!is_int(gasLimit)) {
+				alert(lan.ALERT_INVALID_GASLIMIT);
+				return;
+			}
+
+
+			//var k = genSendData(to, amount);
+
+
+			layer.open({
+				title: lan.TITLE_PASSWORD,
+				content: '<input type="password" id="layer_unlock_pass" placeholder="' + lan.TITLE_PASSWORD_HOLD + '" onchange="javascript:window.changeInputPass();"/>',
+				//closeBtn: 0,
+				yes: function(index, layero) {
+					layer.close(index);
+					//var inputPass = document.getElementById("layer_unlock_pass").value;
+					if (inputPass != unlockPass) {
+						alert(lan.ALERT_INVALID_PASS)
+						return;
+					}
+
+					var na = convertToAmount(amount, true);
+					var np = convertToGasPrice(gasPrice, true);
+					var nl = convertBigNumber(gasLimit, true);
+
+					//alert("gasp=" + gasPrice + ",gasl=" + gasLimit + ",tokenType=" + tokenType);
+
+					dnp_blockNumber(function (height) {
+						dnp_getBalance(System.addr, height, function (data) {
+							// var ban = new BigNumber(data);
+							// if(ban < na) {
+							//     alert("余额不足");
+							//     return;
+							// }
+							var hei = height;
+							dnp_getTransactionCount(System.addr, hei, function (data_c) {
+
+								if (data_count.height == hei) {
+
+								} else {
+									data_count.height = hei;
+									data_count.count = data_c
+								}
+
+								var tx = Yoethwallet.tx;
+
+								var signedTransaction = "";
+
+								if(tokenType == "ays") {
+									var valueTx = tx.valueTx({
+										from: from,
+										to: Base58.toAddr(to),
+										value: na,
+										nonce: data_count.count,
+										gas: nl,
+										gasPrice: np,
+										fee: 0,
+										chainId: 415
+									});
+									valueTx.sign(System.priv);
+									signedTransaction = '0x' + valueTx.serialize().toString('hex');
+								} 
+								//var sadr = valueTx.getSenderAddress().toString('hex');
+								
+								//alert(signedTransaction);
+								
+								dnp_sendRawTransaction(signedTransaction, function (data_tx) {
+									data_count.count++;
+									var now = getNow();
+									var value = (amount);
+									newSent(now, from, to, value, data_tx, tokenType);
+									alert(lan.ALERT_SEND_OK);
+
+									document.getElementById('input_value').value = "";
+									$(".n_arrty_btn").find("button").removeClass("coloractive").attr('disabled', true);
+
+									if(orderPay) {
+										setOrderPay(System.addr.substr(2));
+										window.location.href = "power.html";
+									}
+
+								}, function (err) {
+									alert(err);
+								});
+							}, function (err) {
+								alert(lan.ALERT_NET_ERR);
+							})
+
+						}, function (err) {
+							alert(lan.ALERT_NET_ERR);
+						})
+					}, function (err) {
+						alert(lan.ALERT_NET_ERR);
+					})
+				}
+			});
+
+			document.getElementsByClassName("layui-layer-btn0")[0].innerHTML = "OK";
+
+		}
+
+
+	})()
+
+	var app = {
+		// Application Constructor
+		initialize: function () {
+			document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+		},
+
+		// deviceready Event Handler
+		//
+		// Bind any cordova events here. Common events are:
+		// 'pause', 'resume', etc.
+		onDeviceReady: function () {
+			//this.receivedEvent();
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+				//alert(fs.name);
+				fs.root.getDirectory('dnp', {
+					create: true
+				}, function (dirEntry) {
+					dirEntry.getDirectory('assets', {
+						create: true
+					}, function (sub) {
+						window.subDirEntry = sub;
+						//alert("加载成功: " + subDirEntry.name)
+						window.load();
+					}, function (err) {
+						alert(err);
+					})
+				}, function (err) {
+					alert(err);
+				})
+			}, function (err) {
+				alert(err);
+			})
+		},
+	};
+
+	app.initialize();
+</script>
+
+
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Login</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<link rel="shortcut icon" href="/favicon.ico">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="./css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="./css/nav.css" />
+		<link rel="stylesheet" type="text/css" href="./css/public.css" />
+		<link rel="stylesheet" type="text/css" href="./css/register.css" />
+		<link rel="stylesheet" type="text/css" href="./css/record.css" />
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="n_screen">
+			<div class="n_sclose">
+				<img src="image/close.png">
+			</div>
+			<div class="n_logo">
+				<img src="image/LOGO.png">
+			</div>
+			<div class="display_flex n_logon-title align-items_center">
+				<div class="n_register" style=" width: 2.54rem;"><a href="record.html" style="color: #FFFFFF;" class="lang" key="LAB_LOGIN">Login</a></div>
+				<div class="n_record"><a href="register.html" style="color: #FFFFFF;" class="lang" key="LAB_REGISTER">Register</a></div>
+			</div>
+		</div>
+		<div class="n_frorom">
+			<div class="display_flex n-item align-items_center">
+				<div class="n_img">
+					<img src="image/user.png">
+				</div>
+				<div class="flex_1 n-right">
+					<input type="text" name="" id="input_name" value="" placeholder="Account Name" />
+				</div>
+				<div class="n_delet">
+					<img src="image/delete.png">
+				</div>
+			</div>
+			<div class="display_flex n-item align-items_center">
+				<div class="n_img">
+					<img src="image/passward.png">
+				</div>
+				<div class="flex_1 n-right">
+					<input type="password" name="" id="input_pass" value="" placeholder="Password" />
+				</div>
+			</div>
+			<div class="n_btn share-btn-box">
+				<button type="button" class="n_submit" onclick="javascript:window.login();" key="BUT_LOGIN">Login</button>
+			</div>
+		</div>
+
+	</body>
+	<script type="text/javascript" src="cordova.js"></script>
+	<script src="core/babel-browser.min.js"></script>
+	<script src="core/bitcore-mnemonic.js"></script>
+	<script src="core/Base58.js"></script>
+	<script src="core/lang/ch.js"></script>
+	<script src="core/lang/en.js"></script>
+	<script src="core/core.js"></script>
+	<script>
+		(function() {
+			var win_h = $(window).height();
+			window.addEventListener('resize', function () {
+			    if($(window).height() < win_h){
+			        $('.share-btn-box').hide();
+			    }else{
+			        $('.share-btn-box').show();
+			    }
+			});
+			$("#name").bind('input propertychange', function() {
+				if ($(this).val()) {
+					$('.n_submit').css("background-color", "#26AADE")
+					$(".n_delet").show()
+				} else {
+				
+					$(".n_delet").hide()
+					$('.n_submit').css("background-color", "#D7E5EA")
+
+				}
+			})
+			$(".n_delet").on("click", function() {
+				$(this).hide()
+				$(this).siblings().children().val('')
+				$('.n_submit').css("background-color", "#D7E5EA")
+			})
+
+			window.subDirEntry = null;
+
+			var lan = getLanguage();
+
+			window.onload = function() {
+				changeLang();
+				if (isNew()) {
+					window.location.href = "register.html"
+				} else {
+
+					var current = getCurrent();
+					if (current != null) {
+						document.getElementById('input_name').value = current.name;
+
+						var a = getIndex();
+						if(a == 0) {
+							window.location.href = "wallet_main.html"
+						}
+					}
+				}
+
+				//document.getElementById("input_name").value = "aaa";
+
+			}
+
+			window.goback = function() {
+				// var a = getIndex();
+				// if(a == 0) {
+				// 	return;
+				// }
+				// window.location.href = "main.html"
+				navigator.Backbutton.goHome(function() {
+	                //console.log('go home success');
+	                //alert("yes")
+	            }, function() {
+	                //console.log('go home fail');
+	                //alert("no")
+	            });
+			}
+
+			window.login = function() {
+				// var current = getCurrent();
+				// var accName = current.name;
+				var accName = document.getElementById("input_name").value;
+				var accs = getAccs();
+				if (accs == null) {
+					alert(lan.ALERT_ACCOUNT_EXISTS);
+					return;
+				}
+				var addr = '';
+				for (var i = 0; i < accs.users.length; i++) {
+					if (accs.users[i].name == accName) {
+						addr = accs.users[i].addr;
+						break;
+					}
+				}
+				if (addr == '') {
+					alert(lan.ALERT_NAME_INVALID);
+					return;
+				}
+				var pass = document.getElementById('input_pass').value;
+
+				window.subDirEntry.getFile("priv_" + accName, {create: false, exclusive: false}, function (fileEntry) {
+				 	fileEntry.name == "priv_" + accName;
+				 	fileEntry.fullPath = "dnp/assets/priv_" + accName;
+
+				 	fileEntry.file(function (fileReader) {
+
+				 		readCore(fileReader, function(res) {
+				 			var cont = JSON.parse(res);
+				 			if (cont.pass != pass) {
+				 				alert(lan.ALERT_INVALID_PASS);
+				 				return;
+				 			}
+
+				 			setIndex(0);
+
+				 			System.addr = addr;
+				 			System.accName = accName;
+				 			setCurrent(accName, addr);
+				 			window.location.href = "wallet_main.html"
+				 		})
+				 		//alert(fileReader);
+				 	}, function(err) {
+				 		alert(err);
+				 	})
+				 }, function(err) {
+				 	alert(err.toString());
+				 })
+			}
+
+		})()
+
+
+		var app = {
+	      // Application Constructor
+	      initialize: function () {
+	        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+	      },
+
+	      // deviceready Event Handler
+	      //
+	      // Bind any cordova events here. Common events are:
+	      // 'pause', 'resume', etc.
+	      onDeviceReady: function () {
+	        //this.receivedEvent();
+	        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
+	        	//alert(fs.name);
+	        	fs.root.getDirectory('dnp', {create: true}, function (dirEntry) {
+	        		dirEntry.getDirectory('assets', {create: true}, function (sub) {
+	        			window.subDirEntry = sub;
+	        			//alert("加载成功: " + subDirEntry.name)
+	        		}, function(err) {
+	        			alert(err);
+	        		})
+	        	}, function(err) {
+	        		alert(err);
+	        	})
+	        }, function(err) {
+	        	alert(err);
+	        });
+
+	        document.addEventListener("backbutton", function() {
+	        	navigator.Backbutton.goHome(function() {
+	                //console.log('go home success');
+	                //alert("yes")
+	            }, function() {
+	                //console.log('go home fail');
+	                //alert("no")
+	            });
+	        }, false);
+	      },
+	    };
+
+	    app.initialize();
+
+
+		
+	</script>
+
+</html>

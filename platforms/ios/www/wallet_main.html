@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Wallet main</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<link rel="shortcut icon" href="/favicon.ico">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="./css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="./css/nav.css" />
+		<link rel="stylesheet" type="text/css" href="./css/public.css" />
+		<link rel="stylesheet" type="text/css" href="./css/power.css" />
+		<script type="text/javascript" src="cordova.js"></script>
+		<script src="js/layui.all.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="core/bignumber.js"></script>
+		<script src="core/Base58.js"></script>
+		<script src="core/lang/ch.js"></script>
+		<script src="core/lang/en.js"></script>
+		<script src="core/core.js"></script>
+	</head>
+	<body>
+
+		<div class="n-top display_flex align-items_center">
+			<div class="n_left_img n_four">
+				<img src="image/more.png">
+			</div>
+			<div class="n_rjght_name flex_1" id="lab_myname">hi,16723123412</div>
+		</div>
+		<div class="n_info">
+			<div class="display_flex justify-content_flex-justify">
+				<div class="n_box">
+					<div class="n_title"><p style="font-size: 20px;font-weight:700;" class="lang" key="LAB_XDN_WALLET">AYS 钱包</p></div>
+					<div class="m_nunber" id="lab_addr">aaaaaaaaaaaaaaaaaaaaaaa
+						<img src="image/copy.png" width="30" height="30" id="copy">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="n_Profit">
+			<div class="display_flex align-items_center">
+				<div class="my_rofit"><p style="font-size: 20px" class="lang" key="LAB_ASSETS">资产</p></div>
+			</div>
+		</div>
+		<div class="n_apply-record">
+			<div class="content products">
+				<div class="mainCont selected">
+					<ul>
+						<li class="display_flex align-items_center" onclick="javascript:window.clickAys();">
+							<div class="n_foter_img">
+								<img src="image/dnp.png" width="40" height="40">
+							</div>
+							<div class="n_select_name flex_1">AYS</div>			
+							<div class="bottom" id="lab_dnp_balance">
+								0.000
+							</div>
+						</li>
+
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<!-- 切换用户名 -->
+		<div class="n_index_nav n_payy_user">
+			<div class="n_centent">
+				<div class="n_cshe">
+					<div class="n_zhec">
+						<p class="lang" key="LAB_CHANGE_ACCOUNT">切换账户</p>
+						<div class="zheclase">
+							<img src="image/closee.png">
+						</div>
+					</div>
+					<div class="m_listt n_payy_userlist">
+
+						<ul id="id_userlist">
+
+						</ul>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- END -->
+		<!-- END -->
+		<div class="n_footer display_flex justify-content_flex-end">
+			<div class="n_boxx flex_1" onclick="javascript:window.location.href='wallet_main.html'">
+
+				<div class="n_foter_img">
+					<img src="image/money_se.png">
+				</div>
+				<div class="n_title lang" key="LAB_WALLET">钱包</div>
+
+
+			</div>
+			<div class="n_boxx flex_1" onclick="javascript:window.location.href='power.html'">
+
+				<div class="n_foter_img">
+					<img src="image/moner.png">
+				</div>
+				<div class="n_title lang" key="LAB_APPLICATION">应用</div>
+
+
+			</div>
+			<div class="n_boxx flex_1" onclick="javascript:window.location.href='my.html'">
+
+				<div class="n_foter_img">
+					<img src="image/mine_nor.png">
+				</div>
+				<div class="n_title lang" key="LAB_MY">我的</div>
+
+			</div>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		var win_h = $(window).height();
+		window.addEventListener('resize', function () {
+		    if($(window).height() < win_h){
+		        $('.share-btn-box').hide();
+		    }else{
+		        $('.share-btn-box').show();
+		    }
+		});
+		$(".np_input").on("input propertychange",function(){//获取input值
+
+		})
+
+		$(function(){
+			// var  inptext = $("#lab_total_price").text();
+			// if( inptext == " "){
+			// 	$(".n_btn_xiadanc").find("button").removeClass("coloractive").attr('disabled',true);
+			// }else{
+			// 	$(".n_btn_xiadanc").find("button").addClass("coloractive").attr('disabled',false);
+			// }
+			// console.log(inptext)
+		});
+		
+
+
+	</script>
+
+	<script type="text/javascript">
+		(function() {
+			var jixings = "";
+			var years = "";
+			var yearNum = 1;
+			var yearTable = {};
+
+			var canPay = false;
+			var myBalance = 0;
+
+			function nfalv() {
+				$(".n_falv").addClass("on")
+				// $("body").addClass("n_hidden")
+			}
+			nfalv()
+			// 获取.mask中span值即可
+			$('.n_circle').each(function(index, el) {
+				var num = $(".n_munber").find('span').text() * 3.6;
+				if (num <= 180) {
+					$(this).find('.n_right').css('transform', "rotate(" + num + "deg)");
+				} else {
+					$(this).find('.n_right').css('transform', "rotate(180deg)");
+					$(this).find('.n_left').css('transform', "rotate(" + (num - 180) + "deg)");
+				};
+			});
+			$(".n_apply-record .tab .tab-item").click(function() {
+				//$(this).addClass("active").siblings().removeClass("active");
+				//$(".products .mainCont").eq($(this).index()).show().siblings().hide();
+			})
+			$("body").on("click", ".n_one", function() {
+				$(".n_jixingah").addClass("on")
+				$("body").addClass("n_hidden")
+
+			})
+
+			$("body").on("click", ".n_four", function() {
+				$(".n_payy_user").addClass("on")
+				$("body").addClass("n_hidden")
+
+			})
+			$(".n_payy_userlist ul li").on("click", function() {
+				$(this).find(".n_usre").addClass("n_showP")
+				$(this).siblings().find(".n_usre").removeClass("n_showP")
+			})
+			$("body").on("click", ".n_three", function() {
+
+				$(".n_payoff").addClass("on")
+				$("body").addClass("n_hidden")
+
+			})
+				$("body").on("click", ".n_cshe .m_list ul li", function() {
+				$(this).find(".n_usre").addClass("n_showP")
+				 $(this).siblings().find(".n_usre").removeClass("n_showP")
+				  $("body").removeClass("n_hidden")
+
+			})
+
+			// $(".n_cshe .m_list ul li").on("click", function() {
+			// 	// $(this).find(".n_usre").addClass("n_showP")
+			// 	// $(this).siblings().find(".n_usre").removeClass("n_showP")
+			// 	console.log("1111111111111111111111111111")
+			// 	// $("body").removeClass("n_hidden")
+			// })
+			$("body").on("click", ".zheclase,.btn_one,.coslere", function() {
+				$(".n_jixingah").removeClass("on")
+				$(".n_zhouq").removeClass("on")
+				$(".n_payoff").removeClass("on")
+				$(".n_payy_user").removeClass("on")
+				$("body").removeClass("n_hidden")
+				$(".n_falv").removeClass("on")
+
+			})
+			 $("body").on("click",".n_account>li",function(){
+				$("#marking").val($(this).find(".name").text())
+				$(".n_jixingah").removeClass("on");
+				var rj = renderJixings(jixings, $(this).find(".name").text());
+				document.getElementById("id_jixings").innerHTML = rj[0];
+
+			 })
+
+
+			 $("body").on("click",".cycle>li",function(){
+				$("#revolution").val($(this).find(".name").text())
+				$(".n_zhouq").removeClass("on");
+				var ry = renderYears(years, $(this).find(".name").text());
+				document.getElementById("id_years").innerHTML = ry[0];
+				yearTable = ry[2];
+				yearNum = yearTable[$(this).find(".name").text()];
+				updatePrice();
+				if(myBalance >= yearNum * power * price + power * pledge) {
+					canPay = true;
+				} else { 
+					canPay = false;
+				}
+			 })
+
+
+			$("body").on("click", ".n_two", function() {
+				$(".n_zhouq").addClass("on")
+				$("body").addClass("n_hidden")
+
+			})
+			$(".n_payy_userlist ul li").on("click", function() {
+				$(this).find(".n_usre").addClass("n_showP")
+				$(this).siblings().find(".n_usre").removeClass("n_showP")
+			})
+
+
+			$(".agree").on("click", function() {//弹窗不再提示
+				localStorage.setItem("check", 'true')
+				$(".n_falv").removeClass("on");
+			})
+
+			var ehecked = localStorage.getItem("check")//存入缓存
+			if( ehecked == null ){
+				$(".n_falv").addClass("on");
+				
+			}else{
+				$(".n_falv").removeClass("on");
+			}
+			
+			window.clickCloseLaw = function() {
+				window.location.href = "wallet.html";
+			}
+
+			window.clickOkLaw = function() {
+				setLaw();
+				document.getElementById('id_show_law').style.display = "none";
+			}
+
+			var list = [];
+
+			window.onload = function() {
+				changeLang();
+				var current = getCurrent();
+				System.accName = current.name;
+				System.addr = current.addr;
+
+				document.getElementById("lab_myname").innerHTML = System.accName;
+				document.getElementById("lab_addr").innerHTML = lessAddr(System.addr, 26) + '<img src="image/copy.png" width="35" height="35" id="copy">';
+
+				var curr = current;
+				var accs = getAccs();
+				var htmlAccs = "";
+
+				// 显示余额
+				dnp_getBalance(System.addr, "latest", function (data) {
+		            var ban = new BigNumber(data);
+		            ban = ban / (1e+18);
+		            //document.getElementById('label_balance').innerHTML = '<span color="color:#fff;font-size:27px">' + ban.toFixed(3) + "</span>";
+		            document.getElementById('lab_dnp_balance').innerHTML = ban.toFixed(3);
+		          }, function (err) {
+		            //alert('连接网络失败');
+		          })
+
+
+				//alert(JSON.stringify(accs));
+				// 账户列表
+				for (var i = 0; i < accs.users.length; i++) {
+					list[i] = {
+						addr: accs.users[i].addr,
+						accName: accs.users[i].name
+					};
+					var state = ""
+					var click = "javascript:window.nochange();"
+					if (accs.users[i].addr != curr.addr || accs.users[i].name != curr.name) {
+						state = "none"
+						click = "javascript:window.change(" + i + ");"
+					}
+
+					htmlAccs += '<li> \
+										<div class="display_flex align-items_center n_pauser_top" onclick="{3}"> \
+											<div class="n_img"> \
+												<img src="image/user.png"> \
+											</div> \
+											<div class="n_righr flex_1"> \
+												<div class="display_flex"> \
+													<div class="n_petname lang" key="LAB_ACCNAME">账号昵称</div> \
+													<div class="n_sketch">{0}</div> \
+												</div> \
+											</div> \
+										</div> \
+										<div class="display_flex align-items_center n_pauser_buttom"> \
+											<div class="n_img"> \
+												<img src="image/adress.png"> \
+											</div> \
+											<div class="n_righrtt flex_1"> \
+												<div class="display_flex"> \
+													<div class="n_title lang" key="LAB_ADDRESS">地址</div> \
+													<div class="n_name n_ellipsis flex_1">{1}</div> \
+												</div> \
+											</div> \
+										</div> \
+										<div class="n_usre n_showP lang" key="LAB_USING" style="display:{2}">使用中</div> \
+									</li>'.format(list[i].accName, Base58.fromAddr(list[i].addr), state, click)
+
+
+					document.getElementById("id_userlist").innerHTML = htmlAccs;
+				}
+
+				changeLang();
+			}
+
+			window.nochange = function() {
+
+			}
+
+			var inputPass = "";
+			window.changeInputPass = function() {
+				inputPass = document.getElementById("layer_unlock_pass").value;
+			}
+
+			var lan = getLanguage();
+
+			window.change = function(i) {
+				//var pass = prompt("请输入解锁密码", "");
+				layer.open({
+					title: lan.TITLE_PASSWORD,
+					content: '<input type="password" id="layer_unlock_pass" placeholder="' + lan.TITLE_PASSWORD_HOLD + '" onchange="javascript:window.changeInputPass();"/>',
+					//closeBtn: 0,
+					yes: function(index, layero) {
+						layer.close(index);
+						var pass = inputPass
+						window.subDirEntry.getFile("priv_" + list[i].accName, {create: false, exclusive: false}, function (fileEntry) {
+						 	fileEntry.name == "priv_" + list[i].accName;
+						 	fileEntry.fullPath = "dnp/assets/priv_" + list[i].accName;
+
+						 	fileEntry.file(function (fileReader) {
+
+						 		readCore(fileReader, function(res) {
+						 			var cont = JSON.parse(res);
+						 			if (cont.pass != pass) {
+						 				alert(lan.ALERT_INVALID_PASS);
+						 				return;
+						 			}
+						 			System.addr = list[i].addr;
+						 			System.accName = list[i].accName;
+						 			setCurrent(list[i].accName, list[i].addr);
+						 			window.location.href = "wallet_main.html"
+
+						 		})
+						 	}, function(err) {
+						 		alert(err);
+						 	})
+						 }, function(err) {
+						 	alert(err.toString());
+						 })
+					}
+				})
+
+				document.getElementsByClassName("layui-layer-btn0")[0].innerHTML = "OK";
+			}
+
+			window.clickAys = function() {
+				window.location.href = "wallet.html#ays"
+			}
+
+			// window.clickCopy = function() {
+			// 	var text = System.addr.substr(2);
+		 //        cordova.plugins.clipboard.copy(text, function(data){
+		 //          alert('复制成功')
+		 //        }, function(err){alert(err)})
+
+			// }
+		})()
+
+		var app = {
+	      // Application Constructor
+	      initialize: function () {
+	        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+	      },
+
+	      // deviceready Event Handler
+	      //
+	      // Bind any cordova events here. Common events are:
+	      // 'pause', 'resume', etc.
+	      onDeviceReady: function () {
+	        this.receivedEvent();
+	        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
+	        	//alert(fs.name);
+	        	fs.root.getDirectory('dnp', {create: true}, function (dirEntry) {
+	        		dirEntry.getDirectory('assets', {create: true}, function (sub) {
+	        			window.subDirEntry = sub;
+	        			//alert("加载成功: " + subDirEntry.name)
+	        		}, function(err) {
+	        			alert(err);
+	        		})
+	        	}, function(err) {
+	        		alert(err);
+	        	})
+	        }, function(err) {
+	        	alert(err);
+	        })
+
+	        document.addEventListener("backbutton", function() {
+	         	// window.location.href = "wallet_main.html";
+	         	navigator.Backbutton.goHome(function() {
+	                //console.log('go home success');
+	                //alert("yes")
+	                //window.location.href = "wallet_main.html";
+	            }, function() {
+	                //console.log('go home fail');
+	                //alert("no")
+	            });
+	        }, false);
+	    },
+
+	        receivedEvent: function () {
+		        var copy = document.getElementById('copy');
+		        copy.onclick = function() {
+		        	//alert("copy");
+		          //var text = document.getElementById('address').innerHTML;
+		          var text = Base58.fromAddr(System.addr);
+			        cordova.plugins.clipboard.copy(text, function(data){
+			          alert("Copied")
+			        }, function(err){alert(err)})
+
+		        }
+		  
+	      },
+	    };
+
+	    app.initialize();
+	</script>
+</html>

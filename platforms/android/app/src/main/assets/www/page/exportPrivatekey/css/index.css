@@ -1,0 +1,114 @@
+html {
+  background: #F5F5F5;
+}
+html .header {
+  width: 10rem;
+  height: 1.6rem;
+  flex-shrink: 0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4267rem;
+  box-sizing: border-box;
+}
+html .header img {
+  width: 0.74667rem;
+  height: 0.74667rem;
+  flex-shrink: 0;
+}
+html .header p {
+  color: #181719;
+  text-align: center;
+  font-size: 0.45333rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0.45333rem;
+}
+html .container {
+  margin-top: 0.43rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+html .container .transactionStatus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+html .container .transactionStatus .statusTop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.43rem;
+}
+html .container .transactionStatus .statusTop img {
+  width: 1.86667rem;
+  height: 1.86667rem;
+  flex-shrink: 0;
+}
+html .container .transactionStatus .statusTop p {
+  color: #181719;
+  text-align: center;
+  font-size: 0.42667rem;
+  font-style: normal;
+  font-weight: 600;
+  margin-top: 0.43rem;
+}
+html .container .transactionStatus .transactionNum {
+  color: #181719;
+  text-align: right;
+  font-family: DIN Alternate;
+  font-size: 0.96rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 0.96rem;
+  margin-top: 0.43rem;
+}
+html .container .privateKeyCell {
+  display: flex;
+  width: 9.14667rem;
+  flex-shrink: 0;
+  border-radius: 0.37333rem;
+  background: #FFF;
+  box-sizing: border-box;
+  padding: 0.43rem;
+  margin-top: 0.43rem;
+}
+html .container .privateKeyCell p {
+  color: #181719;
+  font-size: 0.42667rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0.48rem;
+}
+html .container .privateKeyCell input {
+  width: 0.58667rem;
+  height: 0.58667rem;
+}
+html .container .nextBtn {
+  width: 9.14667rem;
+  height: 1.33333rem;
+  flex-shrink: 0;
+  border-radius: 0.32rem;
+  background: #FFD12C;
+  border: none;
+  color: #090B0E;
+  font-size: 0.42667rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0.42667rem;
+  margin-top: 1.07rem;
+}
+html .footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 2.24rem;
+  background-color: #fff;
+  padding: 0 0.59rem;
+  box-sizing: border-box;
+}

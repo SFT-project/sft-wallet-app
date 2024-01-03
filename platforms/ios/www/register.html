@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Register</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<link rel="shortcut icon" href="/favicon.ico">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="./css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="./css/nav.css" />
+		<link rel="stylesheet" type="text/css" href="./css/public.css" />
+		<link rel="stylesheet" type="text/css" href="./css/register.css" />
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="eaaa" style="display: flex;flex-direction: column;height: 100vh;">
+			<div style="flex:1">
+				<div class="n_screen">
+					<div class="n_sclose">
+						<!-- <img src="image/close.png" > -->
+					</div>
+					<div class="n_logo">
+						<img src="image/LOGO.png" >
+					</div>
+					<div class="display_flex n_logon-title align-items_center">
+						<div class="n_record"><a href="record.html" style="color: #FFFFFF;" class="lang" key="LAB_LOGIN">Login</a></div>
+						<div class="n_register"><a href="register.html" style="color: #FFFFFF;" class="lang" key="LAB_REGISTER">Register</a></div>
+					</div>
+				</div>
+				<div class="n_frorom">
+					<div class="display_flex n-item align-items_center">
+						<div class="n_img">
+							<img src="image/user.png" >
+						</div>
+						<div class="flex_1 n-right inpval">
+							<input type="text" name="" id="input_name" value="" placeholder="Account Name"/>
+						</div>
+					</div>
+					<div class="display_flex n-item align-items_center">
+						<div class="n_img">
+							<img src="image/passward.png" >
+						</div>
+						<div class="flex_1 n-right">
+							<input type="password" name="" id="input_pass" value="" placeholder="Password"/>
+						</div>
+					</div>
+
+					
+
+					<div class="n_btn share-btn-box">
+						<button type="button" class="lang" key="BUT_REGISTER" onclick="javascript:window.create();">Register</button>
+					</div>
+
+					<!-- <div class="n_btn share-btn-box">
+						<button type="button" class="" onclick="javascript:window.create();">快速恢复</button>
+					</div> -->
+
+					<div class="n_fast" style="margin-top: 20px; margin-bottom: 5px">
+						
+						<a class="lang" key="BUT_QUICK_RECOVERY" href="recovery.html#aaa" style="font-size: 15px" >Quick Recovery</a>
+					</div>
+
+					<div class="n_fast" style="margin-top: 12px; margin-bottom: 5px">
+						
+						<a class="lang" key="BUT_SET_LANG" href="lan.html#reg" style="font-size: 12px" >Set Language</a>
+					</div>
+
+				</div>
+			</div>
+<!-- 			<div class="n_fast">
+					<a href="javascript:window.clickImport();" >快速导入</a>
+			</div> -->
+		</div>
+	
+	</body>
+	<script type="text/javascript" src="cordova.js"></script>
+	<script src="core/babel-browser.min.js"></script>
+	<script src="core/bitcore-mnemonic.js"></script>
+	<script src="core/Base58.js"></script>
+	<script src="core/lang/ch.js"></script>
+	<script src="core/lang/en.js"></script>
+	<script src="core/core.js"></script>
+
+	<script type="text/javascript">
+		$(".inpval").on("input propertychange",function(){//获取input值
+			var inpa = $("#input_name").val();
+			var inple = inpa.length;
+			if( inple == '0' ){
+				$(".n_btn").find("button").removeClass("coloractive").attr('disabled',true);
+			}else{
+				$(".n_btn").find("button").addClass("coloractive").attr('disabled',false);
+			}
+		})
+
+
+	</script>
+	<script type="text/javascript">
+		(function() {
+			var win_h = $(window).height();
+			window.addEventListener('resize', function () {
+			    if($(window).height() < win_h){
+			        $('.share-btn-box').hide();
+			    }else{
+			        $('.share-btn-box').show();
+			    }
+			});
+			window.subDirEntry = null;
+			$('.eaaa').css({height: $(window).height()})
+
+			window.onload = function() {
+				changeLang();
+			}
+
+			var lan = getLanguage();
+
+			window.create = function() {
+
+				var accName = document.getElementById('input_name').value;
+				var pass = document.getElementById('input_pass').value;
+
+
+				if(accName == "") {
+					//alert("帐户名不能为空");
+					return;
+				}
+
+				// 判断用户名
+				if (nameInAccs(accName)) {
+					alert(lan.ALERT_ACCOUNT_EXISTS);
+					return;
+				}
+
+				var hdPathString = 'm/44\'/60\'/0\'/0';
+
+				var wallet = Yoethwallet.wallet;
+
+				//document.getElementById("input_name").value = wallet;
+
+				wallet.generate('', hdPathString, function(err, keystore) {
+					if (err) {
+						alert(err.message);
+						return
+					}
+
+					var privKey = keystore.getPrivateKey();
+					var addr = keystore.getHexAddress(true);
+
+					newAcc(accName, addr);
+					//setPriv(addr, privKey);
+					setCurrent(accName, addr);
+					//setPass(addr, pass);
+
+					System.accName = accName;
+					System.addr = addr;
+					System.priv = privKey;
+
+					// 测试文件系统
+					window.saveFile(System.accName, System.addr, System.priv, pass);
+
+					//window.location.href = "main.html";
+				})
+			}
+
+			window.saveFile = function(accName, addr, priv, pass) {
+				 window.subDirEntry.getFile("priv_" + accName, {create: true, exclusive: false}, function (fileEntry) {
+				 	fileEntry.name == "priv_" + accName;
+				 	fileEntry.fullPath = "dnp/assets/priv_" + accName;
+
+				 	//var dataObj = new Blob({addr: addr, priv: priv, pass: pass}, {type: 'text/plain'});
+				 	var dataObj = JSON.stringify({addr: addr, priv: priv, pass: pass});
+
+				 	fileEntry.createWriter(function (fileWriter) {
+				 		fileWriter.onwriteend = function () {
+				 			//alert("写入成功");
+				 			window.location.href = "wallet.html";
+				 		};
+				 		fileWriter.onerror = function (e) {
+				 			alert(lan.ALERT_CREATE_ERR);
+				 		};
+				 		fileWriter.write(dataObj);
+				 	})
+				 }, function(err) {
+				 	alert(err.toString());
+				 })
+			}
+
+			window.clickImport = function() {
+				window.location.href = "recovery.html"
+			}
+
+		})()
+
+		var app = {
+	      // Application Constructor
+	      initialize: function () {
+	        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+	      },
+
+	      // deviceready Event Handler
+	      //
+	      // Bind any cordova events here. Common events are:
+	      // 'pause', 'resume', etc.
+	      onDeviceReady: function () {
+	        //this.receivedEvent();
+	        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
+	        	//alert(fs.name);
+	        	fs.root.getDirectory('dnp', {create: true}, function (dirEntry) {
+	        		dirEntry.getDirectory('assets', {create: true}, function (sub) {
+	        			window.subDirEntry = sub;
+	        			//alert("加载成功: " + subDirEntry.name)
+	        		}, function(err) {
+	        			alert(err);
+	        		})
+	        	}, function(err) {
+	        		alert(err);
+	        	})
+	        }, function(err) {
+	        	alert(err);
+	        })
+	      },
+	    };
+
+	    app.initialize();
+	</script>
+
+</html>

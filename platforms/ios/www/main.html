@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>DNP</title>
+
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/business-casual.css" rel="stylesheet">
+
+  <style type="text/css">
+    body {
+      background: #EFEFF4;
+    }
+
+    .create {
+      padding-bottom: 5rem;
+    }
+
+    .ve {
+      background: #17a6FE;
+    }
+
+    .nav_back {
+      width: 2rem;
+      height: 2rem;
+      background: url(./img/back.png) no-repeat center;
+      background-size: 2rem 2rem;
+    }
+
+    .nav_right {
+      width: 2rem;
+      height: 2rem;
+      /* background: url(./img/back.png) no-repeat center; */
+      background-size: 2rem 2rem;
+    }
+
+    .nav_title {
+      text-align: center;
+      color: white;
+      line-height: 30px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <!-- <section class="headnav">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-12 mx-auto">
+            <div style="padding: 10px;">
+              <div style="display: inline-block; margin-left: 20px; margin-top: 8px; font-size: 25px; position:absolute;">
+                <p class="index" >DNP</p>
+                <a class="index" style="color: red;font-size:16px; margin-left: 60px" href="bonus.html">抽奖活动进行中</a>
+              </div>
+              <div style="display: inline; float: right;">
+                <ul class="nav_ul">
+                  <li>
+                    <a href="list.html" class="tab">列表</a>
+                  </li>
+                </ul>
+              </div>
+              
+            </div>
+        </div>
+      </div>
+    </section> -->
+  <section class="headnav">
+    <div class="container ve">
+      <div class="flex" style="padding: 10px 0;">
+        <a href="main.html" class="nav_back"></a>
+        <div class="flex_1 nav_title">当前账户</div>
+        <div class="nav_right" onclick="javascript:window.toList();" style="color:white">列表</div>
+      </div>
+    </div>
+  </section>
+  <!-- Masthead -->
+  <header class="masthead  text-center create">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <!-- <div class="col-xl-9 mx-auto">
+          <h1 class="mb-5" style="font-size: 25px">当 前 账 户</h1>
+        </div> -->
+        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto" style="background: #17a6FE">
+          <form>
+            <div class="flex">
+              <div
+                style="background:url('./img/name.png');width: 74px;height: 27px;background-size: 100% 100%;font-size: 12px;line-height: 27px;text-align: right;padding-right: 2px;margin-right: 10px">
+                eissman</div>
+              <p class="mb-1" style="text-align:left;font-size:18px; text-align: center; color: white"
+                id="label_balance">0</p>
+            </div>
+            <div class="">
+              <div class="col-12 col-md-15 mb-2 mb-md-3">
+              </div>
+              <div style="background: #fff;display: block; width: 100%;border-radius: 2px;padding: 10px 0">
+                <div class="col-12 col-md-15 mb-2 mb-md-3" style="display: none">
+                  <p class="mb-1" style="text-align:left;font-size:14px;" id="label_accname">帐户名：Account 1：</p>
+                </div>
+                <div class="col-12 col-md-15 mb-2 mb-md-3">
+                  <p class="mb-1" style="text-align:left;font-size:12px;"><span id="label_addr">地址：0xaaaaaaaaaaaaaaaaaaa</span><span id="copy" style="background:#17a6fe;border-radius: 5px;color:#fff;padding: 0 5px">复制</span></p>
+
+                </div>
+                <div class="col-12 col-md-15 mb-2 mb-md-3">
+                  <p class="mb-1" style="text-align:left;font-size:12px;" id="label_plotid">PlotID：123456789</p>
+                </div>
+                <div class="flex" style="padding: 0 40px">
+                  <div class="flex_1" style="display:inline">
+                    <button type="button" class="btn btn-block btn-lg btn-primary"
+                      style="width: 40px;height: 40px;padding: 0;" onclick="javascript:window.backup()"><img
+                        src="./img/add.png" style="width:21px;height: 21px" /></button>
+                    <div style="text-align:left;padding-left:5px">备份</div>
+                  </div>
+
+                  <div style="display:inline;float:right">
+                    <button type="button" class="btn btn-block btn-lg btn-primary" onclick="javascript:window.send()"
+                      style="width: 40px;height: 40px;padding: 0"><img src="./img/pay.png"
+                        style="width:21px;height: 21px" /></button>
+                    发送
+                  </div>
+                </div>
+              </div>
+
+
+
+
+
+              <!--               <div class="col-12 col-md-15 mb-2 mb-md-3" id="txs_history">
+                                <p class="mb-1" style="text-align:left;font-size:10px">2019-08-10 10：00：00</p>
+                <p class="mb-1" style="text-align:left;font-size:12px">发送给 0xaaaaaaaaaaaaaaaaaaaaaaaaa    0.1DNP</p>
+                <p class="mb-1" style="text-align:left;font-size:10px">确认中</p>
+                <p class="mb-1" style="text-align:left;font-size:10px">----------------------------------------</p>
+
+                <p class="mb-1" style="text-align:left;font-size:10px">2019-08-10 10：00：00</p>
+                <p class="mb-1" style="text-align:left;font-size:12px">发送给0xaaaaaaaaaaaaaaaaaaaaaaaaa 0.1DNP</p>
+                <p class="mb-1" style="text-align:left;font-size:10px">确认中</p>
+                <p class="mb-1" style="text-align:left;font-size:10px">----------------------------------------</p>
+              </div> -->
+            </div>
+          </form>
+
+        </div>
+        <div class="col-12 col-md-15 mb-2 mb-md-3">
+          <p class="mb-1" style="text-align:left;font-size:14px">转账历史</p>
+          <p class="mb-1" style="text-align:left;font-size:12px;color:#8e8e93" id="lab_now">10月1日 2017</p>
+          <p class="mb-1" style="text-align:left;font-size:10px">----------------------------------------</p>
+        </div>
+        <div
+          style="height: 48px;width:100%; background: #fff url('./img/2.png') no-repeat;background-size: auto 44px; background-position:0 2px;text-align: left;padding: 0 10px 0 15px"
+          id="txs_history">
+          <div class="flex">
+            <div class="flex_justify flex_1" style="font-size: 13px;color:#414141">发送给：0XUDI25647OJOJ87854</div>
+            <div>
+              <div style="font-size: 12px;color:#7ed321;text-align: center;margin-top: 6px">已确认</div>
+              <div style="font-size:9px;">06.06.06</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- <footer class="footer text-faded text-center py-5">
+    <div class="container">
+      <p class="m-0 small">Copyright &copy; 2019</p>
+    </div>
+  </footer> -->
+
+  <!-- Bootstrap core JavaScript -->
+
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <script type="text/javascript" src="cordova.js"></script>
+  <script type="text/javascript" src="../plugins/cordova-plugin-clipboard/www/client.js"></script>
+  <!--     <script src="cordova_plugins.js"></script>
+    <script src="plugins/cordova-plugin-clipboard/www/client.js"></script>> -->
+
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="core/bignumber.js"></script>
+  <script src="core/Base58.js"></script>
+  <script src="core/core.js"></script>
+  <script type="text/javascript">
+    (function () {
+      var pageIndex = 0;
+      var pageCount = 20;
+
+      window.onload = function () {
+        var current = getCurrent();
+        System.accName = current.name;
+        System.addr = current.addr;
+
+        document.getElementById('lab_now').innerHTML = getNowTime();
+
+        document.getElementById('label_accname').innerHTML = '帐户名：<font color="color:rgb(200,100,150)">' + System.accName + "</font>";
+        document.getElementById('label_addr').innerHTML = '地址：<span style="color:#353535" id="address">' + System.addr + '</span>';
+        document.getElementById('label_plotid').innerHTML = 'PlotID：<span style="color:#353535">' + calcPlotId(System.addr) + "</span>";
+
+        dnp_blockNumber(function (height) {
+          dnp_getBalance(System.addr, height, function (data) {
+            var ban = new BigNumber(data);
+            ban = ban / (1e+18);
+            document.getElementById('label_balance').innerHTML = '<span color="color:#fff;font-size:27px">' + ban.toString() + "</span>";
+          }, function (err) {
+            alert('连接网络失败');
+          })
+        }, function (err) {
+          alert('连接网络失败');
+        });
+
+        // 转账列表
+        var list = getSents(System.addr, pageIndex, pageCount);
+        var htmlTxs = "";
+        // for(var j = 0; j < 10; j++) {
+        for (var i = 0; i < list.length; i++) {
+          // htmlTxs += ('<p class="mb-1" style="text-align:left;font-size:10px">' + getLocalTime(list[i].time) + '</p>');
+          // htmlTxs += ('<p class="mb-1" style="text-align:left;font-size:10px">发送给<font color="color:rgb(200,100,150)">' + list[i].to + '    ' + list[i].value + 'DNP</font></p>');
+          // var hash = list[i].hash;
+          // var state = getHash(hash)
+          // if (state != null) {
+          //   htmlTxs += '<p class="mb-1" style="text-align:left;font-size:10px">已确认</p>';
+          // } else {
+          //   htmlTxs += '<p class="mb-1" style="text-align:left;font-size:10px" id="' + hash + '">确认中</p>';
+          //   dnp_getTransaction(hash, function (data_tx) {
+          //     if (data_tx.blockNumber != '0x0') {
+          //       setHash(data_tx.hash);
+          //       document.getElementById(data_tx.hash).textContent = "已确认";
+          //     }
+          //   }, function (err) {
+
+          //   })
+          // }
+          // htmlTxs += '<p class="mb-1" style="text-align:left;font-size:10px">----------------------------------------</p>';
+          htmlTxs += ('<div class="flex">');
+          htmlTxs += ('<div class="flex_justify flex_1" style="font-size: 13px;color:#414141">发送给：' + lessAddr(list[i].to, 20) + '   ' + (list[i].value) + 'DNP' + '</div>');
+          htmlTxs += ('<div>')
+          var hash = list[i].hash;
+          var state = getHash(hash);
+          if (state != null) {
+            htmlTxs += ('<div style="font-size: 12px;color:#7ed321;text-align: center;margin-top: 6px">已确认</div>');
+          } else {
+            htmlTxs += ('<div style="font-size: 12px;color:#7ed321;text-align: center;margin-top: 6px" id="' + hash + '"">确认中</div>');
+            dnp_getTransaction(hash, function (data_tx) {
+              if (data_tx.blockNumber != null && data_tx.blockNumber != '0x0') {
+                setHash(data_tx.hash);
+                document.getElementById(data_tx.hash).innerHTML = "已确认";
+              }
+            }, function (err) {
+
+            })
+          }
+
+
+          htmlTxs += ('<div style="font-size:9px;">' + getDay(list[i].time) + '</div>')
+          htmlTxs += ('</div>')
+          htmlTxs += ('</div>')
+        }
+        // }
+        document.getElementById("txs_history").innerHTML = htmlTxs;
+      }
+
+      window.send = function () {
+        window.location.href = "send.html"
+      }
+
+      window.toList = function() {
+        window.location.href = "list.html"
+      }
+
+      window.copyAddr = function () {
+        // var oInput = document.createElement('input');
+        // oInput.value = System.addr;
+        // document.body.appendChild(oInput);
+        // oInput.select(); // 选择对象
+        // document.execCommand("Copy"); // 执行浏览器复制命令
+        // oInput.className = 'oInput';
+        // oInput.style.display='none';
+        //cordova.plugins.clipboard.copy(System.addr);
+        cordova.plugins.clipboard.copy(text, function(data){
+            alert('复制成功')
+          }, function(err){alert(err)})
+      }
+
+      window.backup = function () {
+        window.location.href = "backup.html"
+      }
+
+    })()
+    var app = {
+      // Application Constructor
+      initialize: function () {
+        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+      },
+
+      // deviceready Event Handler
+      //
+      // Bind any cordova events here. Common events are:
+      // 'pause', 'resume', etc.
+      onDeviceReady: function () {
+        this.receivedEvent();
+      },
+
+      // Update DOM on a Received Event
+      receivedEvent: function () {
+        var copy = document.getElementById('copy');
+        copy.onclick = function() {
+          var text = document.getElementById('address').innerHTML;
+        cordova.plugins.clipboard.copy(text, function(data){
+          alert('复制成功')
+        }, function(err){alert(err)})
+
+        }
+       
+        // cordova.plugins.clipboard.paste(function (text) {
+        //     alert(text)
+        //     receivedElement.innerHTML = text
+        // }, function(err){alert(err)});
+      }
+    };
+
+    app.initialize();
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SFT Wallet</title>
+  <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+  <div class="bodyMask" onclick="hidePop()"></div>
+  <div class="moreMenuMask" onclick="toggleMoreMenu()"></div>
+  <div class="header">
+    <img src="../../assets/addAssets/arrow.svg" onclick="back()" alt="arrow">
+    <p class="lang" key="LAB_WALLETMANAGE_TITLE">钱包管理</p>
+    <div></div>
+  </div>
+  <div class="container">
+    <div class="walletManagement">
+      <p class="lang" key="LAB_WALLETMANAGE_TITLE">钱包管理</p>
+      <span id="lab_addr">
+        
+      </span>
+    </div>
+    <div class="cellBox">
+      <a href="../mdfWalletName/index.html">
+        <div class="walletCell">
+          <p class="lang" key="LAB_WALLETMANAGE_WALLET_NAME">
+            钱包名称
+          </p>
+          <div>
+            <p id="lab_name">
+              
+            </p>
+            <img src="../../assets/walletManagement/arrow.svg" alt="arrow">
+          </div>
+
+
+        </div>
+      </a>
+      <a href="../mdfWalletPassword/index.html">
+        <div class="walletCell">
+          <p class="lang" key="LAB_WALLETMANAGE_WALLET_PASSWORD">
+            钱包密码
+          </p>
+          <div>
+            <img src="../../assets/walletManagement/arrow.svg" alt="arrow">
+          </div>
+        </div>
+      </a>
+      <a href="../mnemonicWords/index.html">
+        <div class="walletCell">
+          <p class="lang" key="LAB_WALLETMANAGE_BACKUP_MNEMONIC">
+            备份助记词
+          </p>
+          <div>
+            <img src="../../assets/walletManagement/arrow.svg" alt="arrow">
+          </div>
+        </div>
+      </a>
+    </div>
+    <a href="../exportPrivatekey/index.html">
+      <div class="cellBox">
+        <div class="walletCell">
+          <p class="lang" key="LAB_WALLETMANAGE_EXPORT_MNEMONIC">
+            导出私钥
+          </p>
+          <div>
+            <img src="../../assets/walletManagement/arrow.svg" alt="arrow">
+          </div>
+        </div>
+      </div>
+    </a>
+    <div class="delWallet" onclick="showDelPop()">
+      <p class="lang" key="LAB_WALLETMANAGE_DELETE_WALLET">
+        删除钱包
+      </p>
+    </div>
+    <div class="delWalletPop">
+      <p class="lang" key="LAB_WALLETMANAGE_DELETE_WALLET">
+        删除钱包
+      </p>
+      <div class="btnBox">
+        <button class="cancelBtn lang" key="LAB_WALLETMANAGE_BTN_CANCEL" onclick="hidePop()">取消</button>
+        <button class="sureBtn lang" key="LAB_WALLETMANAGE_BTN_OK" onclick="showIptPop()">确定</button>
+      </div>
+    </div>
+
+  </div>
+  <div class="inputPwdPop">
+    <p class="lang" key="LAB_WALLETMANAGE_INPUT_PASSWORD">
+      输入钱包密码
+    </p>
+    <input placeholder="输入钱包密码" type="password" class="lang_text" key="LAB_WALLETMANAGE_INPUT_PASSWORD">
+    <div class="btnBox">
+      <button class="cancelBtn lang" key="LAB_WALLETMANAGE_BTN_CANCEL" onclick="hidePop()">取消</button>
+      <button class="sureBtn lang" key="LAB_WALLETMANAGE_BTN_OK" onclick="javascript:window.delete()">确定</button>
+    </div>
+  </div>
+
+</body>
+<script src="./js/index.js"></script>
+<script type="text/javascript" src="../../cordova.js"></script>
+<script src="../../core/babel-browser.min.js"></script>
+<script src="../../core/bitcore-mnemonic.js"></script>
+<script src="../../core/lang/ch.js"></script>
+<script src="../../core/lang/en.js"></script>
+<script src="../../core/core.js"></script>
+<script src="../../core/Base58.js"></script>
+
+<script type="text/javascript">
+
+	window.onload = function() {
+		changeLang();
+		var curr = getCurrent();
+		System.addr = curr.addr;
+
+		var chain = getActiveChain();
+    	if(chain == null) {
+    		chain = "SFT"
+    	}
+    	System.chain = chain;
+
+    	var other = getAnotherName(System.addr);
+
+		document.getElementById("lab_name").innerHTML = (other == "") ? curr.name : other;
+		document.getElementById("lab_addr").innerHTML = lessAddr(curr.addr, 6);
+	}
+
+	window.delete = function() {
+		delAcc(System.addr, System.chain);
+
+		var accs = getAccs();
+		if(accs != null && accs.users != null & accs.users.length > 0) {
+			var localChain = false;
+			for(var i = 0; i < accs.users.length; i++) {
+				if(accs.users[i].chain == System.chain) {
+					setCurrent(accs.users[i].name, accs.users[i].addr);
+					localChain = true;
+					break;
+				}
+			}
+			if(localChain == false) {
+				setCurrent(accs.users[0].name, accs.users[0].addr);
+			}
+			setTimeout(function() {
+				window.location.href = "../index/index.html"
+			}, 800);
+		} else {
+			delCurrent();
+			window.location.href = "../walletIndex/index.html";
+		}			
+	}
+
+</script>
+
+</html>

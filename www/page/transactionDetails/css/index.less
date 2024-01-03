@@ -1,0 +1,182 @@
+html {
+  background: #F5F5F5;
+
+  .header {
+    width: 10rem;
+    height: 1.6rem;
+    flex-shrink: 0;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .4267rem;
+    box-sizing: border-box;
+
+    img {
+      width: 0.74667rem;
+      height: 0.74667rem;
+      flex-shrink: 0;
+    }
+
+    p {
+      color: #181719;
+      text-align: center;
+      font-size: 0.45333rem;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 0.45333rem;
+    }
+  }
+
+  .container {
+    margin-top: 0.43rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .transactionStatus {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .statusTop {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        img {
+          width: 1.33333rem;
+          height: 1.33333rem;
+          flex-shrink: 0;
+        }
+
+        p {
+          color: #181719;
+          font-size: 0.42667rem;
+          font-weight: 600;
+          line-height: 0.42667rem;
+          margin-top: 0.21rem;
+        }
+      }
+
+      .transactionNum {
+        color: #181719;
+        text-align: right;
+        font-family: DIN Alternate;
+        font-size: 0.96rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 0.96rem;
+        margin-top: 0.43rem;
+      }
+
+
+    }
+
+    .addressCell {
+      width: 9.14667rem;
+      height: 2.29333rem;
+      flex-shrink: 0;
+      padding: 0.43rem;
+      box-sizing: border-box;
+      border-radius: 0.37333rem;
+      background: #FFF;
+      margin-top: 0.85rem;
+
+      .addressCellTop {
+        display: flex;
+        align-items: center;
+
+        img {
+          width: 0.69333rem;
+          height: 0.69333rem;
+          flex-shrink: 0;
+        }
+
+        p {
+          color: #181719;
+          font-size: 0.42667rem;
+          font-weight: 600;
+          line-height: 0.42667rem;
+          margin-left: 0.16rem;
+        }
+      }
+
+      .addressCellBot {
+        margin-top: 0.21rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        p {
+          color: rgba(24, 23, 25, 0.6);
+          font-size: 0.42667rem;
+          font-style: normal;
+          font-weight: 600;
+          line-height: 0.42667rem;
+        }
+
+        img {
+          width: 0.64rem;
+          height: 0.64rem;
+          flex-shrink: 0;
+          opacity: 0.6;
+        }
+      }
+
+      &:nth-child(3) {
+        margin-top: 0.21rem;
+      }
+    }
+
+    .moreCell {
+      width: 9.14667rem;
+      height: 1.22667rem;
+      flex-shrink: 0;
+      border-radius: 0.37333rem;
+      background: #FFF;
+      box-sizing: border-box;
+      padding: 0.43rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.21rem;
+
+      &>div {
+        display: flex;
+        align-items: center;
+        color: rgba(24, 23, 25, 0.6);
+        font-size: 0.37333rem;
+        font-weight: 600;
+        line-height: 0.37333rem;
+
+      }
+
+      p {
+        color: rgba(24, 23, 25, 1);
+        font-size: 0.37333rem;
+        font-weight: 600;
+        line-height: 0.37333rem;
+      }
+
+      img {
+        margin-left: 0.21rem;
+      }
+    }
+
+
+  }
+
+  .footer {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 2.24rem;
+    background-color: #fff;
+    padding: 0 0.59rem;
+    box-sizing: border-box;
+  }
+}

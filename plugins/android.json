@@ -1,0 +1,71 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "com.lampa.startapp": {
+      "PACKAGE_NAME": "io.cordova.ethg"
+    },
+    "com.telerik.plugins.nativepagetransitions": {
+      "PACKAGE_NAME": "io.cordova.ethg"
+    },
+    "cordova-clipboard": {
+      "PACKAGE_NAME": "io.cordova.ethg"
+    },
+    "cordova-plugin-advanced-http": {
+      "ANDROIDBLACKLISTSECURESOCKETPROTOCOLS": "SSLv3,TLSv1",
+      "PACKAGE_NAME": "io.cordova.ethg"
+    },
+    "cordova-plugin-android-permissions": {
+      "PACKAGE_NAME": "io.cordova.ethg"
+    },
+    "cordova-plugin-backbutton": {
+      "PACKAGE_NAME": "io.cordova.ethg"
+    },
+    "cordova-plugin-canvas2image": {
+      "PACKAGE_NAME": "io.cordova.ethg"
+    },
+    "cordova-plugin-clipboard": {
+      "PACKAGE_NAME": "io.cordova.ethg"
+    },
+    "cordova-plugin-cors": {
+      "PACKAGE_NAME": "io.cordova.ethg"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "io.cordova.ethg"
+    },
+    "cordova-plugin-http": {
+      "PACKAGE_NAME": "io.cordova.ethg"
+    },
+    "cordova-plugin-imagepicker": {
+      "PACKAGE_NAME": "io.cordova.ethg"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "io.cordova.ethg"
+    },
+    "cordova-plugin-qrscanner": {
+      "PACKAGE_NAME": "io.cordova.ethg"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "io.cordova.ethg"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "io.cordova.ethg1"
+    },
+    "cordova-plugin-touch-id": {
+      "PACKAGE_NAME": "io.cordova.ethg"
+    },
+    "cordova-plugin-android-fingerprint-auth": {
+      "PACKAGE_NAME": "io.cordova.ethg"
+    }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-add-swift-support": {
+      "PACKAGE_NAME": "io.cordova.ethg"
+    }
+  }
+}

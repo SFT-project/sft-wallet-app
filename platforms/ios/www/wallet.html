@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>wallet</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<link rel="shortcut icon" href="/favicon.ico">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="./css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="./css/nav.css" />
+		<link rel="stylesheet" type="text/css" href="./css/public.css" />
+		<link rel="stylesheet" type="text/css" href="./css/power.css" />
+		<link rel="stylesheet" type="text/css" href="./css/wallet.css" />
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="core/qrcode.min.js"></script>
+		<script src="js/layui.all.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="n_wallt_info">
+			<div class="n_waifo_padig">
+				<div class="n_top display_flex align-items_center">
+					<div class="n_user_img">
+						<img src="image/userig.png">
+					</div>
+					<div class="n_naet" id="label_accname">张三</div>
+					<div class="flex_1 n_nuem">
+						<!-- <a href="javascript:window.toList();"> -->
+						<a href="javascript:window.clickScanCode();">
+							<div class="display_flex align-items_center">
+								<!-- <div class="n_nuem_img">
+									<img src="image/scan.png">
+								</div> -->
+								<!-- <div class="n_nuem_title">列表</div> -->
+								<div class="n_nuem_title lang" key="LAB_SCAN">扫一扫</div>
+							</div>
+						</a>
+
+					</div>
+
+				</div>
+				<div class="n_centenrt" id="label_balance">0.000</div>
+				<div class="n_centenrt_one">
+					<div class="n_topt display_flex align-items_center">
+						<div class="n_locatio lang" key="LAB_ADDRESS">地址：</div>
+						<div class="flex_1 n_site">
+							<input type="text" id="label_addr" value="0x0000000000…d383" disabled="disabled" />
+						</div>
+						<div class="n_cterc" id="copy">
+							<img src="image/copy.png">
+						</div>
+					</div>
+
+				</div>
+				<div class="n_centenrt_two display_flex justify-content_flex-justify ">
+					<button type="button" class="n_backups display_flex justify-content_flex-center align-items_center">
+						<div class="n-imge">
+							<img src="image/qianbao.png">
+						</div>
+						<div class="m_namt"><a href="javascript:window.backup();" style="color: #FFFFFF;" class="lang" key="LAB_RECEIVE">收款</a></div>
+					</button>
+					<button type="button" class="n_sending display_flex justify-content_flex-center align-items_center">
+						<div class="n-imge">
+							<img src="image/fasong.png">
+						</div>
+						<div class="m_namt"><a class="lang" href="javascript:window.send();" style="color: #FFFFFF;" key="LAB_SEND">发送</a></div>
+					</button>
+				</div>
+			</div>
+
+		</div>
+		<div class="n_history">
+			<div class="n_carryover lang" key="LAB_TX_HISTORY">
+				转账历史
+			</div>
+			<div class="n_liste">
+				<ul id="txs_history">
+<!-- 					<li class="display_flex align-items_center">
+						<div class="n_yuimg">
+							<img src="image/userig.png">
+						</div>
+						<div class="flex_1 n_tihgt">
+							<div class="top display_flex align-items_center">
+								<div class="n_ecord">转账<span>-0x95…FB91</span></div>
+								<div class="flex_1 n_journal"><span>-109.56</span>DNP</div>
+							</div>
+							<div class="bottom">
+								12-20 12:23:12
+							</div>
+						</div>
+						<div class="n_nfirmed">已确认</div>
+					</li> -->
+
+				</ul>
+			</div>
+		</div>
+		<!-- END -->
+		<!-- END -->
+		<div class="n_footer display_flex justify-content_flex-end">
+			<div class="n_boxx flex_1" onclick="javascript:window.location.href='wallet_main.html'">
+					<div class="n_foter_img">
+						<img src="image/money_se.png">
+					</div>
+					<div class="n_title lang" key="LAB_WALLET">钱包</div>
+			</div>
+			<div class="n_boxx flex_1"  onclick="javascript:window.location.href='power.html'">
+			
+					<div class="n_foter_img">
+						<img src="image/moner.png">
+					</div>
+					<div class="n_title lang" key="LAB_APPLICATION">应用</div>
+			
+
+			</div>
+			<div class="n_boxx flex_1" onclick="javascript:window.location.href='my.html'">
+					<div class="n_foter_img">
+						<img src="image/mine_nor.png">
+					</div>
+					<div class="n_title lang" key="LAB_MY">我的</div>
+			</div>
+		</div>
+	</body>
+<!-- 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+	<script type="text/javascript" src="cordova.js"></script>
+  	<script type="text/javascript" src="../plugins/cordova-plugin-clipboard/www/client.js"></script>
+	<script src="core/bignumber.js"></script>
+	<script src="core/Base58.js"></script>
+	<script src="core/lang/ch.js"></script>
+	<script src="core/lang/en.js"></script>
+  	<script src="core/core.js"></script>
+	<script type="text/javascript">
+		(function() {
+			var lan = getLanguage();
+			$("body").on("click", ".n_cterc", function() {
+				// var copyText = System.addr.substr(2);
+				// copyText.select();
+				// document.execCommand("Copy");
+				// alert("复制成功！");
+				cordova.plugins.clipboard.copy(text, function(data){
+		            alert(lan.ALERT_COPY_OK);
+		          }, function(err){alert(err)})
+			})
+
+			  var pageIndex = 0;
+		      var pageCount = 20;
+		      var tokenType = "ays";
+
+		      window.getToken = function() {
+		      	  var ts = window.location.href.split('#')
+		      	  if(ts.length > 1) {
+		      	  	return ts[1];
+		      	  }
+		      	  return "ays"
+		      }
+
+		      window.onload = function () {
+		        setIndex(0);
+
+		        // 获取token类型
+		        tokenType = window.getToken();
+
+		        var current = getCurrent();
+		        System.accName = current.name;
+		        System.addr = current.addr;
+
+		        //document.getElementById('lab_now').innerHTML = getNowTime();
+
+		        document.getElementById('label_accname').innerHTML = System.accName;
+
+		        document.getElementById("label_addr").value = lessAddr(System.addr, 32);
+		        //document.getElementById('label_plotid').innerHTML = 'PlotID：<span style="color:#353535">' + calcPlotId(System.addr) + "</span>";
+
+		        // 获取余额
+		        if(tokenType == "ays") {
+		        	dnp_blockNumber(function (height) {
+			          dnp_getBalance(System.addr, height, function (data) {
+			            var ban = new BigNumber(data);
+			            ban = ban / (1e+18);
+			            //document.getElementById('label_balance').innerHTML = '<span color="color:#fff;font-size:27px">' + ban.toFixed(3) + "</span>";
+			            document.getElementById('label_balance').innerHTML = ban.toFixed(3);
+			          }, function (err) {
+			            //alert('连接网络失败');
+			          })
+			        }, function (err) {
+			          //alert('连接网络失败');
+			        });
+				}
+		        // 转账列表
+		        var list_local = getSents(tokenType, System.addr, pageIndex, pageCount);   // 本地记录
+		        if(tokenType == "ays") {
+		        	//System.addr = "0x139c77c1b8cb04fdbbd2203b78d20e7d84c025157c5500"
+			        //proxyTxs(System.addr.substr(2), 1, 100, function(list) {
+			        proxyTxs(System.addr, 1, 100, function(list) {
+						var htmlTxs = "";
+						for (var i = 0; i < list_local.length; i++) {
+							var displayOK = "none;"
+							var txDir = '<span style="color:red">-</span>';
+							if(hashInTxs(list_local[i].hash, list.list)) {
+								displayOK = "";
+							} else {
+								htmlTxs += '<li class="display_flex align-items_center" > \
+									<div class="n_yuimg"> \
+										<img src="image/userig.png"> \
+									</div> \
+									<div class="flex_1 n_tihgt" onclick="javascript:window.clickTxDetail(\'{5}\',\'{6}\')"> \
+										<div class="top display_flex align-items_center"> \
+											<div class="n_ecord"><span>{0}</span></div> \
+											<div class="flex_1 n_journal"><span>{4}{1}</span>AYS</div> \
+										</div> \
+										<div class="bottom"> \
+											{2} \
+										</div> \
+									</div> \
+									<div class="n_nfirmed" style="display:{3}">{7}</div> \
+								</li>'.format(lessAddrForTx(list_local[i].to, 14), (Number(list_local[i].value)).toFixed(2), getLocalTime(list_local[i].time), displayOK, txDir, list_local[i].hash, list_local[i].time, lan.ALERT_CONFIRMED)
+							}
+						}
+				        // for(var j = 0; j < 10; j++) {
+				        for (var j = 0; j < list.list.length; j++) {
+						  	var displayOK = ""
+						  	var txDir = '<span style="color:red">-</span>';
+						  	var addrDir = ""
+						  	if(list.list[j].from != System.addr) {
+						  		txDir = '<span style="color:green">+</span>';
+						  		addrDir = list.list[j].from;
+						  	} else {
+						  		addrDir = list.list[j].to;
+						  	}
+
+							htmlTxs += '<li class="display_flex align-items_center" > \
+								<div class="n_yuimg"> \
+									<img src="image/userig.png"> \
+								</div> \
+								<div class="flex_1 n_tihgt" onclick="javascript:window.clickTxDetail(\'{5}\',\'{6}\')"> \
+									<div class="top display_flex align-items_center"> \
+										<div class="n_ecord"><span>{0}</span></div> \
+										<div class="flex_1 n_journal"><span>{4}{1}</span>AYS</div> \
+									</div> \
+									<div class="bottom"> \
+										{2} \
+									</div> \
+								</div> \
+								<div class="n_nfirmed" style="display:{3}">{7}</div> \
+							</li>'.format(lessAddrForTx(addrDir, 14), parseFloat(showAmount(list.list[j].value)).toFixed(2), getLocalTime(Number(list.list[j].time)), displayOK, txDir, list.list[j].hash, Number(list.list[j].time), lan.ALERT_CONFIRMED)
+				        }
+				        document.getElementById("txs_history").innerHTML = htmlTxs;
+			        }, function(err_txs) {
+
+			        });
+			      }
+			      changeLang();
+			  }
+
+		      window.clickTxDetail = function(hash, time) {
+		      	//alert("tbrecordxq.html" + "#" + hash + "," + time)
+		      	window.location.href = "tbrecordxq.html" + "#" + hash + "," + time
+		      }
+
+		      window.send = function () {
+		        window.location.href = "carryover.html?" + tokenType
+		      }
+
+		      window.goback = function() {
+		          setIndex(1);
+		          window.location.href = "index.html";
+		      }
+
+		      window.toList = function() {
+		        window.location.href = "userlist.html"
+		      }
+
+		      window.copyAddr = function () {
+		        cordova.plugins.clipboard.copy(text, function(data){
+		            alert(lan.ALERT_COPY_OK)
+		          }, function(err){alert(err)})
+		      }
+
+		      window.backup = function () {
+		        //window.location.href = "ackups.html"
+		        window.location.href = "recei.html#" + tokenType;
+		      }
+
+		      window.clickUnlock = function() {
+		        window.location.href = "unlock.html"
+		      }
+
+		      window.clickScanCode = function() {
+		      	cordova.plugins.barcodeScanner.scan(
+	                function(result) {
+	                    //扫码成功后执行的回调函数
+	                    if(!is_eth_addr(Base58.toAddr(result.text))) {
+	                    	alert("不能识别的二维码");
+	                    } else {
+	                    	window.location.href = "carryover.html?" + tokenType +"#" + result.text;
+	                    }
+	                },
+	                function(error) {
+	                    //扫码失败执行的回调函数
+	                    alert("Scanning failed: " + error);
+	                }, {
+	                    preferFrontCamera: false, // iOS and Android 设置前置摄像头
+	                    showFlipCameraButton: true, // iOS and Android 显示旋转摄像头按钮
+	                    showTorchButton: true, // iOS and Android 显示打开闪光灯按钮
+	                    torchOn: false, // Android, launch with the torch switched on (if available)打开手电筒
+	                    prompt: "在扫描区域内放置DNP收款二维码", // Android提示语
+	                    resultDisplayDuration: 500, // Android, display scanned text for X ms. 
+	                                            //0 suppresses it entirely, default 1500 设置扫码时间的参数
+	                    formats: "QR_CODE", // 二维码格式可设置多种类型
+	                    orientation: "portrait", // Android only (portrait|landscape), 
+	                                             //default unset so it rotates with the device在安卓上 landscape 是横屏状态   
+	                    disableAnimations: true, // iOS     是否禁止动画
+	                    disableSuccessBeep: false // iOS      禁止成功后提示声音 “滴”
+	                }
+	            );
+		      }
+
+		})()
+
+	 var app = {
+      // Application Constructor
+      initialize: function () {
+        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+      },
+
+      // deviceready Event Handler
+      //
+      // Bind any cordova events here. Common events are:
+      // 'pause', 'resume', etc.
+      onDeviceReady: function () {
+        this.receivedEvent();
+        document.addEventListener("backbutton", function() {
+        	//navigator.Backbutton.goHome(function() {
+                //console.log('go home success');
+                //alert("yes")
+                window.location.href = "wallet_main.html";
+            // }, function() {
+            //     //console.log('go home fail');
+            //     //alert("no")
+            // });
+        }, false);
+      },
+
+      // Update DOM on a Received Event
+      receivedEvent: function () {
+        var copy = document.getElementById('copy');
+        copy.onclick = function() {
+          //var text = document.getElementById('address').innerHTML;
+          var text = Base58.fromAddr(System.addr);
+        cordova.plugins.clipboard.copy(text, function(data){
+          alert('复制成功')
+        }, function(err){alert(err)})
+
+        }
+
+      }
+    };
+
+    app.initialize();
+	</script>
+
+</html>

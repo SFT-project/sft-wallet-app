@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Backup</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<link rel="shortcut icon" href="/favicon.ico">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="./css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="./css/nav.css" />
+		<link rel="stylesheet" type="text/css" href="./css/public.css" />
+		<link rel="stylesheet" type="text/css" href="./css/ackups.css" />
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="core/lang/ch.js"></script>
+		<script src="core/lang/en.js"></script>
+	</head>
+	<body>
+		<header class="display_flex">
+			<a onclick="javascript:window.back();">
+				<img src="image/back_arrow.png" >
+			</a>
+			<h1 class="flex_1 lang" key="LAB_BACKUP_USER">Backup</h1>
+		</header>
+	<div class="n_ack_top display_flex align-items_center">
+		<div class="n_Ling">
+			<img src="image/voice.png" >
+		</div>
+		<div class="flex_1 n_titlke lang" key="TIPS_BACKUP">Please write down and keep your private key, and remember your account name and unlock password.</div>
+		
+	</div>
+	<div class="n_ack_substance">
+		<textarea   placeholder="" cols="100" autofocus="autofocus" rows="25"  id="input_help"></textarea>
+	</div>
+	<div class="n_btnt share-btn-box">
+		<!-- <button type="button"  class="coloractive" onclick="javascript:window.back();">复制</button> -->
+		<button type="button"  class="coloractive lang" onclick="javascript:window.copy();" key="BUT_COPY">Copy</button>
+	</div>
+	</body>
+	
+	<script type="text/javascript" src="cordova.js"></script>
+ 	<script src="core/babel-browser.min.js"></script>
+	<script src="core/bitcore-mnemonic.js"></script>
+	<script src="core/Base58.js"></script>
+  	<script src="core/core.js"></script>
+
+	<script type="text/javascript">
+		var win_h = $(window).height();
+		window.addEventListener('resize', function () {
+		    if($(window).height() < win_h){
+		        $('.share-btn-box').hide();
+		    }else{
+		        $('.share-btn-box').show();
+		    }
+		});
+	 var app = {
+      // Application Constructor
+      initialize: function () {
+        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+      },
+
+      // deviceready Event Handler
+      //
+      // Bind any cordova events here. Common events are:
+      // 'pause', 'resume', etc.
+      onDeviceReady: function () {
+        //this.receivedEvent();
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
+          //alert(fs.name);
+          fs.root.getDirectory('dnp', {create: true}, function (dirEntry) {
+            dirEntry.getDirectory('assets', {create: true}, function (sub) {
+              window.subDirEntry = sub;
+              //alert("加载成功: " + subDirEntry.name)
+              window.load();
+            }, function(err) {
+              alert(err);
+            })
+          }, function(err) {
+            alert(err);
+          })
+        }, function(err) {
+          alert(err);
+        })
+
+        // var copy = document.getElementById('copy');
+        // copy.onclick = function() {
+        //   //var text = document.getElementById('address').innerHTML;
+        //   var text = System.addr.substr(2);
+        // cordova.plugins.clipboard.copy(text, function(data){
+        //   alert('复制成功')
+        // }, function(err){alert(err)})
+
+        // }
+      },
+    };
+
+    app.initialize();
+
+
+		(function(){
+			 $("#textarea").bind('input propertychange', function() {
+			      if($(this).val()==' ' ){
+
+					$('.n_btnt>button').css("background-color","#D7E5EA")
+				  }else{
+
+					$('.n_btnt>button').css("background-color","#26AADE")
+					 
+				  }
+			    })
+			  window.subDirEntry = null;
+
+		      window.load = function () {
+		        var current = getCurrent();
+		        //var priv = getPriv(current.addr);
+
+		        var wallet = Yoethwallet.wallet;
+
+
+		        window.subDirEntry.getFile("priv_" + current.name, {create: false, exclusive: false}, function (fileEntry) {
+		          fileEntry.name == "priv_" + current.name;
+		          fileEntry.fullPath = "dnp/assets/priv_" + current.name;
+
+		          fileEntry.file(function (fileReader) {
+		            readCore(fileReader, function(res) {
+		              var cont = JSON.parse(res);
+		              var priv = cont.priv;
+
+		              //alert(priv);
+
+		              var wallet = Yoethwallet.wallet;
+		                wallet.fromPrivateKey(priv, function (err, keystore) {
+		                  if (err) {
+		                    alert(err.message);
+		                    return
+		                  }
+		                  var hexPriv = keystore.getHexPrivateKey();
+
+		                  //alert(hexPriv);
+
+		                  document.getElementById("input_help").value = formatPriv(hexPriv);
+		                })
+		            })
+		          }, function(err) {
+		            alert(err);
+		          })
+		         }, function(err) {
+		          alert(err.toString());
+		         })
+
+
+		        // wallet.fromPrivateKey(priv, function (err, keystore) {
+		        //   if (err) {
+		        //     alert(err.message);
+		        //     return
+		        //   }
+		        //   var hexPriv = keystore.getHexPrivateKey();
+
+		        //   document.getElementById("input_help").value = formatPriv(hexPriv);
+		        // })
+		      }
+
+		      window.onload = function() {
+		      	changeLang();
+		      }
+
+		      window.back = function () {
+		        window.location.href = "my.html"
+		      }
+
+		      var lan = getLanguage();
+
+		      window.copy = function() {
+		      	var text = document.getElementById("input_help").value;
+		      	cordova.plugins.clipboard.copy(text, function(data){
+		           alert(lan.ALERT_COPY_OK)
+		        }, function(err){alert(err)})
+		      }
+		})()
+
+
+	</script>
+
+</html>

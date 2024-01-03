@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SFT Wallet</title>
+  <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="../../assets/js/init.js"></script>
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+  <div class="bodyMask" onclick="hidePop()"></div>
+  <div class="moreMenuMask" onclick="toggleMoreMenu()"></div>
+  <div class="header">
+      <img src="../../assets/addAssets/arrow.svg" onclick="back()" alt="arrow">
+    <p class="lang" key="LAB_INTRO_TITLE">通过助记词导入</p>
+    <div></div>
+  </div>
+  <div class="container">
+    <div class="contractAddressBox">
+      <p class="lang" key="LAB_INTRO_MNEMONIC">助记词</p>
+      <textarea placeholder="输入英文助记词，空格分割" class="addressInput lang_text" key="LAB_INTRO_INPUT_MNEMONIC" name="" id="input_mnemonic" cols="30" rows="10"></textarea>
+    </div>
+    <div class="walletName"> 
+      <p class="lang" key="LAB_INTRO_WALLET_NAME">钱包名称</p>
+      <input type="text" class="lang_text" key="LAB_INTRO_INPUT_WALLET_NAME" id="input_name" placeholder="设置钱包名称">
+    </div> 
+    <div class="tokenName">
+      <p class="lang" key="LAB_INTRO_WALLET_PASSWORD">钱包密码</p>
+      <input  class="passwordInput lang_text" key="LAB_INTRO_INPUT_WALLET_PASSWORD"  type="password" id="input_pass" placeholder="输入钱包密码">
+    </div>
+    <div class="info">
+      <p class="lang" key="LAB_CREATWALLET_TIP_1">*至少8位字符</p>
+      <p class="lang" key="LAB_CREATWALLET_TIP_2">*至少有1位大写字母</p>
+      <p class="lang" key="LAB_CREATWALLET_TIP_3">*至少有1位小写字母</p>
+      <p class="lang" key="LAB_CREATWALLET_TIP_4">*至少有1位数字</p>
+    </div>
+    <div class="tokenDecimal ">
+      <p class="lang" key="LAB_INTRO_REPEAT_PASSWORD">重复钱包密码</p>
+      <input type="password" class="lang_text" key="LAB_INTRO_INPUT_REPEAT_PASSWORD" id="input_pass_repeat" placeholder="再次输入钱包密码">
+    </div>
+    <!-- <a href="../mnemonicWords/index.html"> -->
+      <button onclick="window.clickImport()" class="addBtn lang" key="LAB_INTRO_IMPORT_WALLET">导入钱包</button>
+    <!-- </a> -->
+  </div>
+  <div class="walletTips">
+    <p class="lang" key="LAB_INTRO_IMPORTING">钱包正在导入和生成中...</p>
+    <img src="../../assets/introductionMnemonics/loading.svg" alt="loading" >
+  </div>
+
+
+</body>
+<script src="./js/index.js"></script>
+<script type="text/javascript" src="../../cordova.js"></script>
+<script src="../../core/babel-browser.min.js"></script>
+<script src="../../core/bitcore-mnemonic.js"></script>
+<script src="../../core/lang/ch.js"></script>
+<script src="../../core/lang/en.js"></script>
+<script src="../../core/core.js"></script>
+<script src="../../core/Base58.js"></script>
+
+<script type="text/javascript">
+	var lan = getLanguage();
+		
+	$(function() {
+		window.subDirEntry = null;
+
+		window.onload = function() {
+			changeLang();
+
+			var chain = getCreatedChain();
+			if(chain == null) {
+				chain = "SFT";
+			}
+			System.chain = chain;
+
+			document.getElementById("input_name").value = getDefaultAccName();
+		}
+
+		window.clickImport = function() {
+			var accName = document.getElementById("input_name").value;
+			var mne = document.getElementById("input_mnemonic").value;
+			var pass = document.getElementById("input_pass").value;
+			var passRep = document.getElementById("input_pass_repeat").value;
+
+			if (accName == "") {
+				showToast("failure", lan.LAB_OLINK_ALERT_NAME_NULL);
+				return;
+			}
+
+			if(!validName(accName)) {
+				showToast("failure", lan.LAB_OLINK_ALERT_NAME_INVALID);
+				return;
+			}
+
+			if (!validPass(pass)) {
+				showToast("failure", lan.LAB_ETHG_CREATEWALLET_INPUT_PASS);
+				return;
+			}
+
+			// 判定确认密码
+			if (pass != passRep) {
+				// alert(lan.ALERT_PASSWORD_DIFFERENT);
+				showToast("failure", lan.ALERT_PASSWORD_INCONSISTENT)
+				return;
+			}
+
+			var wallet = Yoethwallet.wallet;
+			var priv;
+
+			var bip39 = Yoethwallet.wallet.bip39();
+			var HDKey = Yoethwallet.wallet.HDKey();
+
+			if(!bip39.validateMnemonic(mne)) {
+				showToast("failure", lan.LAB_ETHG_MNEMONICIMPORT_INVALID_MNE);
+				return;
+			}
+
+			var selectedPath = "m/44\'/60\'/0\'/0/0";
+			var key = HDKey.fromMasterSeed(bip39.mnemonicToSeed(mne));
+			priv = key.derive(selectedPath).privateKey;
+
+			wallet.fromPrivateKey(priv, function(err, keystore) {
+				if (err) {
+					// alert(err);
+					showToast("failure", err);
+					return;
+				}
+
+				var chain = getCreatedChain();
+				if(chain == null) {
+					chain = "SFT";
+				}
+
+				System.chain = chain;
+
+				var privKey = keystore.getPrivateKey();
+				var addr = keystore.getHexAddress(true);
+				// 判断地址
+				var ais = addrInAccs(addr, chain);
+				if (ais[0]) {
+					//alert(lan.ALERT_ACCOUNT_EXISTS);
+					// another name
+					setAnotherName(addr, accName);
+					clearPageStack();
+					setCurrent(accName, addr);
+
+					setAddrMnemonic(keystore.getHexAddress(true), mne);
+					
+					setActiveChain(chain);
+
+					window.location.href = "../index/index.html";
+					return;
+				}
+
+				// keystore.toV3String(pass, {}, (err_pass, v3Json) => {
+				//     if(err_pass) {
+				//         alert(err_pass);
+				//         return;
+				//     }
+
+				
+
+				setActiveChain(chain);
+
+				newAcc(accName, addr, chain);
+				setCurrent(accName, addr);
+
+				System.accName = accName;
+				System.addr = addr;
+				System.priv = privKey;
+
+				setAddrMnemonic(keystore.getHexAddress(true), mne);
+
+				// 测试文件系统
+				window.saveFile(System.accName, System.addr, System.priv, pass);
+			});
+		}
+
+		window.saveFile = function(accName, addr, priv, pass) {
+			window.subDirEntry.getFile("priv_" + addr, {
+				create: true,
+				exclusive: false
+			}, function(fileEntry) {
+				fileEntry.name == "priv_" + addr;
+				fileEntry.fullPath = "xdn/assets/priv_" + addr;
+
+				//var dataObj = new Blob({addr: addr, priv: priv, pass: pass}, {type: 'text/plain'});
+				var dataObj = JSON.stringify({
+					addr: addr,
+					priv: priv,
+					pass: pass
+				});
+
+				fileEntry.createWriter(function(fileWriter) {
+					fileWriter.onwriteend = function() {
+						//alert("写入成功");
+						clearPageStack();
+						window.location.href = "../index/index.html";
+					};
+					fileWriter.onerror = function(e) {
+						// alert(lan.ALERT_CREATE_ERR);
+						alert(lan.ALERT_CREATE_ERR)
+					};
+					fileWriter.write(dataObj);
+				})
+			}, function(err) {
+				// alert(err.toString());
+				alert(err.toString())
+			})
+		}
+	})
+</script>
+
+<script type="text/javascript">
+	var app = {
+		// Application Constructor
+		initialize: function() {
+			document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+		},
+
+		// deviceready Event Handler
+		//
+		// Bind any cordova events here. Common events are:
+		// 'pause', 'resume', etc.
+		onDeviceReady: function() {
+			var lan = getLanguage();
+
+			document.addEventListener("backbutton", function() {
+				clearScanKeys();
+				clickPagePrev()
+			}, false);
+			//this.receivedEvent();
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
+				//alert(fs.name);
+				fs.root.getDirectory('xdn', {
+					create: true
+				}, function(dirEntry) {
+					dirEntry.getDirectory('assets', {
+						create: true
+					}, function(sub) {
+						window.subDirEntry = sub;
+						//alert("加载成功: " + subDirEntry.name)
+					}, function(err) {
+						// alert(err);
+						toast(err);
+					})
+				}, function(err) {
+					// alert(err);
+					alert({
+						title: lan.ALERT_TIP,
+						content: err,
+						noText: lan.ALERT_OK
+					})
+				})
+			}, function(err) {
+				// alert(err);
+				alert({
+					title: lan.ALERT_TIP,
+					content: err,
+					noText: lan.ALERT_OK
+				})
+			});
+
+			
+		},
+	};
+
+	app.initialize();
+</script>
+
+</html>

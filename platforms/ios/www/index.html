@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dnp</title>
+
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/business-casual.css" rel="stylesheet">
+
+    <style type="text/css">
+      .create {
+        padding-bottom: 5rem;
+      }
+      .ve {
+      background: #17a6FE;
+    }
+
+    .nav_back {
+      width: 2rem;
+      height: 2rem;
+      background: url(./img/back.png) no-repeat center;
+      background-size: 2rem 2rem;
+    }
+
+    .nav_right {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .nav_title {
+      text-align: center;
+      color: white;
+      line-height: 30px;
+    }
+      
+    </style>
+
+  </head>
+
+  <body>
+
+    <!-- <section class="headnav">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-12 mx-auto">
+            <div style="padding: 10px;">
+              <div style="display: inline-block; margin-left: 20px; margin-top: 8px; font-size: 25px; position:absolute;">
+                <p class="index" >DNP</p>
+              </div>
+              <div style="display: inline; float: right;">
+                <ul class="nav_ul">
+                  
+                </ul>
+              </div>
+              
+            </div>
+        </div>
+      </div>
+    </section> -->
+    <section class="headnav">
+        <div class="container ve">
+          <div class="flex" style="padding: 10px 0;">
+            <a href="main.html" class="nav_back"></a>
+            <div class="flex_1 nav_title">新账户</div>
+            <div class="nav_right"></div>
+          </div>
+        </div>
+      </section>
+
+    <!-- Navigation -->
+
+    <!-- Masthead -->
+    <header class="masthead text-white text-center create" id="create" style="">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+
+          <div class="col-xl-9 mx-auto">
+            <h1 class="mb-5" style="font-size: 25px">创 建 账 户</h1>
+          </div>
+          <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+            <form>
+              <div class="form-row">
+                <div class="col-12 col-md-15 mb-2 mb-md-3">
+                  <input class="form-control form-control-lg" placeholder="请输入你的账户名称" id="input_name" style="font-size: 15px">
+                </div>
+                <div class="col-12 col-md-15 mb-2 mb-md-5">
+                  <input class="form-control form-control-lg" placeholder="请输入你的解锁密码" type="password" id="input_pass" style="font-size: 15px">
+                </div>
+                <div class="col-12 col-md-12 mb-12 col-md-12" style="textalign:center">
+                  <button type="button" class="btn btn-block btn-lg btn-primary" onclick="javascript:window.create()">创 建</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <header class="masthead text-white text-center create" id="login" style="display:none">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-9 mx-auto">
+            <h1 class="mb-5" style="font-size: 25px">登 录</h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+            <form>
+              <div class="form-row">
+                <div class="col-12 col-md-12 mb-12 col-md-3" style="display:block">
+                  <p class="mb-2" style="text-align:center;" id="label_name">你的当前帐户名为：Account 1</p>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-12 col-md-15 mb-2 mb-md-5">
+                  <input class="form-control form-control-lg" placeholder="请输入你的解锁密码" id="input_login_pass" type="password" style="font-size: 15px">
+                </div>
+                <div class="col-12 col-md-12 mb-12 col-md-12" style="textalign:center">
+                  <button type="button" class="btn btn-block btn-lg btn-primary" onclick="javascript:window.login()">登 录</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </header>
+
+<!--     <footer class="footer text-faded text-center py-5">
+      <div class="container">
+        <p class="m-0 small">Copyright &copy; 2019</p>
+      </div>
+    </footer>
+ -->
+    <!-- Bootstrap core JavaScript -->
+    <script src="core/babel-browser.min.js"></script>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script  src="core/bitcore-mnemonic.js"></script>
+    <script src="core/Base58.js"></script>
+    <script  src="core/core.js"></script>
+    <script >
+      (function() {
+        
+        window.onload = function() {
+            if(isNew()) {
+                document.getElementById("create").style.display = "";
+                document.getElementById('login').style.display = "none";
+            } else {
+                document.getElementById('create').style.display = "none";
+                document.getElementById('login').style.display = "";
+
+                var current = getCurrent();
+                if (current != null) {
+                    document.getElementById('label_name').textContent = "你的当前帐户名为：" + current.name;
+                }
+            }
+
+            //document.getElementById("input_name").value = "aaa";
+
+        }
+
+        window.create = function() {
+
+            var accName = document.getElementById('input_name').value;
+            var pass = document.getElementById('input_pass').value;
+
+            var hdPathString = 'm/44\'/60\'/0\'/0';
+
+            var wallet = Yoethwallet.wallet;
+
+            //document.getElementById("input_name").value = wallet;
+
+            wallet.generate('', hdPathString, function(err, keystore) {
+                if (err) {
+                    alert(err.message);
+                    return
+                }
+
+                var privKey = keystore.getPrivateKey();
+                var addr = keystore.getHexAddress(true);
+
+                newAcc(accName, addr);
+                setPriv(addr, privKey);
+                setCurrent(accName, addr);
+                setPass(addr, pass);
+
+                System.accName = accName;
+                System.addr = addr;
+                System.priv = privKey;
+
+                window.location.href = "main.html";
+            })
+        }
+
+        window.login = function() {
+            var current = getCurrent();
+            var accName = current.name;
+            var accs = getAccs();
+            if(accs == null) {
+                alert("你的账号无效");
+                return;
+            }
+            var addr = '';
+            for(var i = 0; i < accs.users.length; i++) {
+                if(accs.users[i].name == accName) {
+                    addr = accs.users[i].addr;
+                    break;
+                }
+            }
+            if (addr == '') {
+                alert('你的账号无效');
+                return;
+            }
+            var pass = document.getElementById('input_login_pass').value;
+            var pass_1 = getPass(addr);
+            if (pass != pass_1) {
+                alert("你输入的密码不正确");
+                return;
+            }
+
+            System.addr = addr;
+            System.accName = accName;
+
+            setCurrent(accName, addr);
+
+            window.location.href = "main.html"
+        }
+
+      })()
+
+    </script>
+
+  </body>
+
+</html>

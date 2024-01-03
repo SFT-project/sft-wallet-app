@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SFT Wallet</title>
+  <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="../../assets/js/init.js"></script>
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+  <div class="bodyMask" onclick="hidePop()"></div>
+  <div class="moreMenuMask" onclick="toggleMoreMenu()"></div>
+  <div class="header">
+      <img src="../../assets/addAssets/arrow.svg" onclick="back()" alt="arrow">
+    <p class="lang" key="LAB_CREATWALLET_TITLE">创建钱包</p>
+    <div></div>
+  </div>
+  <div class="container">
+    <div class="walletName">
+      <p class="lang" key="LAB_CREATWALLET_WALLET_NAME">钱包名称</p>
+      <input type="text" class="lang_text" key="LAB_CREATWALLET_INPUT_WALLET_NAME" id="input_name" placeholder="设置钱包名称">
+    </div>
+    <div class="tokenName">
+      <p class="lang" key="LAB_CREATWALLET_WALLET_PASSWORD">钱包密码</p>
+      <input  class="passwordInput lang_text" key="LAB_CREATWALLET_INPUT_WALLET_PASSWORD"  type="password" id="input_pass" placeholder="输入钱包密码">
+    </div>
+    <div class="info">
+      <p class="lang" key="LAB_CREATWALLET_TIP_1">*至少8位字符</p>
+      <p class="lang" key="LAB_CREATWALLET_TIP_2">*至少有1位大写字母</p>
+      <p class="lang" key="LAB_CREATWALLET_TIP_3">*至少有1位小写字母</p>
+      <p class="lang" key="LAB_CREATWALLET_TIP_4">*至少有1位数字</p>
+    </div>
+    <div class="tokenDecimal ">
+      <p class="lang" key="LAB_CREATWALLET_REPEAT_PASSWORD">重复钱包密码</p>
+      <input type="password" class="lang_text" key="LAB_CREATWALLET_INPUT_REPEAT_PASSWORD" id="input_pass_repeat" placeholder="再次输入钱包密码">
+    </div>
+    <a href="javascript:window.create();">
+      <button class="addBtn lang" key="LAB_CREATWALLET_BTN_CREATE">创建钱包</button>
+    </a>
+  </div>
+
+
+</body>
+<script src="./js/index.js"></script>
+<script type="text/javascript" src="../../cordova.js"></script>
+<script src="../../core/babel-browser.min.js"></script>
+<script src="../../core/bitcore-mnemonic.js"></script>
+<script src="../../core/lang/ch.js"></script>
+<script src="../../core/lang/en.js"></script>
+<script src="../../core/core.js"></script>
+<script src="../../core/Base58.js"></script>
+
+<script type="text/javascript">
+	$(function() {
+
+		window.onload = function() {
+			changeLang();
+
+			var chain = getCreatedChain();
+			if(chain == null) {
+				chain = "SFT";
+			}
+			System.chain = chain;
+
+			document.getElementById("input_name").value = getDefaultAccName();
+		}
+
+		var lan = getLanguage();
+
+		window.create = function() {
+
+			var accName = document.getElementById('input_name').value;
+			var pass = document.getElementById('input_pass').value;
+			var passRepeat = document.getElementById("input_pass_repeat").value;
+
+			if (accName == "") {
+				showToast("failure", lan.LAB_OLINK_ALERT_NAME_NULL);
+				return;
+			}
+
+			if(!validName(accName)) {
+				showToast("failure", lan.LAB_OLINK_ALERT_NAME_INVALID);
+				return;
+			}
+
+			// 判断用户名
+			// if (nameInAccs(accName)) {
+			// 	// alert(lan.ALERT_ACCOUNT_EXISTS);
+			// 	toast(lan.ALERT_ACCOUNT_EXISTS)
+			// 	return;
+			// }
+
+			if (!validPass(pass)) {
+				showToast("failure", lan.LAB_PASSWORD_INVALID_FORMAT);
+				return;
+			}
+
+			// 判定确认密码
+			if (pass != passRepeat) {
+				// alert(lan.ALERT_PASSWORD_DIFFERENT);
+				showToast("failure", lan.ALERT_PASSWORD_INCONSISTENT)
+				return;
+			}
+
+			var hdPathString = 'm/44\'/60\'/0\'/0';
+
+			var wallet = Yoethwallet.wallet;
+			var bip39 = Yoethwallet.wallet.bip39();
+			var m = bip39.generateMnemonic();
+			// var key = HDkey.fromMasterSeed(bip39.mnemonicToSeed(m));
+			// var priv = key.derive("m/44/60/0/0").privateKey;
+
+			setMnemonic(accName, m, pass);
+
+			window.location.href = "../mnemonicWords/index.html";
+		}
+	})
+</script>
+
+</html>

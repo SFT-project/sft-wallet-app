@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SFT Wallet</title>
+  <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="../../assets/js/init.js"></script>
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+  <div class="bodyMask" onclick="hidePop()"></div>
+  <div class="moreMenuMask" onclick="toggleMoreMenu()"></div>
+  <div class="header">
+      <img src="../../assets/addAssets/arrow.svg" onclick="back()" alt="arrow">
+    <p class="lang" key="LAB_MNEMONICWORDS_TITLE">备份助记词</p>
+    <div></div>
+  </div>
+  <div class="container">
+    <p class="containerTitle lang" key="LAB_MNEMONICWORDS_TIP">
+      以下是钱包的助记词，抄写下来并导出至安全的地方存放。一旦丢失，无法找回
+    </p>
+    <div class="wordsBox">
+      <div class="wordsItem" id="lab_m1">1.mide</div>
+      <div class="wordsItem" id="lab_m2">2.economy</div>
+      <div class="wordsItem" id="lab_m3">3.victory</div>
+      <div class="wordsItem" id="lab_m4">4.poano</div>
+      <div class="wordsItem" id="lab_m5">5.exit</div>
+      <div class="wordsItem" id="lab_m6">6.accuse</div>
+      <div class="wordsItem" id="lab_m7">7.piand</div>
+      <div class="wordsItem" id="lab_m8">8.pet</div>
+      <div class="wordsItem" id="lab_m9">9.victory</div>
+      <div class="wordsItem" id="lab_m10">10.comin</div>
+      <div class="wordsItem" id="lab_m11">11.computer</div>
+      <div class="wordsItem" id="lab_m12">12.nice</div>
+    </div>
+
+    <a href="javascript:window.clickCreate();">
+      <button class="addBtn lang" key="LAB_MNEMONICWORDS_BTN_COPY">助记词已抄好</button>
+    </a>
+  </div>
+
+  <div class="tipsPop">
+    <p class="lang" key="LAB_MNEMONICWORDS_RISK_TIP">请勿截屏分享和存储，这将可能被第三方恶意软件收集，造成资产损失</p>
+    <button class="lang" key="LAB_MNEMONICWORDS_BTN_CONFIRM" onclick="hidePop()">确定</button>
+  </div>
+
+
+</body>
+<script src="./js/index.js"></script>
+<script type="text/javascript" src="../../cordova.js"></script>
+<script src="../../core/babel-browser.min.js"></script>
+<script src="../../core/bitcore-mnemonic.js"></script>
+<script src="../../core/lang/ch.js"></script>
+<script src="../../core/lang/en.js"></script>
+<script src="../../core/core.js"></script>
+<script src="../../core/Base58.js"></script>
+
+<script type="text/javascript">
+	var lan = getLanguage();
+	// $(function() {
+
+		var localMne = "";
+		window.subDirEntry = null;
+
+		window.onload = function() {
+			changeLang();
+
+			var mne = getMnemonic();
+			if(mne.mne != null) {
+				localMne = mne.mne;
+				var ws = mne.mne.split(' ');
+				for (var i = 1; i <= 12; i++) {
+					document.getElementById("lab_m" + i).innerHTML = i + "." + ws[i - 1];
+				}
+			}
+		}
+
+		window.clickCreate = function() {
+			var mne = getMnemonic();
+
+			var wallet = Yoethwallet.wallet;
+			var bip39 = Yoethwallet.wallet.bip39();
+			var HDKey = Yoethwallet.wallet.HDKey();
+
+			var key = HDKey.fromMasterSeed(bip39.mnemonicToSeed(mne.mne));
+			var priv = key.derive("m/44\'/60\'/0\'/0/0").privateKey;
+
+			wallet.fromPrivateKey(priv, function(err, keystore) {
+				if (err) {
+					// alert(err);
+
+					showToast("failure", err)
+					return;
+				}
+				//var addr = Base58.fromAddr(keystore.getHexAddress(true));
+				var chain = getCreatedChain();
+				if(chain == null) {
+					chain = "SFT";
+				}
+
+				setActiveChain(chain);
+
+				newAcc(mne.name, keystore.getHexAddress(true), chain);
+				setCurrent(mne.name, keystore.getHexAddress(true));
+				setAddrMnemonic(keystore.getHexAddress(true), mne.mne)
+
+				window.saveFile(mne.name, keystore.getHexAddress(true), priv, mne.pass);
+
+			});
+		}
+
+		window.saveFile = function(accName, addr, priv, pass) {
+			window.subDirEntry.getFile("priv_" + addr, {
+				create: true,
+				exclusive: false
+			}, function(fileEntry) {
+				fileEntry.name == "priv_" + addr;
+				fileEntry.fullPath = "xdn/assets/priv_" + addr;
+
+				//var dataObj = new Blob({addr: addr, priv: priv, pass: pass}, {type: 'text/plain'});
+				var dataObj = JSON.stringify({
+					addr: addr,
+					priv: priv,
+					pass: pass
+				});
+
+				fileEntry.createWriter(function(fileWriter) {
+					fileWriter.onwriteend = function() {
+						//alert("写入成功");
+						clearPageStack();
+						window.location.href = "../index/index.html";
+					};
+					fileWriter.onerror = function(e) {
+						// alert(lan.alert_CREATE_ERR);
+						showToast("failure", lan.ALERT_CREATE_ERR)
+					};
+					fileWriter.write(dataObj);
+				})
+			}, function(err) {
+				// alert(err.toString());
+				showToast("failure", err.toString())
+			})
+		}
+
+	//})
+</script>
+
+<script type="text/javascript">
+	var app = {
+		// Application Constructor
+		initialize: function() {
+			document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+		},
+
+		// deviceready Event Handler
+		//
+		// Bind any cordova events here. Common events are:
+		// 'pause', 'resume', etc.
+		onDeviceReady: function() {
+			var lan = getLanguage();
+			//this.receivedEvent();
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
+				//alert(fs.name);
+				fs.root.getDirectory('xdn', {
+					create: true
+				}, function(dirEntry) {
+					dirEntry.getDirectory('assets', {
+						create: true
+					}, function(sub) {
+						window.subDirEntry = sub;
+						//alert("加载成功: " + subDirEntry.name)
+						//window.load();
+					}, function(err) {
+						// alert(err);
+						toast(err)
+					})
+				}, function(err) {
+					alert(err)
+					// alert(err);
+				})
+			}, function(err) {
+				alert(err)
+				// alert(err);
+			});
+
+			document.addEventListener("backbutton", function() {
+				//clickPagePrev();
+			}, false);
+		},
+	};
+
+	app.initialize();	
+</script>
+
+</html>

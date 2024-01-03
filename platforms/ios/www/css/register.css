@@ -1,0 +1,142 @@
+.n_screen{
+	height: 12rem;
+	background-image: url(../image/bg_login.png)  ;
+	background-size: 100% auto;
+}
+.n_screen .n_sclose{
+	width: 1.52rem;
+	padding-left: 0.45rem;
+	    padding-top: 1rem;
+}
+.n_logon-title{
+	margin-top: 2.62rem;
+	margin-left: 0.85rem;
+}
+.n_logon-title .n_record{
+	font-size:0.64rem;
+	    width: 2.54rem;
+	color:rgba(255,255,255,1);
+
+
+}
+.n_logon-title .n_register{
+	font-size:0.85rem;
+	position: relative;
+		color:rgba(255,255,255,1);
+}
+.n_logon-title .n_register::after{
+	content: '';
+	position: absolute;
+	bottom: -0.38rem;
+	left: 0;
+	z-index: 99;
+	width:0.77rem;
+	height:0.13rem;
+	background:rgba(255,255,255,1);
+	border-radius:0.02rem;
+
+}
+.n_screen .n_logo{
+	margin-top: 3.03rem;
+	width: 2.3rem;
+	
+	height: 2.3rem;
+	margin-left: 0.85rem;
+}
+.n_screen .n_logo img{
+	width: 100%;
+	display: block;
+}
+.n_screen .n_sclose img{
+	display: block;
+	width: 100%;
+}
+.n_frorom {
+	padding: 0.5rem 0.85rem;
+}
+
+.n-item {
+	padding: 0.54rem 0;
+	margin-bottom: 0.43rem;
+}
+
+.n_frorom .n_img{
+	width: 1.19rem;
+	height: 1.19rem;
+	margin-left: 0.6rem;
+}
+
+.n_frorom .n_img img ,.n_frorom .n_delet img{
+	width: 100%;
+	display: block;
+
+}
+.n_frorom .n_delet{
+	width: 1.19rem;
+	height: 1.19rem;
+	display: none;
+}
+.n_frorom .n-item {
+	height: 1.92rem;
+	background: rgba(251, 251, 251, 1);
+	border-radius: 1.07rem;
+	border: 1px solid ##f1f1f1;
+}
+
+.n_frorom .n-right input {
+	width: 100%;
+	padding: 0;
+	border: 0;
+	font-size: 0.64rem;
+	color: #BBBBBB;
+	background-color: ;
+	background-color: #fbfbfb;
+}
+
+::-webkit-input-placeholder {
+	font-size: 0.64rem;
+	text-align: left;
+	color: #BBBBBB;
+}
+
+::-moz-placeholder {
+	font-size: 0.64rem;
+	text-align: left;
+	color: #BBBBBB;
+}
+
+:-ms-input-placeholder {
+	font-size: 0.64rem;
+	text-align: left;
+	color: #BBBBBB;
+}
+
+:-moz-placeholder {
+	font-size: 0.64rem;
+	text-align: left;
+	color: #BBBBBB;
+}
+.n_frorom .n_btn button{
+	border: 0;
+	width: 100%;
+	height:1.92rem;
+	line-height: 1.92rem;
+	background:rgba(215,229,234,1);
+	border-radius:1.07rem;
+	font-size:0.77rem;
+	text-align: center;
+	color:rgba(255,255,255,1);
+	margin-top: 2.56rem;
+	
+}
+.n_fast{
+	height: 1.47rem;
+	z-index: 99;
+	left: 0;
+	width: 100%;
+	text-align: center;
+}
+.n_fast a{
+	font-size:0.6rem;
+	color: #26AADE;
+}

@@ -1,0 +1,285 @@
+html {
+  background: #F5F5F5;
+
+  .header {
+    width: 10rem;
+    height: 1.6rem;
+    flex-shrink: 0;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .4267rem;
+    box-sizing: border-box;
+
+    img {
+      width: 0.74667rem;
+      height: 0.74667rem;
+      flex-shrink: 0;
+    }
+
+    p {
+      color: #181719;
+      text-align: center;
+      font-size: 0.45333rem;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 0.45333rem;
+    }
+  }
+
+  .customAssets {
+    width: 10rem;
+    height: 1.33333rem;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0.43rem;
+    box-sizing: border-box;
+    align-items: center;
+    margin-top: 0.43rem;
+    background-color: #fff;
+
+    p {
+      color: #181719;
+      font-size: 0.42667rem;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 0.42667rem;
+    }
+
+    img {
+      width: 0.64rem;
+      height: 0.64rem;
+      flex-shrink: 0;
+    }
+  }
+
+  .homepageAssets {
+    background-color: #fff;
+    width: 10rem;
+    height: 17.12rem;
+    flex-shrink: 0;
+    padding: 0.43rem;
+    box-sizing: border-box;
+    margin-top: 0.43rem;
+
+    .homepageAssetsTitle {
+      color: #181719;
+      font-size: 0.42667rem;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 0.42667rem;
+    }
+
+    .homepageAssetsContent {
+      margin-top: 0.43rem;
+
+      .homepageAssetsCell {
+        height: 1.81333rem;
+        flex-shrink: 0;
+        display: flex;
+        border-radius: 0.37333rem;
+        background: #F5F5F5;
+        align-items: center;
+        padding: 0 0.43rem;
+        box-sizing: border-box;
+        margin-bottom: 0.21rem;
+
+        img {
+          width: 0.64rem;
+          height: 0.64rem;
+          flex-shrink: 0;
+        }
+
+        .assetsCellBot {
+          display: flex;
+          align-items: center;
+          margin-left: 0.43rem;
+
+          img {
+            width: 0.96rem;
+            height: 0.96rem;
+            flex-shrink: 0;
+          }
+
+          div {
+            margin-left: 0.21rem;
+
+            p {
+              color: #181719;
+              font-size: 0.42667rem;
+              font-style: normal;
+              font-weight: 600;
+              line-height: 0.42667rem;
+            }
+
+            span {
+              display: block;
+              color: #181719;
+              font-size: 0.37333rem;
+              font-style: normal;
+              font-weight: 600;
+              line-height: 0.37333rem;
+              opacity: 0.4;
+              margin-top: 0.16rem;
+              overflow: hidden;
+              max-width: 6.1rem;
+              text-overflow: ellipsis;
+            }
+          }
+        }
+      }
+    }
+
+  }
+
+  .container {
+    padding: 0.64rem 0.43rem;
+    box-sizing: border-box;
+
+    .contractAddressBox {
+      p {
+        color: #181719;
+        font-family: PingFang SC;
+        font-size: 0.42667rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 0.42667rem;
+      }
+
+      .addressInput {
+        width: 9.14667rem;
+        height: 2.88rem;
+        flex-shrink: 0;
+        border-radius: 0.37333rem;
+        background: #FFF;
+        border: none;
+        resize: none;
+        margin-top: 0.21rem;
+        box-sizing: border-box;
+        padding: 0.45rem 0.43rem;
+      }
+    }
+
+    .walletName,
+    .tokenName,
+    .tokenDecimal {
+      margin-top: 0.85rem;
+
+      p {
+        color: #181719;
+        font-family: PingFang SC;
+        font-size: 0.42667rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 0.42667rem;
+        /* 100% */
+      }
+
+      input {
+        width: 9.14667rem;
+        height: 1.33333rem;
+        flex-shrink: 0;
+        padding: 0.45rem 0.43rem;
+        box-sizing: border-box;
+        border: none;
+        border-radius: 0.37333rem;
+        background: #FFF;
+        margin-top: 0.21rem;
+      }
+    }
+
+    .walletName {
+      margin-top: 0.64rem;
+    }
+
+    .info {
+      color: #181719;
+      font-size: 0.37333rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 0.64rem;
+      margin-top: 0.21rem;
+    }
+
+    .addBtn {
+      width: 9.14667rem;
+      height: 1.33333rem;
+      flex-shrink: 0;
+      border-radius: 0.32rem;
+      background: #FFD12C;
+      border: none;
+      margin-top: 1.07rem;
+      color: #090B0E;
+      font-size: 0.42667rem;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 0.42667rem;
+    }
+  }
+  
+  .bodyMask {
+    width: 10rem;
+    height: 21.65333rem;
+    flex-shrink: 0;
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    z-index: 9;
+    bottom: -32rem;
+
+  }
+
+  .walletTips {
+    width: 9.14667rem;
+    height: 5.22667rem;
+    flex-shrink: 0;
+    border-radius: 0.53333rem;
+    background: #FFF;
+    box-sizing: border-box;
+    padding: 1.09rem 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    position: fixed;
+    display: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 9;
+
+    p {
+      color: #181719;
+      text-align: center;
+      font-size: 0.42667rem;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 0.42667rem;
+    }
+
+    img {
+      width: 1.52rem;
+      height: 1.57333rem;
+      flex-shrink: 0;
+      margin-top: 1.07rem;
+      animation: rotateDeg 2s ease infinite;
+      transform: rotate(0deg);
+
+    }
+
+    @keyframes rotateDeg {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+
+  }
+
+
+}

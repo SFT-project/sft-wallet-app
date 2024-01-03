@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SFT Wallet</title>
+  <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="../../assets/js/init.js"></script>
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+  <div class="bodyMask" onclick="hidePop()"></div>
+  <div class="moreMenuMask" onclick="toggleMoreMenu()"></div>
+  <div class="header">
+      <img src="../../assets/addAssets/arrow.svg" onclick="back()" alt="arrow">
+    <p class="lang" key="LAB_DIRECTTRANSFER_TITLE">转账</p>
+   <div></div>
+  </div>
+  <div class="container">
+    <div class="receivingAddress">
+      <p class="lang" key="LAB_DIRECTTRANSFER_RECEIVER">收款地址</p>
+      <div>
+        <input type="text" class="lang_text" key="LAB_DIRECTTRANSFER_INPUT_RECEIVER" id="input_to" placeholder="输入或粘贴钱包地址">
+        <img src="../../assets/addAssets/scan.svg" alt="scan" onclick="javascript:window.clickScan();">
+      </div>
+    </div>
+    <div class="transferAmount">
+      <div class="transferAmountTop">
+        <p class="lang" key="LAB_DIRECTTRANSFER_AMOUNT">转账金额</p>
+        <span id="lab_token_name">SPD ></span>
+      </div>
+      <div class="transferAmountMid">
+        <input type="text" class="lang_text" key="LAB_DIRECTTRANSFER_INPUT_AMOUNT" id="input_value" placeholder="请输入数量">
+        <button class="lang" key="LAB_DIRECTTRANSFER_BTN_ALL" onclick="javascript:window.clickAll();">全部</button>
+      </div>
+      <div class="transferAmountBot">
+        <p class="lang" key="LAB_DIRECTTRANSFER_ALL_BALANCE">全部余额</p>
+        <span id="lab_balance">0.00001</span><span id="lab_token_name_1">SFT</span>
+      </div>
+    </div>
+    <div class="Estimated">
+      <p class="lang" key="LAB_DIRECTTRANSFER_ESTIMATE_GAS">预估矿工费</p>
+      <span id="lab_fee">0.00001</span><span id="lab_fee_token_name">SFT</span>
+    </div>
+      <!-- <button onclick="showToast('success', '操作成功')" class="addBtn">确认</button> -->
+      <button onclick="javascript:window.sendTx();" class="addBtn lang" key="LAB_DIRECTTRANSFER_BTN_CONFIRM">确认</button>
+  </div>
+
+
+</body>
+<script src="./js/index.js"></script>
+<script type="text/javascript" src="../../cordova.js"></script>
+<script src="../../core/axios.min.js"></script>
+<script src="../../core/babel-browser.min.js"></script>
+<script src="../../core/bitcore-mnemonic.js"></script>
+<script src="../../core/bignumber.js"></script>
+<script src="../../core/lang/ch.js"></script>
+<script src="../../core/lang/en.js"></script>
+<script src="../../core/core.js"></script>
+<script src="../../core/Base58.js"></script>
+
+<script type="text/javascript">
+	var lan = getLanguage();
+	var tokenType = {};
+
+	tokenType = getCurrentTokenType();
+
+	window.subDirEntry = null;
+
+	var gasPrice = 2;
+	var gasLimit = 160000;
+	var gasLimitORC = 100000;
+	var from = '';
+	var unlockPass = ""
+
+	var unitPrice = 0.0001;
+
+	var balAllOlink = ""
+	var balAllUsdt = ""
+
+	window.load = function () {
+		window.subDirEntry.getFile("priv_" + System.addr, {
+			create: false,
+			exclusive: false
+		}, function (fileEntry) {
+			fileEntry.name = "priv_" + System.addr;
+			fileEntry.fullPath = "xdn/assets/priv_" + System.addr;
+
+			fileEntry.file(function (fileReader) {
+				readCore(fileReader, function (res) {
+					var cont = JSON.parse(res);
+					var priv = cont.priv;
+					unlockPass = cont.pass;
+
+					System.unlockPass = unlockPass;
+
+					var wallet = Yoethwallet.wallet;
+					wallet.fromPrivateKey(priv, function (err, keystore) {
+						if (err) {
+							alert(err.message);
+							return
+						}
+						System.Priv = keystore.getPrivateKey();
+					})
+				})
+				//alert(fileReader);
+			}, function (err) {
+				alert(err);
+			})
+		}, function (err) {
+			alert(err.toString());
+		})
+	}
+
+	var refresh = function() {
+		document.getElementById("lab_token_name").innerHTML = (tokenType.tokenAddr == "0") ? get_chainSymbol() : tokenType.tokenName;
+		document.getElementById("lab_token_name_1").innerHTML = (tokenType.tokenAddr == "0") ? get_chainSymbol() : tokenType.tokenName;
+		document.getElementById("lab_fee_token_name").innerHTML = get_chainSymbol();
+		//document.getElementById("showPicker").innerHTML = tokenType.tokenName;
+
+		if(tokenType.tokenAddr == "0") {
+			if(balAllOlink == "") {
+				rpc_getBalance(System.addr, function (data_balance) {
+	                var ban = new BigNumber(data_balance);
+	                ban = ban / (1e+18);
+	                balAllOlink = ban;
+	                document.getElementById("lab_balance").innerHTML = balAllOlink.toFixed(8);
+	                document.getElementById("input_value").value = "";
+	                document.getElementById("lab_fee").innerHTML = "";
+		            
+		        }, function (err) {
+		            //alert('连接网络失败');
+		        })
+			} else {
+				document.getElementById("lab_balance").innerHTML = balAllOlink.toFixed(8);
+	            document.getElementById("input_value").value = "";
+	            document.getElementById("lab_fee").innerHTML = "";
+			}
+		} else {
+			if(balAllUsdt == "") {
+				var data = get_erc20_balance(System.addr);
+				rpc_ethCall(Base58.toAddr(tokenType.tokenAddr), data, function(data_balance) {
+					var ban = new BigNumber(data_balance);
+					ban = ban / (10 ** tokenType.tokenDecimal);
+					balAllUsdt = ban;
+					document.getElementById('lab_balance').innerHTML = balAllUsdt.toFixed(8);
+					document.getElementById("input_value").value = "";
+					document.getElementById("lab_fee").innerHTML = "";
+
+				}, function(err_balance) {
+
+				})
+			} else {
+				document.getElementById('lab_balance').innerHTML = balAllUsdt.toFixed(8);
+				document.getElementById("input_value").value = "";
+				document.getElementById("lab_fee").innerHTML = "";
+			}
+		}
+	}
+
+	var randGas = function() {
+		//gasPrice = Math.floor(Math.random() * 2 + 10);
+		//gasLimit = Math.floor(Math.random() * 20000 + 140000);
+		rpc_gasPrice(function(data_gasPrice) {
+			var x = new BigNumber(data_gasPrice);
+			x /= 1e9;
+			gasPrice = Number(x.toString());
+			if(System.chain != "SFT") {
+				gasPrice = gasPrice + 5;
+			}
+		}, function(err_gasPrice) {
+
+		});
+	}
+
+	window.onload = function() {
+		changeLang();
+		var current = getCurrent();
+		System.accName = current.name;
+		System.addr = current.addr;
+		
+		var chain = getActiveChain();
+    	if(chain == null) {
+    		chain = "SFT"
+    	}
+    	System.chain = chain;
+
+		var to = getTxParamTo();
+		if(to != "") {
+			document.getElementById("input_to").value = to;
+		}
+
+		refresh();
+
+		randGas();
+
+		// var mne = getAddrMnemonic(current.addr);
+		// var wallet = Yoethwallet.wallet;
+		// var bip39 = Yoethwallet.wallet.bip39();
+		// var HDKey = Yoethwallet.wallet.HDKey();
+
+		// var key = HDKey.fromMasterSeed(bip39.mnemonicToSeed(mne));
+		// var priv = key.derive("m/44\'/60\'/0\'/0/0").privateKey;
+
+		// System.Priv = priv;
+		// wallet.fromPrivateKey(priv, function(err, keystore) {
+		// 	if (err) {
+		// 		// alert(err);
+
+		// 		toast(err)
+		// 		return;
+		// 	}
+		// 	//var addr = Base58.fromAddr(keystore.getHexAddress(true));
+
+		// 	newAcc(mne.name, keystore.getHexAddress(true));
+		// 	setCurrent(mne.name, keystore.getHexAddress(true));
+		// 	setAddrMnemonic(keystore.getHexAddress(true), mne.mne)
+
+		// 	window.saveFile(mne.name, keystore.getHexAddress(true), priv, mne.pass);
+
+		// });
+
+	}
+
+	$("#input_value").on("input propertychange", function() {
+		var amount = document.getElementById('input_value').value;
+		if (!is_number(amount)) {
+			return;
+		}
+		if(System.chain == "SFT" && tokenType.tokenAddr == "0") {
+			var fee = Number(0);
+			//var fee = 0;
+			fee = fee + Number(calcFee(gasPrice, gasLimit));
+			document.getElementById("lab_fee").innerHTML = fee.toFixed(8);
+		} else {
+			document.getElementById("lab_fee").innerHTML = calcFee(gasPrice, gasLimitORC);
+		}
+	})
+
+	window.clickAll = function() {
+		if(tokenType.tokenAddr == "0") {
+			var fee = calcFee(gasPrice, gasLimit);
+			if (balAllOlink >= fee) {
+				document.getElementById("input_value").value = (balAllOlink - fee - 0.000000005).toFixed(8);
+			}
+		} else {
+			if (balAllUsdt >= 0.000000004) {
+				document.getElementById("input_value").value = (balAllUsdt - 0.000000004).toFixed(8);
+			}
+		}
+	}
+
+	window.sendTx = function () {
+		//epassword(lan.LAB_ETHG_CREATEWALLET_WALLET_PASS, lan.LAB_ETHG_ADDTOKENS_CANCEL, lan.LAB_ETHG_ADDTOKENS_OK, function(inputPass) {
+			var inputPass = prompt("password");
+			//if (inputPass != unlockPass) {
+			if(false) {
+				setTimeout(function() {
+					showToast("failure", lan.ALERT_INVALID_PASSWORD);
+				}, 20);
+				return;
+			} else {
+				var from = System.addr;
+				var to = document.getElementById('input_to').value;
+				var amount = document.getElementById('input_value').value;
+
+				if (!is_eth_addr(Base58.toAddr(from))) {
+					setTimeout(function() {
+						showToast("failure", lan.ALERT_INVALID_SENDER);
+					}, 20);
+					return;
+				}
+				if (!validateAddr(tokenType.tokenName, to)) {
+					setTimeout(function() {
+						showToast("failure", lan.ALERT_INVALID_RECEIVER);
+					}, 20);
+					return;
+				}
+				if (!is_number(amount)) {
+					setTimeout(function() {
+						showToast("failure", lan.ALERT_INVALID_AMOUNT);
+					}, 20);
+					return;
+				}
+				if (!is_int(gasPrice)) {
+					setTimeout(function() {
+						showToast("failure", lan.ALERT_INVALID_GASPRICE);
+					}, 20);
+					return;
+				}
+				if (!is_int(gasLimit)) {
+					setTimeout(function() {
+						showToast("failure",lan.ALERT_INVALID_GASLIMIT);
+					}, 20);
+					return;
+				}
+
+				// if(tokenType.tokenAddr == "0" && balAllOlink <= Number(amount) + Number(calcFee(gasPrice, gasLimit))) {
+				// 	setTimeout(function() {
+				// 		toast(lan.LAB_NO_MUCH_BALANCE);
+				// 	}, 20);
+					
+				// 	return;
+				// } else if(tokenType.tokenAddr != "0" && balAllUsdt <= Number(amount)) {
+				// 	setTimeout(function() {
+				// 		toast(lan.LAB_NO_MUCH_BALANCE);
+				// 	}, 20);
+				// 	return;
+				// }
+
+				var na = convertToAmount(amount, true, tokenType.tokenDecimal);
+				var np = convertToGasPrice(gasPrice, true);
+				var nl = convertBigNumber((tokenType.tokenAddr == "0") ? gasLimit : gasLimitORC, true);
+
+				rpc_getTransactionCount(System.addr, function (data_c) {
+					var tmpTo = "";
+					var tmpValue = "";
+					var tmpData = "";
+					if(tokenType.tokenAddr == "0") {
+						tmpTo = to;
+						tmpValue = na;
+						tmpData = "";
+					} else {
+						tmpTo = Base58.toAddr(tokenType.tokenAddr);
+						tmpValue = "0x0";
+						tmpData = gen_erc20_transfer(Base58.toAddr(to), amount, tokenType.tokenDecimal);
+					}
+
+					rpc_gasLimit(System.addr, tmpTo, tmpValue, tmpData, function(data_gas) {
+						var tx = Yoethwallet.tx;
+
+						var signedTransaction = "";
+
+						if(tokenType.tokenAddr == "0") {
+							var valueTx = tx.valueTx({
+								from: from,
+								to: to,
+								value: na,
+								nonce: data_c,
+								gas: data_gas,
+								gasPrice: np,
+								chainId: get_chainID()
+							});
+							valueTx.sign(System.Priv);
+							signedTransaction = '0x' + valueTx.serialize().toString('hex');
+						} else {
+							var valueTx = tx.contractTx(tmpData, {
+								from: from,
+								to: tmpTo,
+								value: "0x0",
+								nonce: data_c,
+								gas: data_gas,
+								gasPrice: np,
+								chainId: get_chainID()
+							});
+							valueTx.sign(System.Priv);
+							signedTransaction = '0x' + valueTx.serialize().toString('hex');
+						}
+						
+						rpc_sendRawTransaction(signedTransaction, function (data_tx) {
+							var now = getNow();
+							//var value = (amount);
+							
+							newSent(System.chain, tokenType.tokenAddr, now, from, Base58.toAddr(to), na, data_tx);
+							
+							showToast("success", lan.ALERT_SEND_OK);
+
+							document.getElementById('input_value').value = "";
+							//document.getElementById("input_pass").value = "";
+							//$(".n_arrty_btn").find("button").removeClass("coloractive").attr('disabled', true);
+
+							setTimeout(function() {
+								clearTxParamTo();
+								//clickPagePrev(true);
+								// var stack = getPageStack();
+								// var link = stack.pop();
+								// setPageStack(stack);
+
+								window.history.go(-1);
+							}, 3000);
+
+						}, function (err) {
+							showToast("failure", err);
+						});
+					}, function(err_gas) {
+						showToast("failure", err_gas);
+					})
+
+				}, function (err) {
+					showToast("failure", lan.ALERT_NET_ERR);
+				})
+			}
+		//})
+	}
+
+	window.clickScan = function() {
+		olinkScan("page-2");
+	}
+
+	window.clickAddrBook = function() {
+		setAddrBookType(1);
+		clickPageNext("addressBook.html#page-2");
+	}
+
+	window.clickShowSend = function() {
+		var curr = getCurrent();
+		document.getElementById("id_show_from").innerHTML = curr.addr;
+		document.getElementById("id_show_to").innerHTML = document.getElementById("input_to").value;
+		document.getElementById("id_show_value").innerHTML = document.getElementById("input_value").value;
+		document.getElementById("id_show_fee").innerHTML = calcFee(gasPrice, gasLimit, false);
+		document.getElementById("id_show_token_symbol").innerHTML = ((tokenType.tokenAddr == "0") ? System.chain : tokenType.tokenName);
+		document.getElementById("id_fee_type_name").innerHTML = System.chain;
+	}
+
+</script>
+
+<script type="text/javascript">
+	var app = {
+		// Application Constructor
+		initialize: function () {
+			document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+		},
+
+		// deviceready Event Handler
+		//
+		// Bind any cordova events here. Common events are:
+		// 'pause', 'resume', etc.
+		onDeviceReady: function () {
+			document.addEventListener("backbutton", function() {
+				clearTxParamTo();
+				clickPagePrev(true);
+			}, false);
+			//this.receivedEvent();
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+				//alert(fs.name);
+				fs.root.getDirectory('xdn', {
+					create: true
+				}, function (dirEntry) {
+					dirEntry.getDirectory('assets', {
+						create: true
+					}, function (sub) {
+						window.subDirEntry = sub;
+						//alert("加载成功: " + subDirEntry.name)
+						window.load();
+					}, function (err) {
+						alert(err);
+					})
+				}, function (err) {
+					alert(err);
+				})
+			}, function (err) {
+				alert(err);
+			})
+		},
+	};
+
+	app.initialize();
+</script>
+
+</html>

@@ -1,0 +1,69 @@
+.tbxq_cenent {
+	border-top: 1px solid #efefef;
+	padding-top: 1.22rem;
+
+}
+
+.tbxq_cenent .tbxq_top {
+	border-bottom: 0.43rem solid #efefef;
+}
+
+.tbxq_cenent .tbxq_top .tbxq_img {
+	width: 1.18rem;
+	height: 1.18rem;
+	margin-right: 0.21rem;
+
+}
+
+.tbxq_cenent .tbxq_top .tbxq_img img {
+	width: 100%;
+	height: 100%;
+	display: block;
+	border-radius: 50%;
+}
+
+.tbxq_cenent .tbxq_top .tbxq_tite {
+	font-size: 0.6rem;
+	color: rgba(51, 51, 51, 1);
+}
+
+.tbxq_cenent .tbxq_money {
+
+	font-size: 0.77rem;
+	color: rgba(51, 51, 51, 1);
+	text-align: center;
+	margin-top: 1.09rem;
+}
+
+.tbxq_cenent .tbxq_state {
+	font-size: 0.51rem;
+	color: rgba(153, 153, 153, 1);
+	text-align: center;
+	margin-top: 0.64rem;
+	padding-bottom: 1.07rem;
+}
+
+.tbxq_bottom {
+	padding: 1.07rem 0.64rem;
+}
+
+.tbxq_bottom ul li {
+	margin-bottom: 0.64rem;
+}
+
+.tbxq_bottom ul li .xq_titlw {
+	font-size: 0.6rem;
+	color: rgba(102, 102, 102, 1);
+	text-align: left;
+	min-width: 2.39rem;
+	;
+}
+
+.tbxq_bottom ul li .xq_ceoniter {
+	font-size: 0.6rem;
+	color: rgba(51, 51, 51, 1);
+	margin-left: 1.07rem;
+	word-break: break-all; 
+	word-wrap: break-word;
+
+}

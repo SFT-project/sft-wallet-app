@@ -1,0 +1,119 @@
+html {
+  background: #F5F5F5;
+}
+html .header {
+  width: 10rem;
+  height: 1.6rem;
+  flex-shrink: 0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4267rem;
+  box-sizing: border-box;
+}
+html .header img {
+  width: 0.74667rem;
+  height: 0.74667rem;
+  flex-shrink: 0;
+}
+html .header p {
+  color: #181719;
+  text-align: center;
+  font-size: 0.45333rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0.45333rem;
+}
+html .customAssets {
+  width: 10rem;
+  height: 1.33333rem;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0.43rem;
+  box-sizing: border-box;
+  align-items: center;
+  margin-top: 0.43rem;
+  background-color: #fff;
+}
+html .customAssets p {
+  color: #181719;
+  font-size: 0.42667rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0.42667rem;
+}
+html .customAssets img {
+  width: 0.64rem;
+  height: 0.64rem;
+  flex-shrink: 0;
+}
+html .homepageAssets {
+  background-color: #fff;
+  width: 10rem;
+  height: 17.12rem;
+  flex-shrink: 0;
+  padding: 0.43rem;
+  box-sizing: border-box;
+  margin-top: 0.43rem;
+}
+html .homepageAssets .homepageAssetsTitle {
+  color: #181719;
+  font-size: 0.42667rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0.42667rem;
+}
+html .homepageAssets .homepageAssetsContent {
+  margin-top: 0.43rem;
+}
+html .homepageAssets .homepageAssetsContent .homepageAssetsCell {
+  height: 1.81333rem;
+  flex-shrink: 0;
+  display: flex;
+  border-radius: 0.37333rem;
+  background: #F5F5F5;
+  align-items: center;
+  padding: 0 0.43rem;
+  box-sizing: border-box;
+  margin-bottom: 0.21rem;
+}
+html .homepageAssets .homepageAssetsContent .homepageAssetsCell img {
+  width: 0.64rem;
+  height: 0.64rem;
+  flex-shrink: 0;
+}
+html .homepageAssets .homepageAssetsContent .homepageAssetsCell .assetsCellBot {
+  display: flex;
+  align-items: center;
+  margin-left: 0.43rem;
+}
+html .homepageAssets .homepageAssetsContent .homepageAssetsCell .assetsCellBot img {
+  width: 0.96rem;
+  height: 0.96rem;
+  flex-shrink: 0;
+}
+html .homepageAssets .homepageAssetsContent .homepageAssetsCell .assetsCellBot div {
+  margin-left: 0.21rem;
+}
+html .homepageAssets .homepageAssetsContent .homepageAssetsCell .assetsCellBot div p {
+  color: #181719;
+  font-size: 0.42667rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0.42667rem;
+}
+html .homepageAssets .homepageAssetsContent .homepageAssetsCell .assetsCellBot div span {
+  display: block;
+  color: #181719;
+  font-size: 0.37333rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0.37333rem;
+  opacity: 0.4;
+  margin-top: 0.16rem;
+  overflow: hidden;
+  max-width: 6.1rem;
+  text-overflow: ellipsis;
+}

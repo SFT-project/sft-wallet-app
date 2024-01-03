@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>DNP</title>
+
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/business-casual.css" rel="stylesheet">
+
+  <style type="text/css">
+    .create {
+      padding-top: 1rem;
+      padding-bottom: 5rem;
+    }
+
+    .form-radio {
+      text-align: center;
+      margin: 0 auto;
+      padding: 0;
+
+    }
+
+    .leftitem {
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+
+    .rightitem {
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+
+    .radioitem {
+      width: 100px;
+      font-size: 15px;
+
+      /* margin-bottom: 20px;
+        padding: 10px;
+        display: inline-block;
+
+        background-color: #c9d8f2;
+        border: 1px solid #00a4ff; */
+    }
+
+    .radioitem a {
+      color: #ababab;
+    }
+
+    a:link,
+    a:visited .radioitem {
+      text-decoration: none;
+      /*超链接无下划线*/
+    }
+
+    a:link,
+    a:visited .radioitem {
+      text-decoration: none;
+      /*超链接无下划线*/
+    }
+
+    .actived {
+      font-size: 18px;
+      /* background-color: #17a6FE;
+        border: 1px solid #17a6FE; */
+    }
+
+    .actived a {
+      color: #1e2646;
+    }
+
+    a:link,
+    a:visited .actived {
+      text-decoration: none;
+      /*超链接无下划线*/
+    }
+
+    a:link,
+    a:visited .actived {
+      text-decoration: none;
+      /*超链接无下划线*/
+    }
+
+    .ve {
+      background: #17a6FE;
+    }
+
+    .nav_back {
+      width: 2rem;
+      height: 2rem;
+      background: url(./img/back.png) no-repeat center;
+      background-size: 2rem 2rem;
+    }
+
+    .nav_right {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .nav_title {
+      text-align: center;
+      color: white;
+      line-height: 30px;
+    }
+
+    .v-int {
+      border: 0;
+      border-bottom: 1px solid #e6e6e6;
+      border-radius: 0;
+      box-shadow: none !important;
+      padding-left: 40px;
+    }
+
+    .v-phone {
+      background: url('./img/phone.png') no-repeat;
+      background-size: 12px 18px;
+      background-position: 10px 15px;
+    }
+
+    .v-pass {
+      background: url('./img/pass.png') no-repeat;
+      background-size: 13px 16px;
+      background-position: 10px 15px;
+    }
+  </style>
+
+</head>
+
+<body>
+  <section class="headnav">
+    <div class="container ve">
+      <div class="flex" style="padding: 10px 0;">
+        <a href="list.html" class="nav_back"></a>
+        <div class="flex_1 nav_title">新建账号</div>
+        <div class="nav_right"></div>
+      </div>
+    </div>
+  </section>
+  <!-- <section class="headnav">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-12 mx-auto">
+            <div style="padding: 10px;">
+              <div style="display: inline-block; margin-left: 20px; margin-top: 8px; font-size: 25px; position:absolute;">
+                <p class="index">DNP</p>
+              </div>
+              <div style="display: inline; float: right;">
+                <ul class="nav_ul">
+                  <li>
+                    <a href="list.html" class="tab">返回</a>
+                  </li>
+                </ul>
+              </div>
+              
+            </div>
+        </div>
+      </div>
+    </section> -->
+
+  <!-- <section class="headnav">
+        <div class="container ve">
+          <div class="flex" style="padding: 10px 0;">
+            <a href="main.html" class="nav_back"></a>
+            <div class="flex_1 nav_title">新账户</div>
+            <div class="nav_right"></div>
+          </div>
+        </div>
+      </section> -->
+
+  <!-- Masthead -->
+  <header class="masthead text-white text-center create">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <!-- <div class="col-xl-9 mx-auto">
+            <h1 class="mb-5" style="font-size: 25px">新 账 户</h1>
+          </div> -->
+        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+          <form>
+            <div class="form-row form-radio">
+              <div class="radio actived leftitem radioitem" id="normal">
+                <a href="javascript:radio_normal();" style="display: inline-block; ">
+                  <input style="display: none;" type="radio" name="optionsRadios" id="optionsRadios1" value="option1"
+                    onclick="javascript:window.radio_normal()" checked>
+                  创造账户
+                </a>
+              </div>
+              <div class="radio rightitem radioitem" id="lost">
+                <a href="javascript:radio_lost();" style="display: inline-block; ">
+                  <input style="display: none;" type="radio" name="optionsRadios" id="optionsRadios2" value="option2"
+                    onclick="javascript:window.radio_lost()">
+                  导入账户
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto" id="normal_withdraw">
+          <form>
+            <div class="form-row">
+              <div class="col-12 col-md-12 mb-12 mb-md-7" style="margin-top: 15px">
+                <input type="text" class="form-control form-control-lg v-int v-phone" placeholder="请输入账户名称"
+                  id="input_new_name" style="font-size: 15px">
+              </div>
+              <div class="col-12 col-md-12 mb-12 mb-md-7" style="margin-top: 15px">
+                <input type="password" class="form-control form-control-lg  v-int v-pass" placeholder="请输入解锁密码" id="input_new_pass"
+                  style="font-size: 15px">
+              </div>
+              <div class="col-12 col-md-12 mb-12 col-md-12" style="margin-top: 50px">
+                <button type="button" class="btn btn-block btn-lg btn-primary" style="font-size: 15px"
+                  onclick="javascript:window.createAsNew()">创建</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto" id="lost_withdraw" style="display:none">
+          <form>
+            <div class="form-row">
+              <div class="col-12 col-md-12 mb-12 mb-md-7" style="margin-top: 15px">
+                <input type="text" class="form-control form-control-lg" placeholder="请输入账户名称" id="input_import_name"
+                  style="font-size: 15px">
+              </div>
+              <div class="col-12 col-md-12 mb-12 mb-md-7" style="margin-top: 15px">
+                <input type="text" class="form-control form-control-lg" placeholder="请输入私钥" id="input_import_priv"
+                  style="font-size: 15px">
+              </div>
+              <div class="col-12 col-md-12 mb-12 mb-md-3" style="margin-top: 15px">
+                <input type="password" class="form-control form-control-lg" placeholder="请输入解锁密码" id="input_import_pass"
+                  style="font-size: 15px">
+              </div>
+              <div class="col-12 col-md-12 mb-12 col-md-3" style="margin-top: 15px">
+                <button type="button" class="btn btn-block btn-lg btn-primary"
+                  onclick="javascript:window.createAsImport()">导 入</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- <footer class="footer text-faded text-center py-5">
+      <div class="container">
+        <p class="m-0 small">Copyright &copy; 2019</p>
+      </div>
+    </footer> -->
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="core/babel-browser.min.js"></script>
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="core/bitcore-mnemonic.js"></script>
+  <script src="core/Base58.js"></script>
+  <script src="core/core.js"></script>
+
+  <script type="text/javascript">
+    (function () {
+      window.radio_normal = function () {
+        document.getElementById("normal_withdraw").style.display = "";
+        document.getElementById("lost_withdraw").style.display = "none";
+        $("#normal").toggleClass("actived");
+        $("#lost").removeClass("actived");
+      };
+
+      window.radio_lost = function () {
+        document.getElementById("normal_withdraw").style.display = "none";
+        document.getElementById("lost_withdraw").style.display = "";
+        $("#normal").removeClass("actived");
+        $("#lost").toggleClass("actived");
+      };
+
+      window.createAsNew = function () {
+        var accName = document.getElementById("input_new_name").value;
+        var pass = document.getElementById("input_new_pass").value;
+
+        // 判断用户名
+        if (nameInAccs(accName)) {
+          alert("该帐户名已经被注册");
+          return;
+        }
+
+        var hdPathString = 'm/44\'/60\'/0\'/0';
+        var wallet = Yoethwallet.wallet;
+        wallet.generate('', hdPathString, function (err, keystore) {
+          if (err) {
+            alert(err.message);
+            return
+          }
+          //data.store = keystore;
+          //localStorage.setItem("key", JSON.stringify(keystore));
+
+          var privKey = keystore.getPrivateKey();
+          var addr = keystore.getHexAddress(true);
+
+          // keystore.toV3String(pass, {}, (err_pass, v3Json) => {
+          //     if(err_pass) {
+          //         alert(err_pass);
+          //         return;
+          //     }
+          newAcc(accName, addr);
+          setPriv(addr, privKey);
+          setCurrent(accName, addr);
+          setPass(addr, pass);
+
+          System.accName = accName;
+          System.addr = addr;
+          System.priv = privKey;
+
+          window.location.href = "main.html";
+          // })
+        })
+      };
+
+      window.createAsImport = function () {
+        var accName = document.getElementById("input_import_name").value;
+        var priv = document.getElementById("input_import_priv").value;
+        var pass = document.getElementById("input_import_pass").value;
+
+        // 判断用户名
+        if (nameInAccs(accName)) {
+          alert("该帐户名已经被注册");
+          return;
+        }
+
+        var wallet = Yoethwallet.wallet;
+        wallet.fromPrivateKey(priv, function (err, keystore) {
+          if (err) {
+            alert(err.message);
+            return;
+          }
+
+          var privKey = keystore.getPrivateKey();
+          var addr = keystore.getHexAddress(true);
+
+          // keystore.toV3String(pass, {}, (err_pass, v3Json) => {
+          //     if(err_pass) {
+          //         alert(err_pass);
+          //         return;
+          //     }
+          newAcc(accName, addr);
+          setPriv(addr, privKey);
+          setCurrent(accName, addr);
+          setPass(addr, pass);
+
+          System.accName = accName;
+          System.addr = addr;
+          System.priv = privKey;
+
+          window.location.href = "main.html";
+          // });
+        });
+
+      }
+
+    })()
+
+  </script>
+
+</body>
+
+</html>

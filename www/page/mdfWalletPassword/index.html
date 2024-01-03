@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SFT Wallet</title>
+  <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="../../assets/js/init.js"></script>
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+  <div class="bodyMask" onclick="hidePop()"></div>
+  <div class="moreMenuMask" onclick="toggleMoreMenu()"></div>
+  <div class="header">
+      <img src="../../assets/addAssets/arrow.svg" onclick="back()" alt="arrow">
+    <p class="lang" key="LAB_MDFWALLETPASSWORD_TITLE">修改钱包密码</p>
+    <div></div>
+  </div>
+  <div class="container">
+   
+    <div class="walletName"> 
+      <p class="lang" key="LAB_MDFWALLETPASSWORD_OLD_PASSWORD">旧的钱包密码</p>
+      <input type="text" class="lang_text" key="LAB_MDFWALLETPASSWORD_INPUT_OLD_PASSWORD" id="id_current_pass" placeholder="输入旧的钱包密码">
+    </div> 
+    <div class="tokenName">
+      <p class="lang" key="LAB_MDFWALLETPASSWORD_NEW_PASSWORD">钱包密码</p>
+      <input  class="passwordInput lang_text" key="LAB_MDFWALLETPASSWORD_INPUT_NEW_PASSWORD"  type="password" id="id_new_pass" placeholder="输入新的钱包密码">
+    </div>
+    <div class="info">
+      <p class="lang" key="LAB_CREATWALLET_TIP_1">*至少8位字符</p>
+      <p class="lang" key="LAB_CREATWALLET_TIP_2">*至少有1位大写字母</p>
+      <p class="lang" key="LAB_CREATWALLET_TIP_3">*至少有1位小写字母</p>
+      <p class="lang" key="LAB_CREATWALLET_TIP_4">*至少有1位数字</p>
+    </div>
+    <div class="tokenDecimal ">
+      <p class="lang" key="LAB_MDFWALLETPASSWORD_REPEAT_PASSWORD">重复钱包密码</p>
+      <input type="password" class="lang_text" key="LAB_MDFWALLETPASSWORD_INPUT_REPEAT_PASSWORD" id="id_new_pass_repeat" placeholder="再次输入钱包密码">
+    </div>
+    <!-- <a href="../mnemonicWords/index.html"> -->
+      <button onclick="javascript:window.clickChange()" class="addBtn lang" key="LAB_MDFWALLETPASSWORD_BTN_COMPLETE">完成</button>
+    <!-- </a> -->
+  </div>
+  <div class="walletTips">
+    <p class="lang" key="LAB_MDFWALLETPASSWORD_DOING">钱包密码正在修改...</p>
+    <img src="../../assets/introductionMnemonics/loading.svg" alt="loading" >
+  </div>
+
+
+</body>
+<script src="./js/index.js"></script>
+<script type="text/javascript" src="../../cordova.js"></script>
+<script src="../../core/babel-browser.min.js"></script>
+<script src="../../core/bitcore-mnemonic.js"></script>
+<script src="../../core/lang/ch.js"></script>
+<script src="../../core/lang/en.js"></script>
+<script src="../../core/core.js"></script>
+<script src="../../core/Base58.js"></script>
+<script type="text/javascript">
+	var lan = getLanguage();
+
+	window.subDirEntry = null;
+
+	window.load = function () {
+		var curr = getCurrent();
+		System.addr = curr.addr;
+
+		window.subDirEntry.getFile("priv_" + System.addr, {
+			create: false,
+			exclusive: false
+		}, function (fileEntry) {
+			fileEntry.name = "priv_" + System.addr;
+			fileEntry.fullPath = "xdn/assets/priv_" + System.addr;
+
+			fileEntry.file(function (fileReader) {
+				readCore(fileReader, function (res) {
+					var cont = JSON.parse(res);
+					System.pass = cont.pass;
+				})
+				//alert(fileReader);
+			}, function (err) {
+				alert(err);
+			})
+		}, function (err) {
+			alert(err.toString());
+		})
+	}
+
+	window.onload = function() {
+		changeLang();
+	}
+
+	window.clickChange = function() {
+		var passOld = document.getElementById("id_current_pass").value;
+		var passNew = document.getElementById("id_new_pass").value;
+		var passNewRep = document.getElementById("id_new_pass_repeat").value;
+		var current = getCurrent();
+		if (current == null) {
+			return;
+		}
+
+		if(passOld != System.pass) {
+			showToast("failure", lan.ALERT_INVALID_PASSWORD);
+			return;
+		}
+
+		if(!validPass(passNew)) {
+			showToast("failure", lan.LAB_ETHG_CREATEWALLET_INPUT_PASS);
+			return;
+		}
+
+		if (passNew != passNewRep) {
+			// alert(lan.ALERT_PASSWORD_DIFFERENT);
+			showToast("failure", lan.ALERT_PASSWORD_INCONSISTENT)
+			return;
+		}
+
+		// doFingerLock(function() {
+			window.saveFile(current.name, current.addr, passOld, passNew)
+		// }, function(err_finger) {
+		// 	toast(err_finger);
+		// })
+		
+	}
+
+	window.saveFile = function(accName, addr, passOld, passNew) {
+		//alert(accName)
+		window.subDirEntry.getFile("priv_" + addr, {
+			create: true,
+			exclusive: false
+		}, function(fileEntry) {
+			fileEntry.name == "priv_" + addr;
+			fileEntry.fullPath = "xdn/assets/priv_" + addr;
+
+			fileEntry.file(function(fileReader) {
+				readCore(fileReader, function(res) {
+					var cont = JSON.parse(res);
+
+					var dataObj = JSON.stringify({
+						addr: cont.addr,
+						priv: cont.priv,
+						pass: passNew
+					});
+					fileEntry.createWriter(function(fileWriter) {
+						fileWriter.onwriteend = function() {
+							toast(lan.LAB_MODIFY_SUCC);
+							document.getElementById("id_current_pass").value = "";
+		  					document.getElementById("id_new_pass").value = "";
+							document.getElementById("id_new_pass_repeat").value = "";
+
+							setTimeout(function() {
+								window.history.go(-1)
+							}, 800);
+						};
+						fileWriter.onerror = function(e) {
+							showToast("failure", e.toString())
+						};
+						fileWriter.write(dataObj);
+					})
+
+				}, function(err) {
+					showToast("failure", err)
+				})
+			}, function(err) {
+				showToast("failure", err)
+			})
+		}, function(err) {
+			showToast("failure", err.toString())
+		})
+	}
+
+</script>
+
+<script type="text/javascript">
+	var app = {
+		// Application Constructor
+		initialize: function () {
+			document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+		},
+
+		// deviceready Event Handler
+		//
+		// Bind any cordova events here. Common events are:
+		// 'pause', 'resume', etc.
+		onDeviceReady: function () {
+			document.addEventListener("backbutton", function() {
+				clearTxParamTo();
+				clickPagePrev();
+			}, false);
+			//this.receivedEvent();
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+				//alert(fs.name);
+				fs.root.getDirectory('xdn', {
+					create: true
+				}, function (dirEntry) {
+					dirEntry.getDirectory('assets', {
+						create: true
+					}, function (sub) {
+						window.subDirEntry = sub;
+						//alert("加载成功: " + subDirEntry.name)
+						window.load();
+					}, function (err) {
+						alert(err);
+					})
+				}, function (err) {
+					alert(err);
+				})
+			}, function (err) {
+				alert(err);
+			})
+		},
+	};
+
+	app.initialize();
+</script>
+
+</html> 

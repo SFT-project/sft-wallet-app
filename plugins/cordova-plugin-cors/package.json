@@ -1,0 +1,75 @@
+{
+  "_from": "cordova-plugin-cors",
+  "_id": "cordova-plugin-cors@1.3.0",
+  "_inBundle": false,
+  "_integrity": "sha512-HPH4+VIL2XTj73k+MMD7CnwPQ1n7m79R/gEXg0DWXda4JPEVmqobJDr05kj9V3UXvGVjuXc93iP6a64GeHxIow==",
+  "_location": "/cordova-plugin-cors",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "cordova-plugin-cors",
+    "name": "cordova-plugin-cors",
+    "escapedName": "cordova-plugin-cors",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-cors/-/cordova-plugin-cors-1.3.0.tgz",
+  "_shasum": "d56cc08f0c9b4d98c267d9914f145f4e45cbf56b",
+  "_spec": "cordova-plugin-cors",
+  "_where": "D:\\EagleWork\\waibao\\Ays\\ays_android_new",
+  "author": {
+    "name": "Raphaël Calabro",
+    "email": "ddaeke-npmjs@yahoo.com"
+  },
+  "bugs": {
+    "url": "https://github.com/Raphcal/cordova-plugin-cors/issues"
+  },
+  "bundleDependencies": false,
+  "contributors": [
+    {
+      "name": "Rory Ye",
+      "email": "rory.cn@gmail.com"
+    }
+  ],
+  "cordova": {
+    "id": "cordova-plugin-cors",
+    "platforms": [
+      "ios"
+    ]
+  },
+  "deprecated": false,
+  "description": "Allow CORS requests on iOS with WKWebView.",
+  "devDependencies": {
+    "typescript": "^2.6.2"
+  },
+  "directories": {},
+  "homepage": "https://github.com/Raphcal/cordova-plugin-cors#readme",
+  "keywords": [
+    "cordova",
+    "cors",
+    "ecosystem:cordova",
+    "cordova-ios"
+  ],
+  "license": "LGPLv3",
+  "maintainers": [
+    {
+      "name": "Raphaël Calabro",
+      "email": "ddaeke-npmjs@yahoo.com"
+    }
+  ],
+  "name": "cordova-plugin-cors",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Raphcal/cordova-plugin-cors.git"
+  },
+  "scripts": {
+    "prepare": "tsc"
+  },
+  "version": "1.3.0"
+}

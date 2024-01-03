@@ -1,0 +1,51 @@
+html {
+  background: #F5F5F5;
+}
+html .header {
+  width: 10rem;
+  height: 1.6rem;
+  flex-shrink: 0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4267rem;
+  box-sizing: border-box;
+}
+html .header img {
+  width: 0.74667rem;
+  height: 0.74667rem;
+  flex-shrink: 0;
+}
+html .header p {
+  color: #181719;
+  text-align: center;
+  font-size: 0.45333rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0.45333rem;
+}
+html .container .IntroductionOfMnemonics {
+  width: 10rem;
+  height: 1.33333rem;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0.43rem;
+  box-sizing: border-box;
+  align-items: center;
+  margin-top: 0.43rem;
+  background-color: #fff;
+}
+html .container .IntroductionOfMnemonics p {
+  color: #181719;
+  font-size: 0.42667rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0.42667rem;
+}
+html .container .IntroductionOfMnemonics img {
+  width: 0.64rem;
+  height: 0.64rem;
+  flex-shrink: 0;
+}

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SFT Wallet</title>
+  <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+  <div class="bodyMask" onclick="hidePop()"></div>
+  <div class="moreMenuMask"></div>
+  <div class="header">
+
+    <div></div>
+    <p class="lang" key="LAB_SETTING_TITLE">设置</p>
+    <div></div>
+  </div>
+  <div class="container">
+    <a href="../settingDetails/index.html">
+      <div class="setting">
+        <p class="lang" key="LAB_SETTING_COMMON">
+          通用设置
+        </p>
+        <img src="../../assets/addAssets/rightArrow.svg" alt="rightArrow">
+      </div>
+    </a>
+    <div class="help" onclick="showPop()">
+      <p class="lang" key="LAB_SETTING_HELP">
+        帮助与反馈
+      </p>
+      <img src="../../assets/addAssets/rightArrow.svg" alt="rightArrow">
+    </div>
+    <div class="about" onclick="showAboutPop()">
+      <p class="lang" key="LAB_SETTING_ABOUT">
+        关于
+      </p>
+      <img src="../../assets/addAssets/rightArrow.svg" alt="rightArrow">
+    </div>
+  </div>
+  <div class="footer">
+    <a href="../index/index.html">
+    <div><img src="../../assets/setting/wallet.svg" alt="wallet"></div>
+  </a>
+    <div><img src="../../assets/index/more.svg" alt="more"></div>
+    <a href="../setting/index.html">
+      <div><img src="../../assets/setting/settingChoose.svg" alt="setting"></div>
+    </a>
+  </div>
+  <div class="helpPop">
+    <div class="topCell"></div>
+    <div class="btnBox">
+      <div class="media">
+        <img src="../../assets/setting/x.svg" alt="">
+        <span class="lang" key="LAB_SETTING_TWITTER">诚挚邀请您关注我们的官方推特社区</span>
+        <p>https://twitter.com/SFTProtocol</p>
+      </div>
+      <div class="media scancode">
+        <img src="../../assets/setting/tg.svg" alt="">
+        <span class="lang" key="LAB_SETTING_TELGRAM">诚挚邀请您关注我们的官方Telegram社区</span>
+        <p>https://t.me/SFTChinese</p>
+      </div>
+
+    </div>
+
+
+
+  </div>
+  <div class="aboutPop">
+    <div class="topCell"></div>
+    <div class="btnBox">
+      <div class="iconBox">
+        <img src="../../assets/setting/icon.svg" alt="" srcset="">
+        <p>SFT Wallet</p>
+      </div>
+      <div class="btnBoxBot">
+        <div class="linkCell">
+          <p class="lang" key="LAB_SETTING_WEBSITE">访问官网</p>
+          <p>></p>
+        </div>
+        <div class="linkCell">
+          <p class="lang" key="LAB_SETTING_VERSION">版本更新</p>
+          <p>1.0.1</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="./js/index.js"></script>
+
+<script type="text/javascript" src="../../cordova.js"></script>
+<script src="../../core/babel-browser.min.js"></script>
+<script src="../../core/bitcore-mnemonic.js"></script>
+<script src="../../core/lang/ch.js"></script>
+<script src="../../core/lang/en.js"></script>
+<script src="../../core/core.js"></script>
+<script src="../../core/Base58.js"></script>
+
+<script type="text/javascript">
+	window.onload = function() {
+		changeLang();
+	}
+</script>
+
+</html>

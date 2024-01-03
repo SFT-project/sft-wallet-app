@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>DNP</title>
+
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <!-- Custom styles for this template -->
+  <link href="css/business-casual.css" rel="stylesheet">
+
+  <style type="text/css">
+    .create {
+      padding-bottom: 5rem;
+    }
+
+    .ve {
+      background: #17a6FE;
+    }
+
+    .nav_back {
+      width: 2rem;
+      height: 2rem;
+      background: url(./img/back.png) no-repeat center;
+      background-size: 2rem 2rem;
+    }
+
+    .nav_right {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .nav_title {
+      text-align: center;
+      color: white;
+      line-height: 30px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <!-- <section class="headnav">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-12 mx-auto">
+            <div style="padding: 10px;">
+              <div style="display: inline-block; margin-left: 20px; margin-top: 8px; font-size: 25px; position:absolute;">
+                <p class="index" >DNP</p>
+                <a class="index" style="color: red;font-size:16px; margin-left: 60px" href="bonus.html">抽奖活动进行中</a>
+              </div>
+              <div style="display: inline; float: right;">
+                <ul class="nav_ul">
+                  <li>
+                    <a href="main.html" class="tab">返回</a>
+                  </li>
+                </ul>
+              </div>
+              
+            </div>
+        </div>
+      </div>
+    </section> -->
+
+  <section class="headnav">
+    <div class="container ve">
+      <div class="flex" style="padding: 10px 0;">
+        <a href="main.html" class="nav_back"></a>
+        <div class="flex_1 nav_title">发起转账</div>
+        <div class="nav_right"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Masthead -->
+  <header class="masthead text-white text-center create" id="start">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <!-- <div class="col-xl-9 mx-auto">
+          <h1 class="mb-5" style="font-size: 25px">发 起 转 账</h1>
+        </div> -->
+        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+          <form>
+            <div class="form-row">
+              <div class="col-12 mx-auto">
+                <p class="mb-1" style="font-size: 15px;" align="left">发送者</p>
+              </div>
+              <div class="col-12 col-md-12 mb-12 mb-md-3">
+                <input type="text" class="form-control form-control-lg" disabled="disabled" id="input_from"
+                  style="font-size: 13px">
+              </div>
+              <div class="col-12 mx-auto">
+                <h2 class="mb-1" style="font-size: 15px;" align="left">接收者</h2>
+              </div>
+              <div class="col-12 col-md-12 mb-12 mb-md-3">
+                <input type="text" class="form-control form-control-lg" placeholder="请输入接收者地址" id="input_to"
+                  style="font-size: 13px">
+              </div>
+              <div class="col-12 mx-auto">
+                <h2 class="mb-1" style="font-size: 15px;" align="left">金额</h2>
+              </div>
+              <div class="col-12 col-md-12 mb-12 mb-md-3">
+                <input type="text" class="form-control form-control-lg" placeholder="请输入金额" id="input_value"
+                  style="font-size: 13px">
+              </div>
+              <div class="col-12 mx-auto">
+                <h2 class="mb-1" style="font-size: 15px;" align="left">Gas Price</h2>
+              </div>
+              <div class="col-12 col-md-12 mb-12 mb-md-3">
+                <input type="text" class="form-control form-control-lg" placeholder="请输入转账GasPrice" id="input_gasPrice"
+                  style="font-size: 13px" oninput="javascript:window.showFee();">
+              </div>
+              <div class="col-12 mx-auto">
+                <h2 class="mb-1" style="font-size: 15px;" align="left">Gas Limit</h2>
+              </div>
+              <div class="col-12 col-md-12 mb-12 mb-md-3">
+                <input type="text" class="form-control form-control-lg" placeholder="请输入转账Gas" id="input_gas"
+                  style="font-size: 13px" oninput="javascript:window.showFee();" disabled="disabled">
+              </div>
+              <div class="col-12 mx-auto">
+                <h2 class="mb-1" style="font-size: 15px;" align="left">费用预估</h2>
+              </div>
+              <div class="col-12 col-md-12 mb-12 mb-md-3">
+                <input type="text" class="form-control form-control-lg" placeholder="" id="input_fee"
+                  style="font-size: 13px" disabled="disabled">
+              </div>
+              <div class="col-12 col-md-12 mb-12 col-md-5" style="margin-top: 25px">
+                <button type="button" class="btn btn-block btn-lg btn-primary"
+                  onclick="javascript:window.sendTx()">发送</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- <footer class="footer text-faded text-center py-5">
+    <div class="container">
+      <p class="m-0 small">Copyright &copy; 2019</p>
+    </div>
+  </footer> -->
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="core/babel-browser.min.js"></script>
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="core/bignumber.js"></script>
+  <script src="core/bitcore-mnemonic.js"></script>
+  <script src="core/Base58.js"></script>
+  <script src="core/core.js"></script>
+
+  <script type="text/javascript">
+    (function () {
+      var data_count = {
+        height: -1,
+        count: 0
+      };
+
+      window.onload = function () {
+        var current = getCurrent();
+        System.accName = current.name;
+        System.addr = current.addr;
+        var pass = getPass(System.addr);
+        var priv = getPriv(System.addr);
+
+        document.getElementById("input_from").value = System.addr;
+
+        dnp_gasPrice(function (data) {
+          //alert(data);
+          // var tmp = new BigNumber(data);
+          // tmp = tmp / (1e+9);
+          var tmp = convertFromGasPrice(data);
+          document.getElementById("input_gasPrice").value = tmp;
+          var tmp = convertBigNumber('0x5208', false);
+          //alert(tmp);
+          document.getElementById("input_gas").value = tmp;
+          var wallet = Yoethwallet.wallet;
+          wallet.fromPrivateKey(priv, function (err, keystore) {
+            if (err) {
+              alert(err.message);
+              return
+            }
+            System.priv = keystore.getPrivateKey();
+          })
+          showFee();
+        }, function (err) {
+          alert(err);
+        });
+      }
+
+      window.sendTx = function () {
+        var from = document.getElementById('input_from').value;
+        var to = document.getElementById('input_to').value;
+        var amount = document.getElementById('input_value').value;
+        var gasPrice = document.getElementById('input_gasPrice').value;
+        var gasLimit = document.getElementById('input_gas').value;
+
+        if (!is_eth_addr(from)) {
+          alert("发送者地址不正确");
+          return;
+        }
+        if (!is_eth_addr(to)) {
+          alert("接收者地址不正确");
+          return;
+        }
+        if (!is_number(amount)) {
+          alert("转账金额不正确");
+          return;
+        }
+        if (!is_int(gasPrice)) {
+          alert("gas price不正确");
+          return;
+        }
+        if (!is_int(gasLimit)) {
+          alert("gas limit不正确");
+          return;
+        }
+        // var na = new BigNumber(amount);
+        // na = na * (1e+18);
+        // var np = new BigNumber(gasPrice);
+        // np = np * (1e+9);
+        // var nl = new BigNumber(gasLimit);
+        // nl = nl * 1;
+        var na = convertToAmount(amount, true);
+        var np = convertToGasPrice(gasPrice, true);
+        var nl = convertBigNumber(gasLimit, true);
+
+        dnp_blockNumber(function (height) {
+          dnp_getBalance(System.addr, height, function (data) {
+            // var ban = new BigNumber(data);
+            // if(ban < na) {
+            //     alert("余额不足");
+            //     return;
+            // }
+            var hei = height;
+            dnp_getTransactionCount(System.addr, hei, function (data_c) {
+
+              if (data_count.height == hei) {
+
+              } else {
+                data_count.height = hei;
+                data_count.count = data_c
+              }
+
+              var tx = Yoethwallet.tx;
+
+              var valueTx = tx.valueTx({
+                from: from,
+                to: to,
+                value: na,
+                nonce: data_count.count,
+                gas: nl,
+                gasPrice: np,
+                fee: 0,
+                chainId: null
+              });
+              valueTx.sign(System.priv);
+              var sadr = valueTx.getSenderAddress().toString('hex');
+              var signedTransaction = '0x' + valueTx.serialize().toString('hex');
+              dnp_sendRawTransaction(signedTransaction, function (data_tx) {
+                data_count.count++;
+                var now = getNow();
+                var value = (amount);
+                newSent(now, from, to, value, data_tx);
+                alert("成功发送交易");
+              }, function (err) {
+                alert(err);
+              });
+            }, function (err) {
+              alert("网络连接失败");
+            })
+
+          }, function (err) {
+            alert('连接网络失败');
+          })
+        }, function (err) {
+          alert('连接网络失败');
+        })
+      }
+
+      window.showFee = function () {
+        var gasPrice = document.getElementById('input_gasPrice').value;
+        var gasLimit = document.getElementById('input_gas').value;
+        if (!is_int(gasPrice)) {
+          return;
+        }
+        if (!is_int(gasLimit)) {
+          return;
+        }
+        var nt = calcFee(gasPrice, gasLimit);
+
+        document.getElementById('input_fee').value = nt;
+      }
+
+    })();
+
+  </script>
+
+</body>
+
+</html>

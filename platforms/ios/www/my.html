@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Profile</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<link rel="shortcut icon" href="/favicon.ico">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="./css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="./css/public.css" />
+		<link rel="stylesheet" type="text/css" href="./css/my.css" />
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="core/Base58.js"></script>
+		<script src="core/lang/ch.js"></script>
+		<script src="core/lang/en.js"></script>
+		<script src="core/core.js"></script>
+	</head>
+	<body>
+		<div class="n_my_top" >
+			<div class="n_my_info">
+				<div class="my_logo">
+					<img src="image/userig.png">
+				</div>
+				<div class="n_my_name" id="lab_name">张三</div>
+			</div>
+		</div>
+		<div class="n_my_one ">
+			<!-- <a href="lockcabin.html"> -->
+				<a href="lan.html">
+				<div class="display_flex align-items_center">
+					<div class="my_imger">
+						<img src="image/icon-set.png">
+					</div>
+					<div class="n_my_title lang" key="LAB_SETLANG">语言</div>
+					<div class="flex_1 clearfix">
+						<div class="m_right">
+							<img src="image/arrowe.png">
+						</div>
+					</div>
+				</div>
+			</a>
+
+		</div>
+		<div class="n_my_border"></div>
+		<div class="my_list" style="padding-bottom: 2.5rem">
+			<ul>
+				<li>
+					<a href="ackups.html">
+						<div class="display_flex align-items_center">
+							<div class="my_imger">
+								<img src="image/beife.png">
+							</div>
+							<div class="n_my_title lang" key="LAB_BACKUP">备份</div>
+							<div class="flex_1 clearfix">
+								<div class="m_right">
+									<img src="image/arrowe.png">
+								</div>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="recovery.html">
+						<div class="display_flex align-items_center">
+							<div class="my_imger">
+								<img src="image/huifu.png">
+							</div>
+							<div class="n_my_title lang" key="LAB_RECOVERY">恢复</div>
+							<div class="flex_1 clearfix">
+								<div class="m_right">
+									<img src="image/arrowe.png">
+								</div>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="userlist.html">
+						<div class="display_flex align-items_center">
+							<div class="my_imger">
+								<img src="image/listt.png">
+							</div>
+							<div class="n_my_title lang" key="LAB_ACCOUNTS">账户列表</div>
+							<div class="flex_1 clearfix">
+								<div class="m_right">
+									<img src="image/arrowe.png">
+								</div>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="treaty.html">
+						<div class="display_flex align-items_center">
+							<div class="my_imger">
+								<img src="image/xieyi.png">
+							</div>
+							<div class="n_my_title lang" key="LAB_AGREEMENTS">关于AYS</div>
+							<div class="flex_1 clearfix">
+								<div class="m_right">
+									<img src="image/arrowe.png">
+								</div>
+							</div>
+						</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<!-- END -->
+		<div class="n_footer display_flex justify-content_flex-end">
+
+			<div class="n_boxx flex_1" onclick="javascript:window.location.href='wallet_main.html'">
+
+				<div class="n_foter_img">
+					<img src="image/money_nor.png">
+				</div>
+				<div class="n_title lang" key="LAB_WALLET">钱包</div>
+
+
+			</div>
+			<div class="n_boxx flex_1" onclick="javascript:window.location.href='power.html'">
+
+				<div class="n_foter_img">
+					<img src="image/moner.png">
+				</div>
+				<div class="n_title lang" key="LAB_APPLICATION">应用</div>
+
+			</div>
+			<div class="n_boxx flex_1" onclick="javascript:window.location.href='my.html'">
+
+				<div class="n_foter_img">
+					<img src="image/mine_selr.png">
+				</div>
+				<div class="n_title lang" key="LAB_MY">我的</div>
+
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		(function() {
+			// body...
+			window.onload = function() {
+				changeLang();
+				var current = getCurrent();
+		        System.accName = current.name;
+		        System.addr = current.addr;
+		        document.getElementById("lab_name").innerHTML = System.accName;
+			}
+		})()
+
+		var app = {
+	      // Application Constructor
+	      initialize: function () {
+	        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+	      },
+
+	      onDeviceReady: function () {
+
+	        document.addEventListener("backbutton", function() {
+	         	window.location.href = "wallet_main.html";
+	        }, false);
+	      },
+	    };
+
+	    app.initialize();
+	</script>
+
+</html>

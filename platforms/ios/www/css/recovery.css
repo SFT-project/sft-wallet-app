@@ -1,0 +1,65 @@
+.n_recovery{
+	border-top: 1px solid #eeeeee;
+	padding: 0 0.64rem;
+}
+.n_recovery ul li{
+	padding: 0.81rem;
+	border-bottom: 1px solid #eeeeee;
+}
+.n_namee{
+	font-size:0.68rem;
+	color:rgba(51,51,51,1);
+	margin-right: 10vw;
+}
+.n_recovery ul li  .n-input input{
+	padding: 0;
+	border: none;
+	width: 100%;
+	line-height: 1.2;
+	height: 0.8rem;
+	font-size: 0.68rem;
+	color: #333333;
+	text-align: right;
+}
+::-webkit-input-placeholder {
+	font-size: 0.68rem;
+	text-align: right;
+	color:rgba(187,187,187,1);
+}
+
+::-moz-placeholder {
+	font-size: 0.68rem;
+	text-align: right;
+	color:rgba(187,187,187,1);
+}
+
+:-ms-input-placeholder {
+	font-size: 0.68rem;
+	text-align: right;
+	color:rgba(187,187,187,1);
+}
+
+:-moz-placeholder {
+	font-size: 0.68rem;
+	text-align: right;
+	color:rgba(187,187,187,1);
+}
+.n_btn {
+	position: fixed;
+	width: 100%;
+	z-index: 99;
+	height:1.92rem;
+	padding: 0 0.85rem;
+	bottom: 1.32rem;
+}
+.n_btn button{
+	border: 0;
+	width: 100%;
+	height: 100%;
+	background:rgba(215,229,234,1);
+	border-radius:1.07rem;
+	font-size:0.77rem;
+	color:rgba(255,255,255,1);
+	text-align: center;
+	line-height: 1.92rem;
+}

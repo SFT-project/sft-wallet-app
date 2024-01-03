@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Create</title>
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+	<link rel="shortcut icon" href="/favicon.ico">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" type="text/css" href="./css/reset.css" />
+	<link rel="stylesheet" type="text/css" href="./css/nav.css" />
+	<link rel="stylesheet" type="text/css" href="./css/public.css" />
+	<link rel="stylesheet" type="text/css" href="./css/import.css" />
+	<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/layui.all.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="cordova.js"></script>
+	<script src="core/babel-browser.min.js"></script>
+	<script src="core/bitcore-mnemonic.js"></script>
+	<script src="core/Base58.js"></script>
+	<script src="core/lang/ch.js"></script>
+	<script src="core/lang/en.js"></script>
+	<script src="core/core.js"></script>
+	<style>
+		input::-webkit-input-placeholder{text-align: left !important; }
+	</style>
+</head>
+
+<body>
+	<header class="display_flex">
+		<a href="javascript:history.back(-1)">
+			<img src="image/back_arrow.png">
+		</a>
+		<h1 class="flex_1 lang" key="LAB_NEW_ACCOUNT">新建账号</h1>
+	</header>
+	<div class="n_coniter">
+		<ul class="n_tab display_flex">
+			<li class="n_tab_item active lang" key="LAB_CREATE_ACCOUNT">创建账户</li>
+			<li class="n_tab_item lang" key="LAB_IMPORT_ACCOUNT">导入账户</li>
+		</ul>
+		<div class="m_border"></div>
+		<div class="n_content m_products">
+			<div class="n_mainCont selected">
+				<ul>
+					<li class="display_flex align-items_center">
+						<div class="m_name lang" key="LAB_ACCOUNT_NAME">账户名称</div>
+						<div class="flex_1 inpval">
+							<input type="text" id="input_new_name" value="" placeholder="Account Name" />
+						</div>
+					</li>
+
+					<li class="display_flex align-items_center">
+						<div class="m_name lang" key="LAB_UNLOCK_PASS">解锁密码</div>
+						<div class="flex_1">
+							<input type="password" id="input_new_pass" value="" placeholder="Password" />
+						</div>
+					</li>
+					<div class="m_btn  abc share-btn-box">
+						<button type="button" class="lang" onclick="javascript:window.createAsNew();" key="BUT_CREATE">创建</button>
+					</div>
+				</ul>
+			</div>
+			<div class="n_mainCont ">
+				<ul>
+					<li class="display_flex align-items_center">
+						<div class="m_name lang" key="LAB_ACCOUNT_NAME">账户名称</div>
+						<div class="flex_1 inpvala">
+							<input type="text" id="input_import_name" value="" placeholder="Account Name" />
+						</div>
+					</li>
+					<li class="display_flex align-items_center">
+						<div class="m_name lang" key="LAB_PRIVEKEY">私&nbsp; &nbsp; &nbsp; &nbsp;钥</div>
+						<div class="flex_1 inpvala">
+							<input type="text" id="input_import_priv" value="" placeholder="Private Key" />
+						</div>
+					</li>
+					<li class="display_flex align-items_center">
+						<div class="m_name lang" key="LAB_UNLOCK_PASS">解锁密码</div>
+						<div class="flex_1">
+							<input type="password" id="input_import_pass" value="" placeholder="Password" />
+						</div>
+					</li>
+					<div class="m_btn def share-btn-box">
+						<button type="button" class="lang" onclick="javascript:window.createAsImport();" key="BUT_IMPORT">导入</button>
+					</div>
+				</ul>
+			</div>
+		</div>
+
+	</div>
+</body>
+<script type="text/javascript">
+	//layer.open({
+	//	title: '解锁密码',
+	//	content: '<input type="password" placeholder="请输入密码"/>'
+	//});
+
+	var win_h = $(window).height();
+	window.addEventListener('resize', function () {
+		if ($(window).height() < win_h) {
+			$('.share-btn-box').hide();
+		} else {
+			$('.share-btn-box').show();
+		}
+	});
+	$(".inpval").on("input propertychange", function () { //获取input值
+		var inpa = $("#input_new_name").val();
+		var inple = inpa.length;
+		if (inple == '0') {
+			$(".abc").find("button").removeClass("coloractive").attr('disabled', true);
+		} else {
+			$(".abc").find("button").addClass("coloractive").attr('disabled', false);
+		}
+	});
+
+
+	// $(".inpvala").on("input propertychange",function(){//获取input值
+	// 	var inpa = $("#input_import_name").val();
+	// 	var inpb = $("#input_import_priv").val();
+	// 	var inple1 = inpa.length;
+	// 	var inple2 = inpb.length;
+	// 	if( inple1 == '0' || inple2 != '64'){
+	// 		$(".def").find("button").removeClass("coloractive").attr('disabled',true);
+	// 	}else{
+	// 		$(".def").find("button").addClass("coloractive").attr('disabled',false);
+	// 	}
+	// });
+	$(".inpvala").on("input propertychange", function () { //获取input值
+		var inpa = $("#input_import_name").val();
+		var inpb = $("#input_import_priv").val();
+		var inple1 = inpa.length;
+		var inple2 = inpb.length;
+		if (inple1 == '0' || inple2 != '64') {
+			$(".def").find("button").removeClass("coloractive").attr('disabled', true);
+		} else {
+			$(".def").find("button").addClass("coloractive").attr('disabled', false);
+		}
+	});
+</script>
+<script type="text/javascript">
+	(function () {
+		$(".n_coniter .n_tab .n_tab_item").click(function () {
+			$(this).addClass("active").siblings().removeClass("active");
+			$(".m_products .n_mainCont").eq($(this).index()).show().siblings().hide();
+		})
+
+
+		window.subDirEntry = null;
+
+		window.onload = function() {
+			changeLang();
+		}
+
+		var lan = getLanguage();
+		
+		window.createAsNew = function () {
+			var accName = document.getElementById("input_new_name").value;
+			var pass = document.getElementById("input_new_pass").value;
+
+			if (accName == "") {
+				//alert("帐户名不能为空");
+				return;
+			}
+			// 判断用户名
+			if (nameInAccs(accName)) {
+				alert(lan.ALERT_ACCOUNT_EXISTS);
+				return;
+			}
+
+			var hdPathString = 'm/44\'/60\'/0\'/0';
+			var wallet = Yoethwallet.wallet;
+			wallet.generate('', hdPathString, function (err, keystore) {
+				if (err) {
+					alert(err.message);
+					return
+				}
+				//data.store = keystore;
+				//localStorage.setItem("key", JSON.stringify(keystore));
+
+				var privKey = keystore.getPrivateKey();
+				var addr = keystore.getHexAddress(true);
+
+				// keystore.toV3String(pass, {}, (err_pass, v3Json) => {
+				//     if(err_pass) {
+				//         alert(err_pass);
+				//         return;
+				//     }
+				newAcc(accName, addr);
+				//setPriv(addr, privKey);
+				//setCurrent(accName, addr);
+				//setPass(addr, pass);
+
+				System.accName = accName;
+				System.addr = addr;
+				System.priv = privKey;
+
+				// 测试文件系统
+				window.saveFile(System.accName, System.addr, System.priv, pass);
+
+				//window.location.href = "list.html";
+				// })
+			})
+		};
+
+		window.createAsImport = function () {
+			var accName = document.getElementById("input_import_name").value;
+			var priv = document.getElementById("input_import_priv").value;
+			var pass = document.getElementById("input_import_pass").value;
+
+			if (accName == "" || priv.length != 64) {
+				//alert("帐户名不能为空");
+				return;
+			}
+			// 判断用户名
+			if (nameInAccs(accName)) {
+				alert(lan.ALERT_ACCOUNT_EXISTS);
+				return;
+			}
+
+			var wallet = Yoethwallet.wallet;
+			wallet.fromPrivateKey(priv, function (err, keystore) {
+				if (err) {
+					alert(err.message);
+					return;
+				}
+
+				var privKey = keystore.getPrivateKey();
+				var addr = keystore.getHexAddress(true);
+
+				// keystore.toV3String(pass, {}, (err_pass, v3Json) => {
+				//     if(err_pass) {
+				//         alert(err_pass);
+				//         return;
+				//     }
+				newAcc(accName, addr);
+				//setPriv(addr, privKey);
+				//setCurrent(accName, addr);
+				//setPass(addr, pass);
+
+				System.accName = accName;
+				System.addr = addr;
+				System.priv = privKey;
+
+				// 测试文件系统
+				window.saveFile(System.accName, System.addr, System.priv, pass);
+
+				//window.location.href = "list.html";
+				// });
+			});
+
+		}
+
+
+		window.saveFile = function (accName, addr, priv, pass) {
+			window.subDirEntry.getFile("priv_" + accName, {
+				create: true,
+				exclusive: false
+			}, function (fileEntry) {
+				fileEntry.name == "priv_" + accName;
+				fileEntry.fullPath = "dnp/assets/priv_" + accName;
+
+				//var dataObj = new Blob({addr: addr, priv: priv, pass: pass}, {type: 'text/plain'});
+				var dataObj = JSON.stringify({
+					addr: addr,
+					priv: priv,
+					pass: pass
+				});
+
+				fileEntry.createWriter(function (fileWriter) {
+					fileWriter.onwriteend = function () {
+						//alert("写入成功");
+						window.location.href = "userlist.html";
+					};
+					fileWriter.onerror = function (e) {
+						alert(lan.ALERT_CREATE_ERR);
+					};
+					fileWriter.write(dataObj);
+				})
+			}, function (err) {
+				alert(err.toString());
+			})
+		}
+
+	})()
+
+
+	var app = {
+		// Application Constructor
+		initialize: function () {
+			document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+		},
+
+		// deviceready Event Handler
+		//
+		// Bind any cordova events here. Common events are:
+		// 'pause', 'resume', etc.
+		onDeviceReady: function () {
+			//this.receivedEvent();
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
+				//alert(fs.name);
+				fs.root.getDirectory('dnp', {
+					create: true
+				}, function (dirEntry) {
+					dirEntry.getDirectory('assets', {
+						create: true
+					}, function (sub) {
+						window.subDirEntry = sub;
+						//alert("加载成功: " + subDirEntry.name)
+					}, function (err) {
+						alert(err);
+					})
+				}, function (err) {
+					alert(err);
+				})
+			}, function (err) {
+				alert(err);
+			})
+		},
+	};
+
+	app.initialize();
+</script>
+
+</html>

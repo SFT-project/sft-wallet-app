@@ -1,0 +1,211 @@
+html {
+  background: #F5F5F5;
+}
+html .header {
+  width: 10rem;
+  height: 1.6rem;
+  flex-shrink: 0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4267rem;
+  box-sizing: border-box;
+}
+html .header img {
+  width: 0.74667rem;
+  height: 0.74667rem;
+  flex-shrink: 0;
+}
+html .header p {
+  color: #181719;
+  text-align: center;
+  font-size: 0.45333rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0.45333rem;
+}
+html .container {
+  margin-top: 0.43rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+html .container .walletManagement {
+  width: 10rem;
+  height: 2.77333rem;
+  background: #FFF;
+  padding: 0.43rem;
+  box-sizing: border-box;
+}
+html .container .walletManagement p {
+  color: #181719;
+  font-size: 0.42667rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0.42667rem;
+}
+html .container .walletManagement span {
+  color: rgba(24, 23, 25, 0.4);
+  font-size: 0.42667rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 0.53333rem;
+  white-space: wrap;
+  height: auto;
+  width: 100%;
+  display: block;
+  overflow: hidden;
+  text-wrap: wrap;
+  word-break: break-all;
+  margin-top: 0.43rem;
+}
+html .container .cellBox {
+  margin-top: 0.43rem;
+}
+html .container .walletCell {
+  width: 10rem;
+  height: 1.33333rem;
+  flex-shrink: 0;
+  background: #FFF;
+  padding: 0.43rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  border-bottom: 2px solid #F5F5F5;
+}
+html .container .walletCell p {
+  color: #181719;
+  font-size: 0.42667rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0.42667rem;
+}
+html .container .walletCell > div {
+  display: flex;
+  align-items: center;
+}
+html .container .walletCell > div p {
+  color: rgba(24, 23, 25, 0.4);
+  font-size: 0.37333rem;
+  font-weight: 600;
+  line-height: 0.37333rem;
+}
+html .container .walletCell > div img {
+  width: 0.64rem;
+  height: 0.64rem;
+  flex-shrink: 0;
+}
+html .container .delWallet {
+  width: 10rem;
+  height: 1.33333rem;
+  flex-shrink: 0;
+  background: #FFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.07rem;
+}
+html .container .delWallet p {
+  color: #F74830;
+  font-size: 0.42667rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0.42667rem;
+}
+html .delWalletPop,
+html .inputPwdPop {
+  width: 9.14667rem;
+  height: 3.89333rem;
+  flex-shrink: 0;
+  border-radius: 0.53333rem;
+  background: #FFF;
+  display: flex;
+  flex-direction: column;
+  padding-top: 0.85rem;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: fixed;
+  z-index: 9;
+  top: 200%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+html .delWalletPop p,
+html .inputPwdPop p {
+  color: #181719;
+  font-family: PingFang SC;
+  font-size: 0.48rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0.48rem;
+  text-align: center;
+}
+html .delWalletPop .btnBox,
+html .inputPwdPop .btnBox {
+  display: flex;
+  border-top: 1px solid #F5F5F5;
+  margin-top: 0.85rem;
+}
+html .delWalletPop .btnBox button,
+html .inputPwdPop .btnBox button {
+  width: 50%;
+  height: 1.71rem;
+  background-color: #fff;
+  border: none;
+  color: #090B0E;
+  font-size: 0.42667rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 0.42667rem;
+}
+html .delWalletPop .btnBox .cancelBtn,
+html .inputPwdPop .btnBox .cancelBtn {
+  border-right: 1px solid #F5F5F5;
+  color: rgba(9, 11, 14, 0.4);
+}
+html .inputPwdPop {
+  height: 5.22667rem;
+}
+html .inputPwdPop .btnBox {
+  margin-top: 0.64rem;
+}
+html .inputPwdPop input {
+  width: 7.86667rem;
+  height: 1.33333rem;
+  flex-shrink: 0;
+  border-radius: 0.37333rem;
+  background: #F5F5F5;
+  border: none;
+  margin: 0 auto;
+  margin-top: 0.43rem;
+  color: #181719;
+  font-size: 0.42667rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 0.42667rem;
+  padding: 0.43rem;
+  box-sizing: border-box;
+}
+html .bodyMask {
+  width: 10rem;
+  height: 21.65333rem;
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  z-index: 9;
+  bottom: -32rem;
+}
+html .footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 2.24rem;
+  background-color: #fff;
+  padding: 0 0.59rem;
+  box-sizing: border-box;
+}

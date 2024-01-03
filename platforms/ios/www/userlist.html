@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>UserList</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<link rel="shortcut icon" href="/favicon.ico">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="./css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="./css/nav.css" />
+		<link rel="stylesheet" type="text/css" href="./css/public.css" />
+		<link rel="stylesheet" type="text/css" href="./css/userlist.css" />
+		<script type="text/javascript" src="cordova.js"></script>
+		<script src="js/layui.all.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/rem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="core/Base58.js"></script>
+		<script src="core/lang/ch.js"></script>
+		<script src="core/lang/en.js"></script>
+		<script src="core/core.js"></script>
+	</head>
+	<body>
+		<header class="display_flex">
+			<a href="javascript:history.back(-1)">
+				<img src="image/back_arrow.png" >
+			</a>
+			<h1 class="flex_1 lang" key="LAB_ACCOUNTS">账户列表</h1>
+		</header>
+		<div>
+			<div class="n_user">
+				<div class="n_new_account">
+				<div>
+					<a href="Import.html">
+						<div class="display_flex justify-content_flex-center align-items_center">
+							<div class="n-icon">
+								<img src="image/userr.png" >
+							</div>
+							<div class="n_name lang" key="LAB_CREATEACCOUNT">创建账户</div>
+						</div>
+					</a>
+				</div>
+					
+				</div>
+				<div class="n_list">
+					<ul id="table_accs">
+						<li>
+							<div class="display_flex align-items_center n_mgin_bottom">
+								<div class="n_img">
+									<img src="image/user.png">
+								</div>
+								<div class="n_right flex_1">
+									<div class="display_flex">
+										<div class="n_title">账号昵称</div>
+										<div class="n_name flex_1">26446</div>
+									</div>
+								</div>
+							</div>
+							<div class="display_flex  align-items_center">
+								<div class="n_img">
+									<img src="image/adress.png">
+								</div>
+								<div class="n_right flex_1">
+									<div class="display_flex">
+										<div class="n_title">地址</div>
+										<div class="n_name n_ellipsis flex_1">0x2c89bab2hdgdjshjsh0x2c89bab2hdgdjshjsh0x2c89bab2hdgdjshjsh0x2c89bab2hdgdjshjsh</div>
+									</div>
+								</div>
+							</div>
+							<div class="n_use n_hidee">使用中</div>
+						</li>
+
+					</ul>
+				</div>
+		</div>
+	
+			<!-- 暂无数据 -->
+			<!-- <div class="no_deda">
+				<div class="n_nide_img">
+					<img src="image/nodata.png" >
+				</div>
+				<div class="n_bno_title">暂无数据</div>
+			</div> -->
+			
+			
+			
+			
+		</div>
+	</body>
+	<script type="text/javascript">
+		(function(){
+			$(".n_list>ul>li").on("click",function(){
+				$(this).find(".n_use").addClass("n_hidee")
+				$(this).siblings().find(".n_use").removeClass("n_hidee")
+			})
+
+			var list = {};
+
+			window.onload = function() {
+				var curr = getCurrent();
+				var accs = getAccs();
+				var htmlAccs = "";
+				for (var i = 0; i < accs.users.length; i++) {
+					list[i] = {
+						addr: accs.users[i].addr,
+						accName: accs.users[i].name
+					};
+
+					// htmlAccs += '<div class="display_flex list">'
+					// htmlAccs += '<div class="listImgg">'
+					// htmlAccs += '<img src="img/listimg.png">'
+					// htmlAccs += '</div>'
+					// if (accs.users[i].addr == curr.addr) {
+					// 	htmlAccs += '<div class="flex_1" onclick="javascript:window.nochange()">';
+					// } else {
+					// 	htmlAccs += '<div class="flex_1" onclick="javascript:window.change(' + i + ')">';
+					// }
+					// htmlAccs += '<div class="listNaem">账号昵称:<span>' + accs.users[i].name+'</span></div>'
+					// htmlAccs += '<div class="listDit">地址：<span>' + lessAddr(accs.users[i].addr, 28) + '</span></div>';
+					// htmlAccs += '</div>'
+					// htmlAccs += '<div class="inuse">'
+					// if (accs.users[i].addr == curr.addr) {
+					// 	htmlAccs += '<img src="img/shiyongzhongicon.png">'
+					// }
+					// htmlAccs += '</div>'
+					// htmlAccs += '</div>'
+
+					//  }
+					var state = ""
+					var click = "javascript:window.nochange();"
+					if (accs.users[i].addr != curr.addr) {
+						state = "none"
+						click = "javascript:window.change(" + i + ");"
+					}
+
+					htmlAccs += '<li> \
+							<div class="display_flex align-items_center n_mgin_bottom" onclick="{3}"> \
+								<div class="n_img"> \
+									<img src="image/user.png"> \
+								</div> \
+								<div class="n_right flex_1"> \
+									<div class="display_flex"> \
+										<div class="n_title lang" key="LAB_ACCNAME">账号昵称</div> \
+										<div class="n_name flex_1">{0}</div> \
+									</div> \
+								</div> \
+							</div> \
+							<div class="display_flex  align-items_center"> \
+								<div class="n_img"> \
+									<img src="image/adress.png"> \
+								</div> \
+								<div class="n_right flex_1"> \
+									<div class="display_flex"> \
+										<div class="n_title lang" key="LAB_ADDRESS">地址</div> \
+										<div class="n_name n_ellipsis flex_1">{1}</div> \
+									</div> \
+								</div> \
+							</div> \
+							<div class="n_use n_hidee lang" style="display:{2}" key="LAB_USING">使用中</div> \
+						</li>'.format(list[i].accName, Base58.fromAddr(list[i].addr), state, click)
+
+
+					document.getElementById("table_accs").innerHTML = htmlAccs;
+				}
+
+				changeLang();
+			}
+
+			window.newUser = function() {
+				window.location.href = "import.html"
+			}
+
+			var inputPass = "";
+			window.changeInputPass = function() {
+				inputPass = document.getElementById("layer_unlock_pass").value;
+			}
+
+			var lan = getLanguage();
+
+			window.change = function(i) {
+				layer.open({
+					title: lan.TITLE_PASSWORD,
+					content: '<input type="password" id="layer_unlock_pass" placeholder="' + lan.TITLE_PASSWORD_HOLD + '" onchange="javascript:window.changeInputPass();"/>',
+					//closeBtn: 0,
+
+					yes: function(index, layero) {
+						//var inputPass = document.getElementById("layer_unlock_pass").value;
+						// if (inputPass != unlockPass) {
+						// 	alert("解锁密码不正确")
+						// 	return;
+						// }
+						layer.close(index);
+
+						var pass = inputPass;
+
+						window.subDirEntry.getFile("priv_" + list[i].accName, {create: false, exclusive: false}, function (fileEntry) {
+						 	fileEntry.name == "priv_" + list[i].accName;
+						 	fileEntry.fullPath = "dnp/assets/priv_" + list[i].accName;
+
+						 	fileEntry.file(function (fileReader) {
+
+						 		readCore(fileReader, function(res) {
+						 			var cont = JSON.parse(res);
+						 			if (cont.pass != pass) {
+						 				alert(lan.ALERT_INVALID_PASS);
+						 				//return;
+						 			} else {
+							 			System.addr = list[i].addr;
+							 			System.accName = list[i].accName;
+							 			setCurrent(list[i].accName, list[i].addr);
+							 			window.location.href = "wallet_main.html"
+							 		}
+
+						 		})
+						 	}, function(err) {
+						 		alert(err);
+						 	})
+						 }, function(err) {
+						 	alert(err.toString());
+						 })
+					}
+
+					
+				})
+				document.getElementsByClassName("layui-layer-btn0")[0].innerHTML = "OK";
+			}
+
+
+			window.nochange = function() {
+				window.location.href = "wallet_main.html";
+			}
+
+		})()
+
+		var app = {
+	      // Application Constructor
+	      initialize: function () {
+	        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+	      },
+
+	      // deviceready Event Handler
+	      //
+	      // Bind any cordova events here. Common events are:
+	      // 'pause', 'resume', etc.
+	      onDeviceReady: function () {
+	        //this.receivedEvent();
+	        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
+	        	//alert(fs.name);
+	        	fs.root.getDirectory('dnp', {create: true}, function (dirEntry) {
+	        		dirEntry.getDirectory('assets', {create: true}, function (sub) {
+	        			window.subDirEntry = sub;
+	        			//alert("加载成功: " + subDirEntry.name)
+	        		}, function(err) {
+	        			alert(err);
+	        		})
+	        	}, function(err) {
+	        		alert(err);
+	        	})
+	        }, function(err) {
+	        	alert(err);
+	        })
+	      },
+	    };
+
+	    app.initialize();
+	</script>
+</html>

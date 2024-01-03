@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="io.cordova.sft" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="startApp">
+        <param name="android-package" value="com.lampa.startapp.startApp" />
+    </feature>
+    <feature name="NativePageTransitions">
+        <param name="android-package" value="com.telerik.plugins.nativepagetransitions.NativePageTransitions" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Clipboard">
+        <param name="android-package" value="com.verso.cordova.clipboard.Clipboard" />
+    </feature>
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="onload" value="true" />
+    </feature>
+    <allow-navigation href="cdvfile:*" />
+    <feature name="CordovaHttpPlugin">
+        <param name="android-package" value="com.silkimen.cordovahttp.CordovaHttpPlugin" />
+    </feature>
+    <feature name="Permissions">
+        <param name="android-package" value="com.android.plugins.Permissions" />
+    </feature>
+    <feature name="BackbuttonPlugin">
+        <param name="android-package" value="com.badrit.Backbutton.BackbuttonPlugin" />
+    </feature>
+    <feature name="Canvas2ImagePlugin">
+        <param name="android-package" value="org.devgeeks.Canvas2ImagePlugin.Canvas2ImagePlugin" />
+    </feature>
+    <feature name="CordovaHttpPlugin">
+        <param name="android-package" value="com.synconset.CordovaHttpPlugin" />
+    </feature>
+    <feature name="ImagePicker">
+        <param name="android-package" value="com.synconset.ImagePicker" />
+    </feature>
+    <feature name="InAppBrowser">
+        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
+    </feature>
+    <feature name="QRScanner">
+        <param name="android-package" value="com.bitpay.cordova.qrscanner.QRScanner" />
+    </feature>
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="StatusBar">
+        <param name="android-package" value="org.apache.cordova.statusbar.StatusBar" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="FingerprintAuth">
+        <param name="android-package" value="com.cordova.plugin.android.fingerprintauth.FingerprintAuth" />
+    </feature>
+    <name>SFT Wallet</name>
+    <description>
+        A sample Apache Cordova application that responds to the deviceready event.
+    </description>
+    <author email="dev@cordova.apache.org" href="http://cordova.io">
+        Apache Cordova Team
+    </author>
+    <content src="page/walletIndex/index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <allow-intent href="market:*" />
+    <icon src="res/android/logo.png" />
+    <preference name="loglevel" value="DEBUG" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="AndroidPersistentFileLocation" value="Internal" />
+    <preference name="AndroidExtraFilesystems" value="files,files-external,documents,sdcard,cache,cache-external,assets,root" />
+    <preference name="StatusBarStyle" value="default" />
+    <preference name="StatusBarBackgroundColor" value="#ffffff" />
+</widget>
